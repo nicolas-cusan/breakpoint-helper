@@ -5,5 +5,10 @@
   "main": "src/index.js",
   "repository": "git@github.com:nicolas-cusan/bph.git",
   "author": "Nicolas Cusan <nc@arillo.ch>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "microbundle": "^0.12.3",
+    "prettier": "^2.1.2",
+    "parcel": "^1.12.4"
+  }
 }

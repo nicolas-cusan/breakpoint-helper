@@ -1,0 +1,4 @@
+.*ignore
+LICENSE
+dist
+.cache
