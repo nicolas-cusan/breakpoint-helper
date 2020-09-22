@@ -6,9 +6,15 @@
   "repository": "git@github.com:nicolas-cusan/bph.git",
   "author": "Nicolas Cusan <nc@arillo.ch>",
   "license": "MIT",
+  "scripts": {
+    "build": "rm -rf dist && microbundle --name bph",
+    "start": "rm -rf example-dist && parcel example/index.html -d example-dist",
+    "prepublishOnly": "npm run -s build"
+  },
   "devDependencies": {
     "microbundle": "^0.12.3",
+    "parcel": "^1.12.4",
     "prettier": "^2.1.2",
-    "parcel": "^1.12.4"
+    "sass": "^1.26.11"
   }
 }

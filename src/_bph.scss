@@ -1,0 +1,29 @@
+// sass-lint:disable empty-line-between-blocks
+
+//============================================
+// Breakpoint String
+//============================================
+
+// Function to create a js-radable string that
+// contains breakpoints used in CSS.
+
+// @param {Map} $bp-map [] - Map of breakpoints
+
+// Example:
+
+// $breakpoints: (
+//   'bp-name': 30em,
+//   'other-bp-name': 60em,
+// );
+
+// Inspiration: https://github.com/zurb/foundation-sites/blob/12317b1854283b3a2708d586f1141d523684f8cd/scss/util/_breakpoint.scss#L159
+
+@function breakpoint-string($bp-map) {
+  $string: '';
+
+  @each $key, $val in $bp-map {
+    $string: $string + $key + '=' + $val + '&';
+  }
+
+  @return str-slice($string, 1, -2);
+}

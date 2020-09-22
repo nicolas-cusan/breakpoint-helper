@@ -1,0 +1,14 @@
+@import 'bph';
+
+$bps: (
+  'xs': 374px,
+  'sm': 586px,
+  'md': 768px,
+  'lg': 984px,
+  'xl': 1190px,
+  'xxl': 1390px,
+);
+
+.ff-bph {
+  font-family: '#{breakpoint-string($bps)}';
+}
