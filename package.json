@@ -1,0 +1,9 @@
+{
+  "name": "bph",
+  "version": "1.0.0",
+  "description": "media query helper to share breakpoints between css and js",
+  "main": "src/index.js",
+  "repository": "git@github.com:nicolas-cusan/bph.git",
+  "author": "Nicolas Cusan <nc@arillo.ch>",
+  "license": "MIT"
+}
