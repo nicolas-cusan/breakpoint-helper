@@ -5,6 +5,8 @@ function bph() {
 
   let fontFamily = window.getComputedStyle(el).getPropertyValue('font-family');
 
+  console.dir(document.documentElement);
+
   // Break out if the element does not exist.
   if (fontFamily.length <= 0) return;
 
@@ -55,7 +57,7 @@ function bph() {
         const opts = {
           name,
           isMax: isMax || false,
-          immediate: immediate || false,
+          immediate: immediate || true,
         };
 
         mq = window.matchMedia(getMediaQuery(opts.name, opts.isMax));
@@ -76,60 +78,55 @@ function bph() {
     return { on, off };
   }
 
-  function getCurrentMediaqueryName() {
-    const bps = Object.keys(breakpoints);
-    return bps.reverse().find((bp) => {
-      return isMatching(bp);
+  function _matchAll(keys, isMax = false) {
+    const matches = [];
+    keys.forEach((bp) => {
+      if (isMatching(bp, isMax)) {
+        matches.push(bp);
+      }
     });
+    return isMax ? matches : matches.reverse();
   }
 
-  function listenToBreakpointChange(callback = () => {}) {
-    const bps = Object.keys(breakpoints);
-    if (bps.length === 0) return;
+  function listenAll(callback = () => {}, options = {}) {
+    const keys = Object.keys(breakpoints);
+    let listeners = [];
+    let bps = keys;
 
-    const cb = () => {
-      callback(getCurrentMediaqueryName());
+    if (keys.length === 0) return;
+
+    const { isMax, immediate, listenTo } = options;
+    const opts = {
+      isMax: isMax || false,
+      immediate: immediate || true,
     };
 
-    if (bps.length === 1) {
-      listenMatchMin(bps[0], cb);
-      return;
+    if (listenTo) {
+      bps = listenTo.sort((a, b) => {
+        return parseInt(breakpoints[a], 10) - parseInt(breakpoints[b], 10);
+      });
     }
 
-    bps.forEach((key, idx) => {
-      if (idx === 0) {
-        listenMatchMax(key, cb);
-        listenMatchBetween(key, bps[idx + 1], cb);
-      } else if (idx === bps.length - 1) {
-        listenMatchMin(key, cb);
-      } else {
-        listenMatchBetween(key, bps[idx + 1], cb);
-      }
-    });
+    function on() {
+      bps.forEach((bp, idx) => {
+        const cb = () => {
+          callback(_matchAll(bps, opts.isMax));
+        };
 
-    // return callback to make it possible do remove the listeners.
-    return cb;
-  }
-
-  function stopListeningToChange(cb = () => {}) {
-    const bps = Object.keys(breakpoints);
-    if (bps.length === 0) return;
-
-    if (bps.length === 1) {
-      removeListenerMin(bps[0], cb);
-      return;
+        const listener = listen({ name: bp, ...opts }, cb);
+        listeners.push(listener);
+        listener.on();
+      });
     }
 
-    bps.forEach((key, idx) => {
-      if (idx === 0) {
-        removeListenerMax(key, cb);
-        removeListenerMaxBetween(key, bps[idx + 1], cb);
-      } else if (idx === bps.length - 1) {
-        removeListenerMin(key, cb);
-      } else {
-        removeListenerMaxBetween(key, bps[idx + 1], cb);
+    function off() {
+      if (listeners.length) {
+        listeners.forEach((listener) => listener.off());
+        listeners = [];
       }
-    });
+    }
+
+    return { on, off };
   }
 
   return {
@@ -137,11 +134,7 @@ function bph() {
     getMediaQuery,
     isMatching,
     listen,
-    // getBreakpoint,
-    getCurrentMediaqueryName,
-    // getBetweenBreakpoints,
-    listenToBreakpointChange,
-    stopListeningToChange,
+    listenAll,
   };
 }
 

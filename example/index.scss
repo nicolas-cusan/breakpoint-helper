@@ -1,4 +1,4 @@
-@import 'bph';
+@import '../src/bph';
 
 $bps: (
   'xs': 374px,
@@ -11,4 +11,18 @@ $bps: (
 
 .ff-bph {
   font-family: '#{breakpoint-string($bps)}';
+}
+
+:root {
+  --bph-xl: 2000px;
+}
+
+html {
+  --bph-lg: 1500px;
+}
+
+pre {
+  background-color: lightgray;
+  padding: 20px;
+  overflow: auto;
 }

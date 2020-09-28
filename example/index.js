@@ -1,4 +1,4 @@
-import '../src/index.scss';
+import './index.scss';
 import bph from '../src/index.js';
 
 const result = document.getElementById('result');
@@ -15,29 +15,22 @@ bph.isMatching('sm') ${bph.isMatching('sm')}
 bph.isMatching('sm', true) ${bph.isMatching('sm', true)}
 bph.isMatching(['sm', 'lg']) ${bph.isMatching(['sm', 'lg'])}`;
 
-const listenResult = document.getElementById('listen-result');
+const state = {
+  listening: true,
+  changing: true,
+};
 
-// bph.listen('sm', ({ matches }) => {
-//   listenResult.innerHTML = `
-//     is media query 'sm' active? : ${matches}
-//   `;
-// });
+const listenResult = document.getElementById('listen-result');
+const listenToggler = document.getElementById('listen-toggler');
 
 const renderListen = ({ matches }) => {
-  listenResult.innerHTML = `
-    is media query 'sm' active? : ${matches}
-  `;
+  listenResult.innerHTML = `is media query 'sm' active? : ${matches}`;
 };
 
 const listener = bph.listen({ name: 'sm', immediate: true }, renderListen);
 listener.on();
 
-const state = {
-  listening: true,
-};
-
-const toggler = document.getElementById('toggler');
-toggler.addEventListener('click', () => {
+listenToggler.addEventListener('click', () => {
   if (state.listening) {
     listener.off();
   } else {
@@ -46,3 +39,27 @@ toggler.addEventListener('click', () => {
 
   state.listening = !state.listening;
 });
+
+const changeResult = document.getElementById('change-result');
+const changeToggler = document.getElementById('change-toggler');
+
+const change = bph.listenAll(
+  (bp) => {
+    changeResult.innerHTML = bp;
+  },
+  { isMax: false }
+);
+
+changeToggler.addEventListener('click', () => {
+  if (state.changing) {
+    change.off();
+    changeResult.innerHTML = `${changeResult.innerHTML} OFF`;
+  } else {
+    change.on();
+    changeResult.innerHTML = `${changeResult.innerHTML} ON`;
+  }
+
+  state.changing = !state.changing;
+});
+
+change.on();
