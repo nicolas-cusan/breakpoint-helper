@@ -1,19 +1,26 @@
 import './index.scss';
 import bph from '../src/index.js';
 
+const instance = bph({
+  xs: '274px',
+  sm: '486px',
+  lg: '884px',
+  xl: '1090px',
+});
+
 const result = document.getElementById('result');
 
-result.innerHTML = `bph.getBreakpoints() ${JSON.stringify(
-  bph.getBreakpoints(),
+result.innerHTML = `instance.getBreakpoints() ${JSON.stringify(
+  instance.getBreakpoints(),
   null,
   2
 )}
-bph.getMediaQuery('sm') ${bph.getMediaQuery('sm')}
-bph.getMediaQuery('sm', true) ${bph.getMediaQuery('sm', true)}
-bph.getMediaQuery(['sm', 'lg']) ${bph.getMediaQuery(['sm', 'lg'])}
-bph.isMatching('sm') ${bph.isMatching('sm')}
-bph.isMatching('sm', true) ${bph.isMatching('sm', true)}
-bph.isMatching(['sm', 'lg']) ${bph.isMatching(['sm', 'lg'])}`;
+instance.getMediaQuery('sm') ${instance.getMediaQuery('sm')}
+instance.getMediaQuery('sm', true) ${instance.getMediaQuery('sm', true)}
+instance.getMediaQuery(['sm', 'lg']) ${instance.getMediaQuery(['sm', 'lg'])}
+instance.isMatching('sm') ${instance.isMatching('sm')}
+instance.isMatching('sm', true) ${instance.isMatching('sm', true)}
+instance.isMatching(['sm', 'lg']) ${instance.isMatching(['sm', 'lg'])}`;
 
 const state = {
   listening: true,
@@ -27,7 +34,7 @@ const renderListen = ({ matches }) => {
   listenResult.innerHTML = `is media query 'sm' active? : ${matches}`;
 };
 
-const listener = bph.listen({ name: 'sm', immediate: true }, renderListen);
+const listener = instance.listen({ name: 'sm', immediate: true }, renderListen);
 listener.on();
 
 listenToggler.addEventListener('click', () => {
@@ -43,7 +50,7 @@ listenToggler.addEventListener('click', () => {
 const changeResult = document.getElementById('change-result');
 const changeToggler = document.getElementById('change-toggler');
 
-const change = bph.listenAll(
+const change = instance.listenAll(
   (bp) => {
     changeResult.innerHTML = bp;
   },

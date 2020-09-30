@@ -1,26 +1,104 @@
-function bph() {
-  const el = document.createElement('meta');
-  el.classList.add('ff-bph');
-  document.getElementsByTagName('head')[0].appendChild(el);
+function bph(config = {}) {
+  let breakpoints = {};
 
-  let fontFamily = window.getComputedStyle(el).getPropertyValue('font-family');
+  if (typeof config === 'string' && config === 'meta') {
+    breakpoints = _getBpsFromMeta();
+  } else if (typeof config === 'string' && config === 'custom') {
+    breakpoints = _getBpsFromCustomProps();
+  } else {
+    breakpoints = config;
+  }
 
-  console.dir(document.documentElement);
+  if (Object.keys(breakpoints).length === 0) {
+    throw new Error(`No breakpoints defined`);
+  }
 
-  // Break out if the element does not exist.
-  if (fontFamily.length <= 0) return;
+  /**
+   * Generate a `meta` element with class `ff-bph` and deserialize the css `font-family` value to retrieve breakpoints.
+   * @returns {object} Object containing the breakpoints
+   */
 
-  fontFamily = fontFamily.replace(/'|"/g, '').split('&');
+  function _getBpsFromMeta() {
+    const el = document.createElement('meta');
+    el.classList.add('ff-bph');
+    document.getElementsByTagName('head')[0].appendChild(el);
 
-  const breakpoints = fontFamily.reduce((prevVal, elem) => {
-    const [name, value] = elem.split('=');
-    prevVal[name] = value;
-    return prevVal;
-  }, {});
+    let fontFamily = window
+      .getComputedStyle(el)
+      .getPropertyValue('font-family');
+
+    if (fontFamily.length <= 0) return {};
+
+    fontFamily = fontFamily.replace(/'|"/g, '').split('&');
+
+    return fontFamily.reduce((obj, elem) => {
+      const [name, value] = elem.split('=');
+      obj[name] = value;
+      return obj;
+    }, {});
+  }
+
+  /**
+   * Retrieve breakpoints by reading css custom properties on the `:root` selector, of all loaded stylesheets, starting with `--bph-`.
+   * @returns {object} Object containing the breakpoints
+   */
+
+  function _getBpsFromCustomProps() {
+    const sheets = [...document.styleSheets].filter(
+      (sheet) => sheet.href.indexOf(window.location.origin) !== -1
+    );
+
+    const rules = [...sheets].reduce((acc, sheet) => {
+      [...sheet.cssRules].forEach((rule) => {
+        if (rule.selectorText === ':root') {
+          const css = rule.cssText.split('{')[1].replace('}', '').split(';');
+
+          css.forEach((dec) => {
+            const [prop, val] = dec.split(':');
+
+            if (prop.indexOf('--bph-') !== -1) {
+              acc[prop.replace('--bph-', '').trim()] = val.trim();
+            }
+          });
+        }
+      });
+      return acc;
+    }, {});
+
+    return rules;
+  }
+
+  /**
+   * Check if the breakpoints passed in are matching
+   * @param {array} keys Array of breakpoint names
+   * @param {boolean} isMax Use `max-width`
+   * @returns {array} Array containing all matching breakpoint names in reverse order.
+   */
+
+  function _matchAll(keys, isMax = false) {
+    const matches = [];
+    keys.forEach((bp) => {
+      if (isMatching(bp, isMax)) {
+        matches.push(bp);
+      }
+    });
+    return isMax ? matches : matches.reverse();
+  }
+
+  /**
+   * Get all breakpoints.
+   * @returns {object} Object containing all breakpoints.
+   */
 
   function getBreakpoints() {
     return breakpoints;
   }
+
+  /**
+   * Get a `min-` or `max-width` media query by name.
+   * @param {string} breakpoint A breakpoint name
+   * @param {boolean} isMax Use `max-width`
+   */
 
   function getMediaQuery(breakpoint, isMax = false) {
     if (Array.isArray(breakpoint)) {
@@ -41,10 +119,22 @@ function bph() {
     return `(min-width: ${min})`;
   }
 
+  /**
+   * Check if a breakpoint is currently active/matching
+   * @param {string} breakpoint Breakpoint name
+   * @param {boolean} isMax Use `max-width`
+   * @returns {boolean}
+   */
+
   function isMatching(breakpoint, isMax = false) {
     return window.matchMedia(getMediaQuery(breakpoint, isMax)).matches;
   }
 
+  /**
+   *
+   * @param {object} options
+   * @param {function} callback
+   */
   function listen(options, callback = () => {}) {
     let mq = null;
 
@@ -76,16 +166,6 @@ function bph() {
     }
 
     return { on, off };
-  }
-
-  function _matchAll(keys, isMax = false) {
-    const matches = [];
-    keys.forEach((bp) => {
-      if (isMatching(bp, isMax)) {
-        matches.push(bp);
-      }
-    });
-    return isMax ? matches : matches.reverse();
   }
 
   function listenAll(callback = () => {}, options = {}) {
@@ -138,4 +218,4 @@ function bph() {
   };
 }
 
-export default bph();
+export default bph;

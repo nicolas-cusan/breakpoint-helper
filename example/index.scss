@@ -14,11 +14,12 @@ $bps: (
 }
 
 :root {
-  --bph-xl: 2000px;
-}
-
-html {
-  --bph-lg: 1500px;
+  --bph-xs: 274px;
+  --bph-sm: 486px;
+  --bph-md: 668px;
+  --bph-lg: 884px;
+  --bph-xl: 1090px;
+  --bph-xxl: 1290px;
 }
 
 pre {
