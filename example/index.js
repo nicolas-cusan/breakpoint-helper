@@ -35,7 +35,6 @@ const renderListen = ({ matches }) => {
 };
 
 const listener = instance.listen({ name: 'sm', immediate: true }, renderListen);
-listener.on();
 
 listenToggler.addEventListener('click', () => {
   if (state.listening) {
@@ -68,5 +67,3 @@ changeToggler.addEventListener('click', () => {
 
   state.changing = !state.changing;
 });
-
-change.on();

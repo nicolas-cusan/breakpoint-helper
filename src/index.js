@@ -1,3 +1,13 @@
+/** @module bph */
+
+/**
+ * Main instance function
+ *
+ * @memberof module:bph
+ * @param {Object|string} config Instance configuration
+ * @returns {Object} Returns all methods
+ */
+
 function bph(config = {}) {
   let breakpoints = {};
 
@@ -15,7 +25,11 @@ function bph(config = {}) {
 
   /**
    * Generate a `meta` element with class `ff-bph` and deserialize the css `font-family` value to retrieve breakpoints.
-   * @returns {object} Object containing the breakpoints
+   *
+   * @memberof module:bph
+   * @private
+   * @inner
+   * @returns {Object} Object containing the breakpoints
    */
 
   function _getBpsFromMeta() {
@@ -40,7 +54,11 @@ function bph(config = {}) {
 
   /**
    * Retrieve breakpoints by reading css custom properties on the `:root` selector, of all loaded stylesheets, starting with `--bph-`.
-   * @returns {object} Object containing the breakpoints
+   *
+   * @memberof module:bph
+   * @private
+   * @inner
+   * @returns {Object} Object containing the breakpoints
    */
 
   function _getBpsFromCustomProps() {
@@ -70,9 +88,13 @@ function bph(config = {}) {
 
   /**
    * Check if the breakpoints passed in are matching
-   * @param {array} keys Array of breakpoint names
+   *
+   * @memberof module:bph
+   * @private
+   * @inner
+   * @param {Array} keys Array of breakpoint names
    * @param {boolean} isMax Use `max-width`
-   * @returns {array} Array containing all matching breakpoint names in reverse order.
+   * @returns {Array<string>} Array containing all matching breakpoint names in reverse order.
    */
 
   function _matchAll(keys, isMax = false) {
@@ -87,7 +109,9 @@ function bph(config = {}) {
 
   /**
    * Get all breakpoints.
-   * @returns {object} Object containing all breakpoints.
+   * @memberof module:bph
+   * @inner
+   * @returns {Object} Object containing all breakpoints.
    */
 
   function getBreakpoints() {
@@ -96,6 +120,9 @@ function bph(config = {}) {
 
   /**
    * Get a `min-` or `max-width` media query by name.
+   *
+   * @memberof module:bph
+   * @inner
    * @param {string} breakpoint A breakpoint name
    * @param {boolean} isMax Use `max-width`
    */
@@ -121,8 +148,11 @@ function bph(config = {}) {
 
   /**
    * Check if a breakpoint is currently active/matching
+   *
+   * @memberof module:bph
+   * @inner
    * @param {string} breakpoint Breakpoint name
-   * @param {boolean} isMax Use `max-width`
+   * @param {boolean} [isMax] Use `max-width`
    * @returns {boolean}
    */
 
@@ -131,11 +161,16 @@ function bph(config = {}) {
   }
 
   /**
+   * Listen to a breakpoint change
    *
-   * @param {object} options
-   * @param {function} callback
+   * @memberof module:bph
+   * @inner
+   * @param {Object} options Listener options
+   * @param {function} callback Callback function that is called every time the breakpoint is triggered, receives a `MediaQueryList` object as an argument
+   * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
    */
-  function listen(options, callback = () => {}) {
+
+  function listen(options, callback) {
     let mq = null;
 
     function on() {
@@ -158,6 +193,8 @@ function bph(config = {}) {
       }
     }
 
+    on();
+
     function off() {
       if (mq) {
         mq.removeListener(callback);
@@ -168,7 +205,17 @@ function bph(config = {}) {
     return { on, off };
   }
 
-  function listenAll(callback = () => {}, options = {}) {
+  /**
+   * Listen to all breakpoints (or a subset via options)
+   *
+   * @memberof module:bph
+   * @inner
+   * @param {function} callback Callback function that is called every time a breakpoint is triggered,
+   * receives an array containing the breakpoint names in reverse order
+   * @param {Object} [options] Listener options
+   */
+
+  function listenAll(callback, options = {}) {
     const keys = Object.keys(breakpoints);
     let listeners = [];
     let bps = keys;
@@ -195,9 +242,10 @@ function bph(config = {}) {
 
         const listener = listen({ name: bp, ...opts }, cb);
         listeners.push(listener);
-        listener.on();
       });
     }
+
+    on();
 
     function off() {
       if (listeners.length) {
