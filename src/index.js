@@ -1,14 +1,19 @@
-/** @module bph */
+/**
+ * Helper module to work with css media query breakpoints in javascript.
+ * `bph` = Break-Point-Helper
+ *
+ * @module bph
+ */
 
 /**
  * Main instance function
  *
  * @memberof module:bph
- * @param {Object|string} config Instance configuration
+ * @param {string|Object} [config=meta] - Can be `'meta'`, `'custom'`, or an object containing the breakpoints
  * @returns {Object} Returns all methods
  */
 
-function bph(config = {}) {
+function bph(config = 'meta') {
   let breakpoints = {};
 
   if (typeof config === 'string' && config === 'meta') {
@@ -93,7 +98,7 @@ function bph(config = {}) {
    * @private
    * @inner
    * @param {Array} keys Array of breakpoint names
-   * @param {boolean} isMax Use `max-width`
+   * @param {boolean} [isMax=false] Use `max-width`
    * @returns {Array<string>} Array containing all matching breakpoint names in reverse order.
    */
 
@@ -124,7 +129,7 @@ function bph(config = {}) {
    * @memberof module:bph
    * @inner
    * @param {string} breakpoint A breakpoint name
-   * @param {boolean} isMax Use `max-width`
+   * @param {boolean} [isMax=false] Use `max-width`
    */
 
   function getMediaQuery(breakpoint, isMax = false) {
@@ -140,7 +145,10 @@ function bph(config = {}) {
     }
 
     if (isMax) {
-      return `(max-width: ${parseFloat(min, 10) - 1}px)`;
+      const number = parseFloat(min, 10);
+      const unit = min.replace(number, '');
+      const substract = unit === 'em' ? 0.0635 : 1;
+      return `(max-width: ${number - substract}${unit})`;
     }
 
     return `(min-width: ${min})`;
@@ -152,7 +160,7 @@ function bph(config = {}) {
    * @memberof module:bph
    * @inner
    * @param {string} breakpoint Breakpoint name
-   * @param {boolean} [isMax] Use `max-width`
+   * @param {boolean} [isMax=false] Use `max-width`
    * @returns {boolean}
    */
 
@@ -165,8 +173,11 @@ function bph(config = {}) {
    *
    * @memberof module:bph
    * @inner
-   * @param {Object} options Listener options
-   * @param {function} callback Callback function that is called every time the breakpoint is triggered, receives a `MediaQueryList` object as an argument
+   * @param {Object} options
+   * @param {string} options.name Breakpoint name to listen to
+   * @param {string} [options.isMax=false] Use `max-width`
+   * @param {string} [options.immediate=true] Call the callback function on invocation
+   * @param {listenCallback} callback The callback called when the breakpoint is triggered
    * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
    */
 
@@ -206,6 +217,24 @@ function bph(config = {}) {
   }
 
   /**
+   * Callback function for {@link ~listen} that is called every time the breakpoint is triggered,
+   * it receives a `MediaQueryList` object as an argument that allows to check if the media query is matching
+   * @callback listenCallback
+   * @memberof module:bph
+   * @param {MediaQueryList} mq
+   * @param {MediaQueryList} mq.matches Boolean to indicate if the media query is matching
+   * @returns {void}
+   * @example
+   *
+   * // Destructure `mq` to know it the media query is matching
+   * function myCallback({matches}) {
+   *   if (matches) {
+   *     // Do something if matching
+   *   }
+   * }
+   */
+
+  /**
    * Listen to all breakpoints (or a subset via options)
    *
    * @memberof module:bph
@@ -213,6 +242,7 @@ function bph(config = {}) {
    * @param {function} callback Callback function that is called every time a breakpoint is triggered,
    * receives an array containing the breakpoint names in reverse order
    * @param {Object} [options] Listener options
+   * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
    */
 
   function listenAll(callback, options = {}) {
