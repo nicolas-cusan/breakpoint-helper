@@ -123,21 +123,21 @@ function getBreakpoints() {
  * Get a `min-` or `max-width` media query by name.
  *
  * @inner
- * @param {string} breakpoint A breakpoint name
+ * @param {string} name A breakpoint name
  * @param {boolean} [isMax=false] Use `max-width`
  * @returns {String} A media query
  */
 
-function getMediaQuery(breakpoint, isMax = false) {
-  if (Array.isArray(breakpoint)) {
-    const [min, max] = breakpoint;
+function getMediaQuery(name, isMax = false) {
+  if (Array.isArray(name)) {
+    const [min, max] = name;
     return `${getMediaQuery(min)} and ${getMediaQuery(max, true)}`;
   }
 
-  const min = breakpoints[breakpoint];
+  const min = breakpoints[name];
 
   if (typeof min === 'undefined') {
-    throw new Error(`"${breakpoint}" does not seem to be a breakpoint name`);
+    throw new Error(`"${name}" does not seem to be a breakpoint name`);
   }
 
   if (isMax) {
@@ -154,13 +154,13 @@ function getMediaQuery(breakpoint, isMax = false) {
  * Check if a breakpoint is currently active/matching
  *
  * @inner
- * @param {string} breakpoint Breakpoint name
+ * @param {string} name Breakpoint name
  * @param {boolean} [isMax=false] Use `max-width`
  * @returns {boolean} Whether the breakpoint is matching or not
  */
 
-function isMatching(breakpoint, isMax = false) {
-  return window.matchMedia(getMediaQuery(breakpoint, isMax)).matches;
+function isMatching(name, isMax = false) {
+  return window.matchMedia(getMediaQuery(name, isMax)).matches;
 }
 
 /**

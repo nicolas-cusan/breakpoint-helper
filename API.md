@@ -7,10 +7,10 @@
 <dt><a href="#getBreakpoints">getBreakpoints()</a> ⇒ <code>Object</code></dt>
 <dd><p>Get all breakpoints.</p>
 </dd>
-<dt><a href="#getMediaQuery">getMediaQuery(breakpoint, [isMax])</a> ⇒ <code>String</code></dt>
+<dt><a href="#getMediaQuery">getMediaQuery(name, [isMax])</a> ⇒ <code>String</code></dt>
 <dd><p>Get a <code>min-</code> or <code>max-width</code> media query by name.</p>
 </dd>
-<dt><a href="#isMatching">isMatching(breakpoint, [isMax])</a> ⇒ <code>boolean</code></dt>
+<dt><a href="#isMatching">isMatching(name, [isMax])</a> ⇒ <code>boolean</code></dt>
 <dd><p>Check if a breakpoint is currently active/matching</p>
 </dd>
 <dt><a href="#listen">listen(options, callback)</a> ⇒ <code>Object</code></dt>
@@ -42,7 +42,7 @@ Get all breakpoints.
 **Returns**: <code>Object</code> - Object containing all breakpoints.  
 <a name="getMediaQuery"></a>
 
-## getMediaQuery(breakpoint, [isMax]) ⇒ <code>String</code>
+## getMediaQuery(name, [isMax]) ⇒ <code>String</code>
 Get a `min-` or `max-width` media query by name.
 
 **Kind**: global function  
@@ -50,12 +50,12 @@ Get a `min-` or `max-width` media query by name.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| breakpoint | <code>string</code> |  | A breakpoint name |
+| name | <code>string</code> |  | A breakpoint name |
 | [isMax] | <code>boolean</code> | <code>false</code> | Use `max-width` |
 
 <a name="isMatching"></a>
 
-## isMatching(breakpoint, [isMax]) ⇒ <code>boolean</code>
+## isMatching(name, [isMax]) ⇒ <code>boolean</code>
 Check if a breakpoint is currently active/matching
 
 **Kind**: global function  
@@ -63,7 +63,7 @@ Check if a breakpoint is currently active/matching
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| breakpoint | <code>string</code> |  | Breakpoint name |
+| name | <code>string</code> |  | Breakpoint name |
 | [isMax] | <code>boolean</code> | <code>false</code> | Use `max-width` |
 
 <a name="listen"></a>
