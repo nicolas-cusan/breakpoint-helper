@@ -202,7 +202,6 @@ export default bph('custom');
 
 Main instance function
 
-**Kind**: global function
 **Returns**: <code>Object.&lt;function()&gt;</code> - Returns an object containing methods
 
 | Param  | Type                                       | Description                                               |
@@ -215,7 +214,6 @@ Main instance function
 
 Get all breakpoints.
 
-**Kind**: global function
 **Returns**: <code>Object</code> - Object containing all breakpoints.
 <a name="getMediaQuery"></a>
 
@@ -223,7 +221,6 @@ Get all breakpoints.
 
 Get a `min-` or `max-width` media query by name.
 
-**Kind**: global function
 **Returns**: <code>String</code> - A media query
 
 | Param   | Type                 | Default            | Description       |
@@ -237,7 +234,6 @@ Get a `min-` or `max-width` media query by name.
 
 Check if a breakpoint is currently active/matching
 
-**Kind**: global function
 **Returns**: <code>boolean</code> - Whether the breakpoint is matching or not
 
 | Param   | Type                 | Default            | Description     |
@@ -251,7 +247,6 @@ Check if a breakpoint is currently active/matching
 
 Listen to a breakpoint change
 
-**Kind**: global function
 **Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
 
 | Param               | Type                  | Default            | Description                                      |
@@ -268,7 +263,6 @@ Listen to a breakpoint change
 
 Listen to all breakpoints (or a subset via options)
 
-**Kind**: global function
 **Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
 
 | Param               | Type                  | Default            | Description                                                                                                                               |
