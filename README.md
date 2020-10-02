@@ -4,10 +4,10 @@ Small helper library to share and use your css layout breakpoints with javascrip
 
 ## Core functionality
 
-- Share breakpoints between CSS an Javascript so they only need to be maintained in one place
 - Easily check if a breakpoint is active referencing it by name instead of value
 - Listen to breakpoint changes and add/remove functionality accordingly
 - Works with `px` and `em` breakpoints
+- Optionally share breakpoints between CSS an Javascript so they only need to be maintained in one place
 
 ## Introduction
 
@@ -31,7 +31,14 @@ Create a file to hold the breakpoint-helper instance:
 // src/utils/bph.js
 import bph from 'breakpoint-helper';
 
-export default bph(/* options */);
+export default bph({
+  xs: '416px',
+  sm: '600px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  xxl: '1520px',
+});
 ```
 
 Use your instance:
@@ -41,34 +48,81 @@ Use your instance:
 
 import bph from 'src/utils/bph.js';
 
-console.log(bph.isMatching('my-breakpoint-name'));
+console.log(bph.isMatching('md'));
 
-bph.listen({ name: 'my-breakpoint-name' }, ({ mathes }) => {
+bph.listen({ name: 'md' }, ({ mathes }) => {
   if (matches) {
     // Do something every time this breakpoint is matching
   }
 });
 ```
 
-## How to get your CSS breakpoints into your Javascript
+## Share your breakpoints between CSS and Javascript
 
 There are three options to provide the breakpoint names and values to breakpoint-helper. The naming strategies and implementations to name your breakpoints might differ depending on your preferences and the technologies you use.
 
-### 1. Serialized `font-family`
+### 1. Javascript object
 
-This is the default method for providing the breakpoints to breakpoint-helper. breakpoint-helper will create a `<meta>` element in the document's `<head>` tag with the class `ff-bph` and read its `font-famliy` CSS value. The value should be a serialized string of breakpoints names and values:
+Breakpoints can be passed in as a object where the object keys represent the breakpoint names and the values the breakpoints screen widths. The values should be of type `String` and include a CSS unit, both `px` and `em` are supported.
+
+```js
+// src/utils/bph.js
+import bph from 'breakpoint-helper';
+
+export default bph({
+  mobile: '416px',
+  tabletSmall: '600px',
+  tablet: '768px',
+  desktopSmall: '1024px',
+  dekstop: '1280px',
+});
+```
+
+This method is convenient when using a styling system that defines breakpoints in Javascript, e.g. [Tailwind CSS](https://tailwindcss.com/).
+
+```js
+// tailwind.config.js
+
+module.exports = {
+  theme: {
+    // Breakpoints
+    screens: {
+      xs: '416px',
+      sm: '600px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      xxl: '1520px',
+    }
+    // Other config ...
+  }
+```
+
+Import the Tailwind CSS config and use the `screen` key that defines the breakpoints when instantiating breakpoint-helper:
+
+```js
+// src/utils/bph.js
+import bph from 'breakpoint-helper';
+import config from './tailwind.config.js';
+
+export default bph(config.theme.screens);
+```
+
+### 2. Serialized `font-family`
+
+With breakpoint-helper breakpoints can be defined in CSS only. breakpoint-helper will create a `<meta>` element in the document's `<head>` tag with the class `breakpoint-helper`, read its `font-famliy` CSS value and create corresponding breakpoint object to work with internally. To make this possible the `font-family` value should be a serialized string of breakpoints names and values:
 
 ```css
-.ff-bph {
+.breakpoint-helper {
   font-family: 'xs=374px&sm=586px&md=768px&lg=984px&xl=1190px&xxl=1390px';
 }
 ```
 
-For convenience breakpoint-helper provides a Sass function that will serialize a map for you:
+For convenience breakpoint-helper provides a Sass function that will serialize a Sass map for you:
 
 ```scss
 // main.scss
-@import './node_modules/bph/dist/bph';
+@import './node_modules/bph/dist/bph'; // path may vary depending on implementation
 
 // _vars.scss
 $bps: (
@@ -86,18 +140,16 @@ $bps: (
 }
 ```
 
-As this is the default the instance can be initialized without parameters, or if you want to be explicit use `"meta"` as option:
+Initialize your instance passing the string `"meta"` as an argument when instantiating breakpoint-helper.
 
 ```js
 // src/utils/bph.js
 import bph from 'breakpoint-helper';
 
-export default bph();
-// is wquivalent to
 export default bph('meta');
 ```
 
-### 2. Custom properties
+### 3. Custom properties
 
 This method allows you to declare your breakpoints via CSS custom properties (a.k.a. CSS variables) using the prefix `--bph-` on the `:root` selector.
 
@@ -121,47 +173,125 @@ import bph from 'breakpoint-helper';
 export default bph('custom');
 ```
 
-### 3. Object
+## Methods
 
-You can also pass an object to the main instance function.
+<a name="module_breakpoint-helper"></a>
+
+## breakpoint-helper
+
+Helper module to work with css media query breakpoints in javascript.
+`bph` = Break-Point-Helper
+
+- [breakpoint-helper](#module_breakpoint-helper)
+  - _static_
+    - [.bph([config])](#module_breakpoint-helper.bph) ⇒ <code>Object</code>
+    - [.listenCallback](#module_breakpoint-helper.listenCallback) ⇒ <code>void</code>
+  - _inner_
+    - [~getBreakpoints()](#module_breakpoint-helper..getBreakpoints) ⇒ <code>Object</code>
+    - [~getMediaQuery(breakpoint, [isMax])](#module_breakpoint-helper..getMediaQuery)
+    - [~isMatching(breakpoint, [isMax])](#module_breakpoint-helper..isMatching) ⇒ <code>boolean</code>
+    - [~listen(options, callback)](#module_breakpoint-helper..listen) ⇒ <code>Object</code>
+    - [~listenAll(callback, [options])](#module_breakpoint-helper..listenAll) ⇒ <code>Object</code>
+
+<a name="module_breakpoint-helper.bph"></a>
+
+### breakpoint-helper.bph([config]) ⇒ <code>Object</code>
+
+Main instance function
+
+**Kind**: static method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Returns**: <code>Object</code> - Returns all methods
+
+| Param    | Type                                       | Default                       | Description                                                          |
+| -------- | ------------------------------------------ | ----------------------------- | -------------------------------------------------------------------- |
+| [config] | <code>string</code> \| <code>Object</code> | <code>&quot;meta&quot;</code> | Can be `'meta'`, `'custom'`, or an object containing the breakpoints |
+
+<a name="module_breakpoint-helper.listenCallback"></a>
+
+### breakpoint-helper.listenCallback ⇒ <code>void</code>
+
+Callback function for [~listen](~listen) that is called every time the breakpoint is triggered,
+it receives a `MediaQueryList` object as an argument that allows to check if the media query is matching
+
+**Kind**: static typedef of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+
+| Param      | Type                        | Description                                        |
+| ---------- | --------------------------- | -------------------------------------------------- |
+| mq         | <code>MediaQueryList</code> |                                                    |
+| mq.matches | <code>MediaQueryList</code> | Boolean to indicate if the media query is matching |
+
+**Example**
 
 ```js
-// src/utils/bph.js
-import bph from 'breakpoint-helper';
-
-export default bph({
-  mobile: '416px',
-  tabletSmall: '600px',
-  tablet: '768px',
-  desktopSmall: '1024px',
-  dekstop: '1280px',
-});
-```
-
-This method is convenient when using a styling system that defines breakpoints in Javascript, e.g. [TailwindCSS](https://tailwindcss.com/).
-
-```js
-// tailwind.config.js
-
-module.exports = {
-  theme: {
-    // Breakpoints
-    screens: {
-      xs: '416px',
-      sm: '600px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      xxl: '1520px',
-    }
-    // Other config ...
+// Destructure `mq` to know it the media query is matching
+function myCallback({ matches }) {
+  if (matches) {
+    // Do something if matching
   }
+}
 ```
 
-```js
-// src/utils/bph.js
-import bph from 'breakpoint-helper';
-import config from './tailwind.config.js';
+<a name="module_breakpoint-helper..getBreakpoints"></a>
 
-export default bph(config.theme.screens);
-```
+### breakpoint-helper~getBreakpoints() ⇒ <code>Object</code>
+
+Get all breakpoints.
+
+**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Returns**: <code>Object</code> - Object containing all breakpoints.
+<a name="module_breakpoint-helper..getMediaQuery"></a>
+
+### breakpoint-helper~getMediaQuery(breakpoint, [isMax])
+
+Get a `min-` or `max-width` media query by name.
+
+**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+
+| Param      | Type                 | Default            | Description       |
+| ---------- | -------------------- | ------------------ | ----------------- |
+| breakpoint | <code>string</code>  |                    | A breakpoint name |
+| [isMax]    | <code>boolean</code> | <code>false</code> | Use `max-width`   |
+
+<a name="module_breakpoint-helper..isMatching"></a>
+
+### breakpoint-helper~isMatching(breakpoint, [isMax]) ⇒ <code>boolean</code>
+
+Check if a breakpoint is currently active/matching
+
+**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+
+| Param      | Type                 | Default            | Description     |
+| ---------- | -------------------- | ------------------ | --------------- |
+| breakpoint | <code>string</code>  |                    | Breakpoint name |
+| [isMax]    | <code>boolean</code> | <code>false</code> | Use `max-width` |
+
+<a name="module_breakpoint-helper..listen"></a>
+
+### breakpoint-helper~listen(options, callback) ⇒ <code>Object</code>
+
+Listen to a breakpoint change
+
+**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
+
+| Param               | Type                        | Default            | Description                                          |
+| ------------------- | --------------------------- | ------------------ | ---------------------------------------------------- |
+| options             | <code>Object</code>         |                    |                                                      |
+| options.name        | <code>string</code>         |                    | Breakpoint name to listen to                         |
+| [options.isMax]     | <code>string</code>         | <code>false</code> | Use `max-width`                                      |
+| [options.immediate] | <code>string</code>         | <code>true</code>  | Call the callback function on invocation             |
+| callback            | <code>listenCallback</code> |                    | The callback called when the breakpoint is triggered |
+
+<a name="module_breakpoint-helper..listenAll"></a>
+
+### breakpoint-helper~listenAll(callback, [options]) ⇒ <code>Object</code>
+
+Listen to all breakpoints (or a subset via options)
+
+**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
+
+| Param     | Type                  | Description                                                                                                                               |
+| --------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| callback  | <code>function</code> | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
+| [options] | <code>Object</code>   | Listener options                                                                                                                          |

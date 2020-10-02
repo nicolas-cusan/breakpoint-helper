@@ -1,4 +1,4 @@
-@import '../src/bph';
+@import '../src/breakpoint-helper';
 
 $bps: (
   'xs': 374px,
@@ -9,7 +9,7 @@ $bps: (
   'xxl': 1390px,
 );
 
-.ff-bph {
+.breakpoint-helper {
   font-family: '#{breakpoint-string($bps)}';
 }
 

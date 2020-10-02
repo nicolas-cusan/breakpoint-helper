@@ -2,18 +2,18 @@
  * Helper module to work with css media query breakpoints in javascript.
  * `bph` = Break-Point-Helper
  *
- * @module bph
+ * @module breakpoint-helper
  */
 
 /**
  * Main instance function
  *
- * @memberof module:bph
+ * @memberof module:breakpoint-helper
  * @param {string|Object} [config=meta] - Can be `'meta'`, `'custom'`, or an object containing the breakpoints
  * @returns {Object} Returns all methods
  */
 
-function bph(config = 'meta') {
+function bph(config = {}) {
   let breakpoints = {};
 
   if (typeof config === 'string' && config === 'meta') {
@@ -31,7 +31,7 @@ function bph(config = 'meta') {
   /**
    * Generate a `meta` element with class `ff-bph` and deserialize the css `font-family` value to retrieve breakpoints.
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @private
    * @inner
    * @returns {Object} Object containing the breakpoints
@@ -39,7 +39,7 @@ function bph(config = 'meta') {
 
   function _getBpsFromMeta() {
     const el = document.createElement('meta');
-    el.classList.add('ff-bph');
+    el.classList.add('breakpoint-helper');
     document.getElementsByTagName('head')[0].appendChild(el);
 
     let fontFamily = window
@@ -60,7 +60,7 @@ function bph(config = 'meta') {
   /**
    * Retrieve breakpoints by reading css custom properties on the `:root` selector, of all loaded stylesheets, starting with `--bph-`.
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @private
    * @inner
    * @returns {Object} Object containing the breakpoints
@@ -94,7 +94,7 @@ function bph(config = 'meta') {
   /**
    * Check if the breakpoints passed in are matching
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @private
    * @inner
    * @param {Array} keys Array of breakpoint names
@@ -114,7 +114,7 @@ function bph(config = 'meta') {
 
   /**
    * Get all breakpoints.
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @inner
    * @returns {Object} Object containing all breakpoints.
    */
@@ -126,7 +126,7 @@ function bph(config = 'meta') {
   /**
    * Get a `min-` or `max-width` media query by name.
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @inner
    * @param {string} breakpoint A breakpoint name
    * @param {boolean} [isMax=false] Use `max-width`
@@ -157,7 +157,7 @@ function bph(config = 'meta') {
   /**
    * Check if a breakpoint is currently active/matching
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @inner
    * @param {string} breakpoint Breakpoint name
    * @param {boolean} [isMax=false] Use `max-width`
@@ -171,7 +171,7 @@ function bph(config = 'meta') {
   /**
    * Listen to a breakpoint change
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @inner
    * @param {Object} options
    * @param {string} options.name Breakpoint name to listen to
@@ -220,7 +220,7 @@ function bph(config = 'meta') {
    * Callback function for {@link ~listen} that is called every time the breakpoint is triggered,
    * it receives a `MediaQueryList` object as an argument that allows to check if the media query is matching
    * @callback listenCallback
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @param {MediaQueryList} mq
    * @param {MediaQueryList} mq.matches Boolean to indicate if the media query is matching
    * @returns {void}
@@ -237,7 +237,7 @@ function bph(config = 'meta') {
   /**
    * Listen to all breakpoints (or a subset via options)
    *
-   * @memberof module:bph
+   * @memberof module:breakpoint-helper
    * @inner
    * @param {function} callback Callback function that is called every time a breakpoint is triggered,
    * receives an array containing the breakpoint names in reverse order

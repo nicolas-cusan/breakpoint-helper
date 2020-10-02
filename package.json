@@ -1,5 +1,5 @@
 {
-  "name": "bph",
+  "name": "breakpoint-helper",
   "version": "1.0.0",
   "description": "media query helper to share breakpoints between css and js",
   "main": "src/index.js",
@@ -10,10 +10,12 @@
     "build": "rm -rf dist && microbundle --name bph",
     "docs": "jsdoc -c jsdoc.json",
     "start": "rm -rf example-dist && parcel example/index.html -d example-dist",
-    "prepublishOnly": "npm run -s build"
+    "prepublishOnly": "npm run -s build",
+    "docsmd": "jsdoc2md ./src/index.js > API.md"
   },
   "devDependencies": {
     "jsdoc": "^3.6.6",
+    "jsdoc-to-markdown": "^6.0.1",
     "microbundle": "^0.12.4",
     "parcel": "^1.12.4",
     "prettier": "^2.1.2",
