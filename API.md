@@ -1,14 +1,9 @@
-## Members
-
-<dl>
-<dt><a href="#breakpoints">breakpoints</a> ⇒ <code>Object.&lt;function()&gt;</code></dt>
-<dd><p>Main instance function</p>
-</dd>
-</dl>
-
 ## Functions
 
 <dl>
+<dt><a href="#bph">bph(config)</a> ⇒ <code>Object.&lt;function()&gt;</code></dt>
+<dd><p>Main instance function</p>
+</dd>
 <dt><a href="#getBreakpoints">getBreakpoints()</a> ⇒ <code>Object</code></dt>
 <dd><p>Get all breakpoints.</p>
 </dd>
@@ -26,12 +21,12 @@
 </dd>
 </dl>
 
-<a name="breakpoints"></a>
+<a name="bph"></a>
 
-## breakpoints ⇒ <code>Object.&lt;function()&gt;</code>
+## bph(config) ⇒ <code>Object.&lt;function()&gt;</code>
 Main instance function
 
-**Kind**: global variable  
+**Kind**: global function  
 **Returns**: <code>Object.&lt;function()&gt;</code> - Returns an object containing methods  
 
 | Param | Type | Description |
