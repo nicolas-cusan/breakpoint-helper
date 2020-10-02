@@ -173,133 +173,112 @@ import bph from 'breakpoint-helper';
 export default bph('custom');
 ```
 
-## Methods
+## Members
 
-<a name="module_breakpoint-helper"></a>
+<dl>
+<dt><a href="#breakpoints">breakpoints</a> ⇒ <code>Object.&lt;function()&gt;</code></dt>
+<dd><p>Main instance function</p>
+</dd>
+</dl>
 
-## breakpoint-helper
+## Functions
 
-Helper module to work with css media query breakpoints in javascript.
-`bph` = Break-Point-Helper
+<dl>
+<dt><a href="#getBreakpoints">getBreakpoints()</a> ⇒ <code>Object</code></dt>
+<dd><p>Get all breakpoints.</p>
+</dd>
+<dt><a href="#getMediaQuery">getMediaQuery(breakpoint, [isMax])</a> ⇒ <code>String</code></dt>
+<dd><p>Get a <code>min-</code> or <code>max-width</code> media query by name.</p>
+</dd>
+<dt><a href="#isMatching">isMatching(breakpoint, [isMax])</a> ⇒ <code>boolean</code></dt>
+<dd><p>Check if a breakpoint is currently active/matching</p>
+</dd>
+<dt><a href="#listen">listen(options, callback)</a> ⇒ <code>Object</code></dt>
+<dd><p>Listen to a breakpoint change</p>
+</dd>
+<dt><a href="#listenAll">listenAll(callback, [options])</a> ⇒ <code>Object</code></dt>
+<dd><p>Listen to all breakpoints (or a subset via options)</p>
+</dd>
+</dl>
 
-- [breakpoint-helper](#breakpoint-helper)
-  - [Core functionality](#core-functionality)
-  - [Introduction](#introduction)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Share your breakpoints between CSS and Javascript](#share-your-breakpoints-between-css-and-javascript)
-    - [1. Javascript object](#1-javascript-object)
-    - [2. Serialized `font-family`](#2-serialized-font-family)
-    - [3. Custom properties](#3-custom-properties)
-  - [Methods](#methods)
-  - [breakpoint-helper](#breakpoint-helper-1)
-    - [breakpoint-helper.bph([config]) ⇒ <code>Object</code>](#breakpoint-helperbphconfig--object)
-    - [breakpoint-helper.listenCallback ⇒ <code>void</code>](#breakpoint-helperlistencallback--void)
-    - [breakpoint-helper~getBreakpoints() ⇒ <code>Object</code>](#breakpoint-helpergetbreakpoints--object)
-    - [breakpoint-helper~getMediaQuery(breakpoint, [isMax])](#breakpoint-helpergetmediaquerybreakpoint-ismax)
-    - [breakpoint-helper~isMatching(breakpoint, [isMax]) ⇒ <code>boolean</code>](#breakpoint-helperismatchingbreakpoint-ismax--boolean)
-    - [breakpoint-helper~listen(options, callback) ⇒ <code>Object</code>](#breakpoint-helperlistenoptions-callback--object)
-    - [breakpoint-helper~listenAll(callback, [options]) ⇒ <code>Object</code>](#breakpoint-helperlistenallcallback-options--object)
+<a name="breakpoints"></a>
 
-<a name="module_breakpoint-helper.bph"></a>
-
-### breakpoint-helper.bph([config]) ⇒ <code>Object</code>
+## breakpoints ⇒ <code>Object.&lt;function()&gt;</code>
 
 Main instance function
 
-**Kind**: static method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
-**Returns**: <code>Object</code> - Returns all methods
+**Kind**: global variable
+**Returns**: <code>Object.&lt;function()&gt;</code> - Returns an object containing methods
 
-| Param    | Type                                       | Default                       | Description                                                          |
-| -------- | ------------------------------------------ | ----------------------------- | -------------------------------------------------------------------- |
-| [config] | <code>string</code> \| <code>Object</code> | <code>&quot;meta&quot;</code> | Can be `'meta'`, `'custom'`, or an object containing the breakpoints |
+| Param  | Type                                       | Description                                               |
+| ------ | ------------------------------------------ | --------------------------------------------------------- |
+| config | <code>Object</code> \| <code>String</code> | Abject containing the breakpoints, `'meta'` or `'custom'` |
 
-<a name="module_breakpoint-helper.listenCallback"></a>
+<a name="getBreakpoints"></a>
 
-### breakpoint-helper.listenCallback ⇒ <code>void</code>
-
-Callback function for [~listen](~listen) that is called every time the breakpoint is triggered,
-it receives a `MediaQueryList` object as an argument that allows to check if the media query is matching
-
-**Kind**: static typedef of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
-
-| Param      | Type                        | Description                                        |
-| ---------- | --------------------------- | -------------------------------------------------- |
-| mq         | <code>MediaQueryList</code> |                                                    |
-| mq.matches | <code>MediaQueryList</code> | Boolean to indicate if the media query is matching |
-
-**Example**
-
-```js
-// Destructure `mq` to know it the media query is matching
-function myCallback({ matches }) {
-  if (matches) {
-    // Do something if matching
-  }
-}
-```
-
-<a name="module_breakpoint-helper..getBreakpoints"></a>
-
-### breakpoint-helper~getBreakpoints() ⇒ <code>Object</code>
+## getBreakpoints() ⇒ <code>Object</code>
 
 Get all breakpoints.
 
-**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Kind**: global function
 **Returns**: <code>Object</code> - Object containing all breakpoints.
-<a name="module_breakpoint-helper..getMediaQuery"></a>
+<a name="getMediaQuery"></a>
 
-### breakpoint-helper~getMediaQuery(breakpoint, [isMax])
+## getMediaQuery(breakpoint, [isMax]) ⇒ <code>String</code>
 
 Get a `min-` or `max-width` media query by name.
 
-**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Kind**: global function
+**Returns**: <code>String</code> - A media query
 
 | Param      | Type                 | Default            | Description       |
 | ---------- | -------------------- | ------------------ | ----------------- |
 | breakpoint | <code>string</code>  |                    | A breakpoint name |
 | [isMax]    | <code>boolean</code> | <code>false</code> | Use `max-width`   |
 
-<a name="module_breakpoint-helper..isMatching"></a>
+<a name="isMatching"></a>
 
-### breakpoint-helper~isMatching(breakpoint, [isMax]) ⇒ <code>boolean</code>
+## isMatching(breakpoint, [isMax]) ⇒ <code>boolean</code>
 
 Check if a breakpoint is currently active/matching
 
-**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Kind**: global function
+**Returns**: <code>boolean</code> - Whether the breakpoint is matching or not
 
 | Param      | Type                 | Default            | Description     |
 | ---------- | -------------------- | ------------------ | --------------- |
 | breakpoint | <code>string</code>  |                    | Breakpoint name |
 | [isMax]    | <code>boolean</code> | <code>false</code> | Use `max-width` |
 
-<a name="module_breakpoint-helper..listen"></a>
+<a name="listen"></a>
 
-### breakpoint-helper~listen(options, callback) ⇒ <code>Object</code>
+## listen(options, callback) ⇒ <code>Object</code>
 
 Listen to a breakpoint change
 
-**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Kind**: global function
 **Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
 
-| Param               | Type                        | Default            | Description                                          |
-| ------------------- | --------------------------- | ------------------ | ---------------------------------------------------- |
-| options             | <code>Object</code>         |                    |                                                      |
-| options.name        | <code>string</code>         |                    | Breakpoint name to listen to                         |
-| [options.isMax]     | <code>string</code>         | <code>false</code> | Use `max-width`                                      |
-| [options.immediate] | <code>string</code>         | <code>true</code>  | Call the callback function on invocation             |
-| callback            | <code>listenCallback</code> |                    | The callback called when the breakpoint is triggered |
+| Param               | Type                  | Default            | Description                                      |
+| ------------------- | --------------------- | ------------------ | ------------------------------------------------ |
+| options             | <code>Object</code>   |                    |                                                  |
+| options.name        | <code>string</code>   |                    | Breakpoint name to listen to                     |
+| [options.isMax]     | <code>boolean</code>  | <code>false</code> | Use `max-width`                                  |
+| [options.immediate] | <code>string</code>   | <code>true</code>  | Call the callback function on invocation         |
+| callback            | <code>function</code> |                    | Function called when the breakpoint is triggered |
 
-<a name="module_breakpoint-helper..listenAll"></a>
+<a name="listenAll"></a>
 
-### breakpoint-helper~listenAll(callback, [options]) ⇒ <code>Object</code>
+## listenAll(callback, [options]) ⇒ <code>Object</code>
 
 Listen to all breakpoints (or a subset via options)
 
-**Kind**: inner method of [<code>breakpoint-helper</code>](#module_breakpoint-helper)
+**Kind**: global function
 **Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
 
-| Param     | Type                  | Description                                                                                                                               |
-| --------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| callback  | <code>function</code> | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
-| [options] | <code>Object</code>   | Listener options                                                                                                                          |
+| Param               | Type                  | Default            | Description                                                                                                                               |
+| ------------------- | --------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| callback            | <code>function</code> |                    | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
+| [options]           | <code>Object</code>   |                    | Listener options                                                                                                                          |
+| [options.isMax]     | <code>boolean</code>  | <code>false</code> | Use `max-width`                                                                                                                           |
+| [options.immediate] | <code>string</code>   | <code>true</code>  | Call the callback function on invocation                                                                                                  |
