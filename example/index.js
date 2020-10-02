@@ -1,7 +1,7 @@
 import './index.scss';
 import bph from '../src/index.js';
 
-const instance = bph();
+const instance = bph('meta');
 
 const {
   getMediaQuery,

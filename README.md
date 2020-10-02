@@ -70,11 +70,12 @@ Breakpoints can be passed in as a object where the object keys represent the bre
 import bph from 'breakpoint-helper';
 
 export default bph({
-  mobile: '416px',
-  tabletSmall: '600px',
-  tablet: '768px',
-  desktopSmall: '1024px',
-  dekstop: '1280px',
+  xs: '416px',
+  sm: '600px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  xxl: '1520px',
 });
 ```
 
@@ -126,12 +127,12 @@ For convenience breakpoint-helper provides a Sass function that will serialize a
 
 // _vars.scss
 $bps: (
-  'xs': 374px,
-  'sm': 586px,
+  'xs': 416px,
+  'sm': 600px,
   'md': 768px,
-  'lg': 984px,
-  'xl': 1190px,
-  'xxl': 1390px,
+  'lg': 1024px,
+  'xl': 1280px,
+  'xxl': 1520px,
 );
 
 // _bph.scss
@@ -155,12 +156,12 @@ This method allows you to declare your breakpoints via CSS custom properties (a.
 
 ```css
 :root {
-  --bph-xs: 274px;
-  --bph-sm: 486px;
-  --bph-md: 668px;
-  --bph-lg: 884px;
-  --bph-xl: 1090px;
-  --bph-xxl: 1290px;
+  --bph-xs: 416px;
+  --bph-sm: 600px;
+  --bph-md: 768px;
+  --bph-lg: 1024px;
+  --bph-xl: 1280px;
+  --bph-xxl: 1520px;
 }
 ```
 
@@ -173,101 +174,129 @@ import bph from 'breakpoint-helper';
 export default bph('custom');
 ```
 
-## Functions
+## Instance methods
 
-<dl>
-<dt><a href="#bph">bph(config)</a> ⇒ <code>Object.&lt;function()&gt;</code></dt>
-<dd><p>Main instance function</p>
-</dd>
-<dt><a href="#getBreakpoints">getBreakpoints()</a> ⇒ <code>Object</code></dt>
-<dd><p>Get all breakpoints.</p>
-</dd>
-<dt><a href="#getMediaQuery">getMediaQuery(name, [isMax])</a> ⇒ <code>String</code></dt>
-<dd><p>Get a <code>min-</code> or <code>max-width</code> media query by name.</p>
-</dd>
-<dt><a href="#isMatching">isMatching(name, [isMax])</a> ⇒ <code>boolean</code></dt>
-<dd><p>Check if a breakpoint is currently active/matching</p>
-</dd>
-<dt><a href="#listen">listen(options, callback)</a> ⇒ <code>Object</code></dt>
-<dd><p>Listen to a breakpoint change</p>
-</dd>
-<dt><a href="#listenAll">listenAll(callback, [options])</a> ⇒ <code>Object</code></dt>
-<dd><p>Listen to all breakpoints (or a subset via options)</p>
-</dd>
-</dl>
+A breakpoint-helper instance returns methods to work with your breakpoints. To use the methods you must define an instance and then use the methods returned by it.
 
-<a name="bph"></a>
+```js
+// src/utils/bph.js
+import bph from 'breakpoint-helper';
 
-## bph(config) ⇒ <code>Object.&lt;function()&gt;</code>
+export default bph({
+  xs: '416px',
+  sm: '600px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  xxl: '1520px',
+});
+```
 
-Main instance function
+Te examples below assume that you are using the instance as defined above.
 
-**Returns**: <code>Object.&lt;function()&gt;</code> - Returns an object containing methods
+### getBreakpoints() ⇒ `Object
 
-| Param  | Type                                       | Description                                               |
-| ------ | ------------------------------------------ | --------------------------------------------------------- |
-| config | <code>Object</code> \| <code>String</code> | Abject containing the breakpoints, `'meta'` or `'custom'` |
+Get all breakpoints the instance is working with. Usually useful for debugging or passing breakpoint values to other libraries.
 
-<a name="getBreakpoints"></a>
+**Returns**: `Object` - Object containing all breakpoints.
 
-## getBreakpoints() ⇒ <code>Object</code>
-
-Get all breakpoints.
-
-**Returns**: <code>Object</code> - Object containing all breakpoints.
-<a name="getMediaQuery"></a>
-
-## getMediaQuery(name, [isMax]) ⇒ <code>String</code>
+### getMediaQuery(name, [isMax]) ⇒ `String`
 
 Get a `min-` or `max-width` media query by name.
 
-**Returns**: <code>String</code> - A media query
+**Returns**: `String` - A media query
 
-| Param   | Type                 | Default            | Description       |
-| ------- | -------------------- | ------------------ | ----------------- |
-| name    | <code>string</code>  |                    | A breakpoint name |
-| [isMax] | <code>boolean</code> | <code>false</code> | Use `max-width`   |
+| Param   | Type      | Default | Description       |
+| ------- | --------- | ------- | ----------------- |
+| name    | `string`  |         | A breakpoint name |
+| [isMax] | `boolean` | `false` | Use `max-width`   |
 
-<a name="isMatching"></a>
+#### Example
 
-## isMatching(name, [isMax]) ⇒ <code>boolean</code>
+```js
+// Import instance
+import bph from './src/utils/bph';
 
-Check if a breakpoint is currently active/matching
+const mq = bph.getMediaquery('md');
+console.log(mq);
+// "(min-width: 768px)"
 
-**Returns**: <code>boolean</code> - Whether the breakpoint is matching or not
+const mqMax = bph.getMediaquery('md', true);
+console.log(mqMax);
+// "(max-width: 768px)"
+```
 
-| Param   | Type                 | Default            | Description     |
-| ------- | -------------------- | ------------------ | --------------- |
-| name    | <code>string</code>  |                    | Breakpoint name |
-| [isMax] | <code>boolean</code> | <code>false</code> | Use `max-width` |
+### isMatching(name, [isMax]) ⇒ `boolean`
 
-<a name="listen"></a>
+Check if a breakpoint is currently matching
 
-## listen(options, callback) ⇒ <code>Object</code>
+**Returns**: `boolean` - Whether the breakpoint is matching or not
 
-Listen to a breakpoint change
+| Param   | Type      | Default | Description     |
+| ------- | --------- | ------- | --------------- |
+| name    | `string`  |         | Breakpoint name |
+| [isMax] | `boolean` | `false` | Use `max-width` |
 
-**Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
+#### Example
 
-| Param               | Type                  | Default            | Description                                      |
-| ------------------- | --------------------- | ------------------ | ------------------------------------------------ |
-| options             | <code>Object</code>   |                    |                                                  |
-| options.name        | <code>string</code>   |                    | Breakpoint name to listen to                     |
-| [options.isMax]     | <code>boolean</code>  | <code>false</code> | Use `max-width`                                  |
-| [options.immediate] | <code>string</code>   | <code>true</code>  | Call the callback function on invocation         |
-| callback            | <code>function</code> |                    | Function called when the breakpoint is triggered |
+```js
+// Import instance
+import bph from './src/utils/bph';
 
-<a name="listenAll"></a>
+if (bph.isMatching('md')) {
+  // Do something
+} else {
+  // Do something else
+}
+```
 
-## listenAll(callback, [options]) ⇒ <code>Object</code>
+### listen(options, callback) ⇒ `Object`
 
-Listen to all breakpoints (or a subset via options)
+Listen to a breakpoint change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on invocation, it is possible to opt out of this behavior via options.
 
-**Returns**: <code>Object</code> - Returns an object containing a `on` and `off` method to enable and disable the listener
+**Returns**: `Object` - Returns an object containing a `on` and `off` method to enable and disable the listener
 
-| Param               | Type                  | Default            | Description                                                                                                                               |
-| ------------------- | --------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| callback            | <code>function</code> |                    | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
-| [options]           | <code>Object</code>   |                    | Listener options                                                                                                                          |
-| [options.isMax]     | <code>boolean</code>  | <code>false</code> | Use `max-width`                                                                                                                           |
-| [options.immediate] | <code>string</code>   | <code>true</code>  | Call the callback function on invocation                                                                                                  |
+| Param               | Type       | Default | Description                                      |
+| ------------------- | ---------- | ------- | ------------------------------------------------ |
+| options             | `Object`   |         |                                                  |
+| options.name        | `string`   |         | Breakpoint name to listen to                     |
+| [options.isMax]     | `boolean`  | `false` | Use `max-width`                                  |
+| [options.immediate] | `string`   | `true`  | Call the callback function on invocation         |
+| callback            | `function` |         | Function called when the breakpoint is triggered |
+
+#### Example
+
+```js
+// Import instance
+import bph from './src/utils/bph';
+
+const listener = bph.listen({ name: 'md' }, callback);
+
+// Destructure the `MediaQueryList.matches` property for convenience
+const callback = ({ matches }) => {
+  if (matches) {
+    // Do somthing
+  } else {
+    // Do somthing else
+  }
+};
+
+// Remove the event listener
+listener.off();
+
+// Activate it again
+listener.on();
+```
+
+### listenAll(callback, [options]) ⇒ `Object`
+
+Listen to all breakpoints matching or un-matching and executes a callback function. The callback function receives an array of strings with
+
+**Returns**: `Object` - Returns an object containing a `on` and `off` method to enable and disable the listener
+
+| Param               | Type       | Default | Description                                                                                                                               |
+| ------------------- | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| callback            | `function` |         | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
+| [options]           | `Object`   |         | Listener options                                                                                                                          |
+| [options.isMax]     | `boolean`  | `false` | Use `max-width`                                                                                                                           |
+| [options.immediate] | `string`   | `true`  | Call the callback function on invocation                                                                                                  |

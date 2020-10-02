@@ -3,7 +3,7 @@ let breakpoints = {};
 /**
  * Main instance function
  *
- * @param {Object|String} config - Abject containing the breakpoints, `'meta'` or `'custom'`
+ * @param {Object|String} config - Object containing the breakpoints, `'meta'` or `'custom'`
  * @returns {Object<function>} Returns an object containing methods
  */
 
