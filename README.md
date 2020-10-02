@@ -182,16 +182,24 @@ export default bph('custom');
 Helper module to work with css media query breakpoints in javascript.
 `bph` = Break-Point-Helper
 
-- [breakpoint-helper](#module_breakpoint-helper)
-  - _static_
-    - [.bph([config])](#module_breakpoint-helper.bph) ⇒ <code>Object</code>
-    - [.listenCallback](#module_breakpoint-helper.listenCallback) ⇒ <code>void</code>
-  - _inner_
-    - [~getBreakpoints()](#module_breakpoint-helper..getBreakpoints) ⇒ <code>Object</code>
-    - [~getMediaQuery(breakpoint, [isMax])](#module_breakpoint-helper..getMediaQuery)
-    - [~isMatching(breakpoint, [isMax])](#module_breakpoint-helper..isMatching) ⇒ <code>boolean</code>
-    - [~listen(options, callback)](#module_breakpoint-helper..listen) ⇒ <code>Object</code>
-    - [~listenAll(callback, [options])](#module_breakpoint-helper..listenAll) ⇒ <code>Object</code>
+- [breakpoint-helper](#breakpoint-helper)
+  - [Core functionality](#core-functionality)
+  - [Introduction](#introduction)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Share your breakpoints between CSS and Javascript](#share-your-breakpoints-between-css-and-javascript)
+    - [1. Javascript object](#1-javascript-object)
+    - [2. Serialized `font-family`](#2-serialized-font-family)
+    - [3. Custom properties](#3-custom-properties)
+  - [Methods](#methods)
+  - [breakpoint-helper](#breakpoint-helper-1)
+    - [breakpoint-helper.bph([config]) ⇒ <code>Object</code>](#breakpoint-helperbphconfig--object)
+    - [breakpoint-helper.listenCallback ⇒ <code>void</code>](#breakpoint-helperlistencallback--void)
+    - [breakpoint-helper~getBreakpoints() ⇒ <code>Object</code>](#breakpoint-helpergetbreakpoints--object)
+    - [breakpoint-helper~getMediaQuery(breakpoint, [isMax])](#breakpoint-helpergetmediaquerybreakpoint-ismax)
+    - [breakpoint-helper~isMatching(breakpoint, [isMax]) ⇒ <code>boolean</code>](#breakpoint-helperismatchingbreakpoint-ismax--boolean)
+    - [breakpoint-helper~listen(options, callback) ⇒ <code>Object</code>](#breakpoint-helperlistenoptions-callback--object)
+    - [breakpoint-helper~listenAll(callback, [options]) ⇒ <code>Object</code>](#breakpoint-helperlistenallcallback-options--object)
 
 <a name="module_breakpoint-helper.bph"></a>
 
