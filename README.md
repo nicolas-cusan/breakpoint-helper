@@ -217,13 +217,13 @@ export default instance;
 
 **NOTE:** The following code examples assume the use of the instance above.
 
-### getBreakpoints()
+### `getBreakpoints()`
 
 Get all breakpoints the instance is working with. Useful for debugging or passing breakpoint values to other libraries.
 
 #### Returns
 
-- `Object` - Object containing all instance breakpoints.
+- `Object`: Object containing all instance breakpoints.
 
 #### Example
 
@@ -243,7 +243,7 @@ console.log(breakpoints);
 // }
 ```
 
-### getMediaQuery(name, [useMax=false])
+### `getMediaQuery(name, [useMax=false])`
 
 Get a `min-width` or `max-width` media query by breakpoint name.
 
@@ -254,7 +254,7 @@ Get a `min-width` or `max-width` media query by breakpoint name.
 
 #### Returns
 
-- `{string}` - A media query string.
+- `{string}`: A media query string.
 
 #### Example
 
@@ -270,23 +270,22 @@ console.log(mqMax);
 // "(max-width: 767px)"
 ```
 
-### isMatching(name, [useMax=false])
+### `isMatching(name, [useMax=false])`
 
 Check if a breakpoint is currently matching
 
 #### Arguments
 
 - **`name`** `{string}`: Breakpoint name.
-- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`.
+- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
 
 #### Returns
 
-- `boolean` - Whether the breakpoint is matching or not.
+- `{boolean}`: Whether the breakpoint is matching or not.
 
 #### Example
 
 ```js
-// Import instance
 import bph from './src/utils/bph';
 
 if (bph.isMatching('md')) {
@@ -296,29 +295,30 @@ if (bph.isMatching('md')) {
 }
 ```
 
-### listen(options, callback) ⇒ `Object`
+### `listen(options, callback)`
 
-Listen to a breakpoint change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on invocation, it is possible to opt out of this behavior via options.
+Listen to a breakpoint change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.
 
-**Returns**: `Object` - Returns an object containing a `on` and `off` method to enable and disable the listener
+#### Arguments
 
-| Param               | Type       | Default | Description                                      |
-| ------------------- | ---------- | ------- | ------------------------------------------------ |
-| options             | `Object`   |         |                                                  |
-| options.name        | `string`   |         | Breakpoint name to listen to                     |
-| [options.useMax]    | `boolean`  | `false` | Use `max-width`                                  |
-| [options.immediate] | `string`   | `true`  | Call the callback function on invocation         |
-| callback            | `function` |         | Function called when the breakpoint is triggered |
+- **`options`** `{Object|String}` Options object or breakpoint name
+- **`options.name`** `{string}`: Breakpoint name.
+- **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
+- **`[options.immediate=true]`** `{boolean}`: Call the callback function once on listener creation.
+- **`callback`** `{Function}` : Callback function, receives a `MediaQueryList` as parameter.
+
+#### Returns
+
+- `{Object}`: Object containing the `on` and `off` listener methods.
 
 #### Example
 
 ```js
-// Import instance
 import bph from './src/utils/bph';
 
-const listener = bph.listen({ name: 'md' }, callback);
+const listener = bph.listen('md', callback);
 
-// Destructure the `MediaQueryList.matches` property for convenience
+// Destructure the `MediaQueryList.matches` property
 const callback = ({ matches }) => {
   if (matches) {
     // Do somthing
@@ -332,6 +332,25 @@ listener.off();
 
 // Activate it again
 listener.on();
+```
+
+Using an options object instead of a breakpoint name:
+
+```js
+import bph from './src/utils/bph';
+
+const listener = bph.listen(
+  {
+    name: 'md',
+    useMax: true,
+    immediate: false,
+  },
+  callback
+);
+
+const callback = ({ matches }) => {
+  // ...
+};
 ```
 
 ### listenAll(callback, [options]) ⇒ `Object`
@@ -351,7 +370,6 @@ Listen to all breakpoints matching or un-matching and execute a callback functio
 #### Example
 
 ```js
-// Import instance
 import bph from './src/utils/bph';
 
 const listener = bph.listenAll(callback);
@@ -389,7 +407,6 @@ listener.on();
 ```
 
 ```js
-// Import instance
 import bph from './src/utils/bph';
 
 const listener = bph.listenAll(callback, {
@@ -432,4 +449,4 @@ listener.on();
 
 ## Notes
 
-<a name="note-1"></a><sup>1</sup> When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
+<a name="note-1"></a><sup>1</sup>When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).

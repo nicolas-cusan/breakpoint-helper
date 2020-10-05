@@ -170,7 +170,7 @@ function isMatching(name, useMax = false) {
  * @param {Object} options
  * @param {string} options.name Breakpoint name to listen to
  * @param {boolean} [options.useMax=false] Use `max-width`
- * @param {string} [options.immediate=true] Call the callback function on invocation
+ * @param {boolean} [options.immediate=true] Call the callback function on invocation
  * @param {function} callback Function called when the breakpoint is triggered
  * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
  */
