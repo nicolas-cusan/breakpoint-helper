@@ -221,7 +221,7 @@ export default instance;
 
 Get all breakpoints the instance is working with. Useful for debugging or passing breakpoint values to other libraries.
 
-##### Returns
+#### Returns
 
 - `Object` - Object containing all instance breakpoints.
 
@@ -248,12 +248,12 @@ console.log(breakpoints);
 
 Get a `min-width` or `max-width` media query by breakpoint name.
 
-##### Arguments
+#### Arguments
 
 - **`name`** `{string}`: The breakpoint name.
 - **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`.
 
-##### Returns
+#### Returns
 
 - **`{string}`** - A media query string.
 
@@ -269,19 +269,21 @@ console.log(mq);
 
 const mqMax = bph.getMediaquery('md', true);
 console.log(mqMax);
-// "(max-width: 768px)"
+// "(max-width: 767px)"
 ```
 
-### isMatching(name, [useMax]) ⇒ `boolean`
+### isMatching(name, [useMax=false])
 
 Check if a breakpoint is currently matching
 
-**Returns**: `boolean` - Whether the breakpoint is matching or not
+#### Arguments
 
-| Param    | Type      | Default | Description     |
-| -------- | --------- | ------- | --------------- |
-| name     | `string`  |         | Breakpoint name |
-| [useMax] | `boolean` | `false` | Use `max-width` |
+- **`name`** `{string}`: Breakpoint name.
+- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`.
+
+#### Returns
+
+- **`boolean`** - Whether the breakpoint is matching or not.
 
 #### Example
 
@@ -429,3 +431,7 @@ listener.off();
 // Activate it again
 listener.on();
 ```
+
+## Notes
+
+- When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).

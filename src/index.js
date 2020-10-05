@@ -125,7 +125,7 @@ function getBreakpoints() {
  * @inner
  * @param {string} name A breakpoint name
  * @param {boolean} [useMax=false] Use `max-width`
- * @returns {String} A media query
+ * @returns {string} A media query
  */
 
 function getMediaQuery(name, useMax = false) {
