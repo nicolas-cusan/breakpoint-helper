@@ -233,7 +233,6 @@ import bph from './src/utils/bph';
 const breakpoints = bph.getBreakpoints();
 
 console.log(breakpoints);
-// Will log:
 // {
 //   xs: '416px',
 //   sm: '600px',
@@ -251,7 +250,7 @@ Get a `min-width` or `max-width` media query by breakpoint name.
 #### Arguments
 
 - **`name`** `{string}`: The breakpoint name.
-- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`.
+- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
 
 #### Returns
 
@@ -260,7 +259,6 @@ Get a `min-width` or `max-width` media query by breakpoint name.
 #### Example
 
 ```js
-// Import instance
 import bph from './src/utils/bph';
 
 const mq = bph.getMediaquery('md');
@@ -433,5 +431,7 @@ listener.on();
 ```
 
 ## Notes
+
+<a name="note-1"></a>
 
 - When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
