@@ -428,4 +428,4 @@ const callback = (bps) => {
 
 ## Notes
 
-<a name="note-1"></a><sup>1</sup>When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
+<a name="note-1"></a><sup>1)</sup>When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
