@@ -1,10 +1,9 @@
 let breakpoints = {};
 
 /**
- * Main instance function
+ * @param {Object|String} config - Object containing the breakpoints, `'meta'` or `'custom'`.
  *
- * @param {Object|String} config - Object containing the breakpoints, `'meta'` or `'custom'`
- * @returns {Object<function>} Returns an object containing methods
+ * @returns {Object<function>} Object containing the instance's methods.
  */
 
 function bph(config = {}) {
@@ -30,11 +29,10 @@ function bph(config = {}) {
 }
 
 /**
- * Generate a `meta` element with class `breakpoint-helper` and deserialize the css `font-family` value to retrieve breakpoints.
+ * Generate a `meta` element with class `breakpoint-helper` and deserialize the css `font-family` value to retrieve the breakpoints.
  *
  * @private
- * @inner
- * @returns {Object} Object containing the breakpoints
+ * @returns {Object} Breakpoint object.
  */
 
 function _getBpsFromMeta() {
@@ -59,8 +57,7 @@ function _getBpsFromMeta() {
  * Retrieve breakpoints by reading css custom properties on the `:root` selector, of all loaded stylesheets, starting with `--bph-`.
  *
  * @private
- * @inner
- * @returns {Object} Object containing the breakpoints
+ * @returns {Object} Breakpoint object.
  */
 
 function _getBpsFromCustomProps() {
@@ -89,13 +86,13 @@ function _getBpsFromCustomProps() {
 }
 
 /**
- * Check if the breakpoints passed in are matching
+ * Check if the breakpoints in `keys` are matching
  *
  * @private
- * @inner
- * @param {Array} keys Array of breakpoint names
- * @param {boolean} [useMax=false] Use `max-width`
- * @returns {Array<string>} Array containing all matching breakpoint names in reverse order.
+ * @param {Array} keys - Array of breakpoint names.
+ * @param {boolean} [useMax=false] - Use `max-width` instead of `min-width`.
+ *
+ * @returns {Array<string>} Array containing matching breakpoint names in reverse order.
  */
 
 function _matchAll(keys, useMax = false) {
@@ -109,10 +106,9 @@ function _matchAll(keys, useMax = false) {
 }
 
 /**
- * Get all breakpoints.
+ * Get all breakpoints the instance used in the instance. Useful for debugging or passing breakpoint values to other libraries.
  *
- * @inner
- * @returns {Object} Object containing all breakpoints.
+ * @returns {Object} Object containing all instance breakpoints.
  */
 
 function getBreakpoints() {
@@ -120,12 +116,12 @@ function getBreakpoints() {
 }
 
 /**
- * Get a `min-` or `max-width` media query by name.
+ * Get a `min-width` or `max-width` media query by breakpoint name.
  *
- * @inner
- * @param {string} name A breakpoint name
- * @param {boolean} [useMax=false] Use `max-width`
- * @returns {string} A media query
+ * @param {string} name - Breakpoint name.
+ * @param {boolean} [useMax=false] - Use `max-width` instead of `min-width`.
+ *
+ * @returns {string} Media query string.
  */
 
 function getMediaQuery(name, useMax = false) {
@@ -151,12 +147,12 @@ function getMediaQuery(name, useMax = false) {
 }
 
 /**
- * Check if a breakpoint is currently active/matching
+ * Check if a breakpoint is currently matching.
  *
- * @inner
- * @param {string} name Breakpoint name
- * @param {boolean} [useMax=false] Use `max-width`
- * @returns {boolean} Whether the breakpoint is matching or not
+ * @param {string} name - Breakpoint name.
+ * @param {boolean} [useMax=false] - Use `max-width` instead of `min-width`.
+ *
+ * @returns {boolean} Whether the breakpoint is matching or not.
  */
 
 function isMatching(name, useMax = false) {
@@ -164,15 +160,15 @@ function isMatching(name, useMax = false) {
 }
 
 /**
- * Listen to a breakpoint change
+ * Listen to a breakpoint change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.
  *
- * @inner
- * @param {Object|String} options Options object or breakpoint name
- * @param {string} options.name Breakpoint name to listen to
- * @param {boolean} [options.useMax=false] Use `max-width`
- * @param {boolean} [options.immediate=true] Call the callback function on invocation
- * @param {function} callback Function called when the breakpoint is triggered
- * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
+ * @param {Object|String} options - Configuration Object or breakpoint name.
+ * @param {string} options.name - Breakpoint name.
+ * @param {boolean} [options.useMax=false] - Use `max-width` instead of `min-width`.
+ * @param {boolean} [options.immediate=true] - Execute callback function on listener creation.
+ * @param {function} callback - Callback function, receives a `MediaQueryList` as parameter.
+ *
+ * @returns {Object} Object containing the `on` and `off` listener methods.
  */
 
 function listen(options, callback) {
@@ -211,16 +207,15 @@ function listen(options, callback) {
 }
 
 /**
- * Listen to all breakpoints (or a subset via options)
+ * Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. Than means the largest breakpoint name (or smallest when using `options.useMax`) comes first in the array. The array will be empty if no breakpoints are matching.
  *
- * @inner
- * @param {function} callback Callback function that is called every time a breakpoint is triggered,
- * receives an array containing the breakpoint names in reverse order
- * @param {Object} [options] Listener options
- * @param {boolean} [options.useMax=false] Use `max-width`
- * @param {boolean} [options.immediate=true] Call the callback function on invocation
- * @param {Array} [options.listenTo] Array of breakpoint names to listen to. If not provided all will be used.
- * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
+ * @param {function} callback - Callback function, receives an array of breakpoint names as parameter.
+ * @param {Object} [options] - Configuration Object.
+ * @param {Array} [options.listenTo] - Array of breakpoint names. All are used by default.
+ * @param {boolean} [options.useMax=false] - Use `max-width` instead of `min-width`.
+ * @param {boolean} [options.immediate=true] - Execute callback function on listener creation.
+ *
+ * @returns {Object} Object containing the `on` and `off` listener methods.
  */
 
 function listenAll(callback, options = {}) {
@@ -243,7 +238,7 @@ function listenAll(callback, options = {}) {
   }
 
   function on() {
-    bps.forEach((bp, idx) => {
+    bps.forEach((bp) => {
       const cb = () => {
         callback(_matchAll(bps, opts.useMax));
       };

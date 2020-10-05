@@ -350,7 +350,7 @@ const callback = ({ matches }) => {
 
 ### `listenAll(callback, [options])`
 
-Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. Than means the largest breakpoint name (or smallest when using `useMax`) comes first in the array. The array will be empty if no breakpoints are matching.
+Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. Than means the largest breakpoint name (or smallest when using `options.useMax`) comes first in the array. The array will be empty if no breakpoints are matching.
 
 #### Arguments
 
@@ -375,9 +375,8 @@ const callback = (bps) => {
   // Get the first breakpoint in the `bps` array.
   const match = bps[0];
 
-  // If the largest matching breakpoint is 'lg', the array will look
-  // like this: `['lg', 'md', 'sm', 'xs',]`. The larges matching breakpoint
-  // name is the first in the array.
+  // If the largest matching breakpoint is 'lg', it will
+  // be the first in the array `['lg', 'md', 'sm', 'xs',]`.
 
   switch (match) {
     case 'lg':
@@ -403,7 +402,7 @@ listener.off();
 listener.on();
 ```
 
-Limit the breakpoints by passing using the `listenTo` option:
+Limit the breakpoints by passing using `options.listenTo`:
 
 ```js
 import { listenAll } from './src/utils/bph';
