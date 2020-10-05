@@ -200,16 +200,16 @@ Get all breakpoints the instance is working with. Usually useful for debugging o
 
 **Returns**: `Object` - Object containing all breakpoints.
 
-### getMediaQuery(name, [isMax]) ⇒ `String`
+### getMediaQuery(name, [useMax]) ⇒ `String`
 
 Get a `min-` or `max-width` media query by name.
 
 **Returns**: `String` - A media query
 
-| Param   | Type      | Default | Description       |
-| ------- | --------- | ------- | ----------------- |
-| name    | `string`  |         | A breakpoint name |
-| [isMax] | `boolean` | `false` | Use `max-width`   |
+| Param    | Type      | Default | Description       |
+| -------- | --------- | ------- | ----------------- |
+| name     | `string`  |         | A breakpoint name |
+| [useMax] | `boolean` | `false` | Use `max-width`   |
 
 #### Example
 
@@ -226,16 +226,16 @@ console.log(mqMax);
 // "(max-width: 768px)"
 ```
 
-### isMatching(name, [isMax]) ⇒ `boolean`
+### isMatching(name, [useMax]) ⇒ `boolean`
 
 Check if a breakpoint is currently matching
 
 **Returns**: `boolean` - Whether the breakpoint is matching or not
 
-| Param   | Type      | Default | Description     |
-| ------- | --------- | ------- | --------------- |
-| name    | `string`  |         | Breakpoint name |
-| [isMax] | `boolean` | `false` | Use `max-width` |
+| Param    | Type      | Default | Description     |
+| -------- | --------- | ------- | --------------- |
+| name     | `string`  |         | Breakpoint name |
+| [useMax] | `boolean` | `false` | Use `max-width` |
 
 #### Example
 
@@ -260,7 +260,7 @@ Listen to a breakpoint change and execute a callback function. The callback func
 | ------------------- | ---------- | ------- | ------------------------------------------------ |
 | options             | `Object`   |         |                                                  |
 | options.name        | `string`   |         | Breakpoint name to listen to                     |
-| [options.isMax]     | `boolean`  | `false` | Use `max-width`                                  |
+| [options.useMax]    | `boolean`  | `false` | Use `max-width`                                  |
 | [options.immediate] | `string`   | `true`  | Call the callback function on invocation         |
 | callback            | `function` |         | Function called when the breakpoint is triggered |
 
@@ -290,13 +290,134 @@ listener.on();
 
 ### listenAll(callback, [options]) ⇒ `Object`
 
-Listen to all breakpoints matching or un-matching and executes a callback function. The callback function receives an array of strings with
+Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order. Than means the largest (or smallest when using `useMax`) comes first in the array. If no breakpoints are matching
 
 **Returns**: `Object` - Returns an object containing a `on` and `off` method to enable and disable the listener
 
-| Param               | Type       | Default | Description                                                                                                                               |
-| ------------------- | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| callback            | `function` |         | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
-| [options]           | `Object`   |         | Listener options                                                                                                                          |
-| [options.isMax]     | `boolean`  | `false` | Use `max-width`                                                                                                                           |
-| [options.immediate] | `string`   | `true`  | Call the callback function on invocation                                                                                                  |
+| Param               | Type       | Default                                  | Description                                                                                                                               |
+| ------------------- | ---------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| callback            | `function` |                                          | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
+| [options]           | `Object`   |                                          | Listener options                                                                                                                          |
+| [options.keys]      | `Array`    | All breakpoints defined for the instance | Array of breakpoint names to listen for. All breakpoint names should match a breakpoint defined in the instance                           |
+| [options.useMax]    | `boolean`  | `false`                                  | Use `max-width`                                                                                                                           |
+| [options.immediate] | `string`   | `true`                                   | Call the callback function on invocation                                                                                                  |
+
+#### Example
+
+```js
+// Import instance
+import bph from './src/utils/bph';
+
+const listener = bph.listenAll(callback);
+
+const callback = (bps) => {
+  // Get the first breakpoint in the `bps` array.
+  const match = bps[0];
+
+  // If the largest matching breakpoint is 'lg', the array will look
+  // like this: `['lg', 'md', 'sm', 'xs',]`. The larges matching breakpoint
+  // name is the first in the array.
+
+  switch (match) {
+    case 'lg':
+      // Do something if the breakpoint is 'lg'
+      break;
+    case 'md':
+      // Do something if the breakpoint is 'md'
+      break;
+    case 'sm':
+      // Do something if the breakpoint is 'sm'
+      break;
+
+    default:
+      // Do something if another breakpoint is matching or none is
+      break;
+  }
+};
+
+// Remove the event listener
+listener.off();
+
+// Activate it again
+listener.on();
+```
+
+```js
+// Import instance
+import bph from './src/utils/bph';
+
+const listener = bph.listenAll(callback, {
+  // Only listen to the breakpoints 'xl', 'lg' and 'sm'.
+  listenTo: ['xl', 'lg', 'sm'],
+  // Use `max-width` media queries instead of `min-width`
+  useMax: true,
+});
+
+const callback = (bps) => {
+  // Get the first breakpoint in the `bps` array.
+  const match = bps[0];
+
+  // As the listener is using `max-width` media queries the smallest matching
+  // breakpoint will be first in the array e.g. ['sm', 'lg', 'xl'].
+
+  switch (match) {
+    case 'xl':
+      // Do something if the breakpoint is 'xl'
+      break;
+    case 'lg':
+      // Do something if the breakpoint is 'xl'
+      break;
+    case 'sm':
+      // Do something if the breakpoint is 'sm'
+      break;
+
+    default:
+      // Do something no breakpoint is matching
+      break;
+  }
+};
+
+// Remove the event listener
+listener.off();
+
+// Activate it again
+listener.on();
+```
+
+## Recipes
+
+### Export methods for easier use
+
+If you are using modules, it is convenient to create named exports for all methods:
+
+```js
+import bph from 'breakpoint-helper';
+
+// Instanciation depends on your chosen css method
+const instance = bph({
+  xs: '416px',
+  sm: '600px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  xxl: '1520px',
+});
+
+export const {
+  getBreakpoints,
+  getMediaQuery,
+  isMatching,
+  listen,
+  listenAll,
+} = bph;
+
+export default bph;
+```
+
+In another file you then can directly import the method to use:
+
+```js
+import { isMatching } from './src/utils/bph';
+
+console.log(isMatching('sm'));
+```

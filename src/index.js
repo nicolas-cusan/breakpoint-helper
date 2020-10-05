@@ -94,18 +94,18 @@ function _getBpsFromCustomProps() {
  * @private
  * @inner
  * @param {Array} keys Array of breakpoint names
- * @param {boolean} [isMax=false] Use `max-width`
+ * @param {boolean} [useMax=false] Use `max-width`
  * @returns {Array<string>} Array containing all matching breakpoint names in reverse order.
  */
 
-function _matchAll(keys, isMax = false) {
+function _matchAll(keys, useMax = false) {
   const matches = [];
   keys.forEach((bp) => {
-    if (isMatching(bp, isMax)) {
+    if (isMatching(bp, useMax)) {
       matches.push(bp);
     }
   });
-  return isMax ? matches : matches.reverse();
+  return useMax ? matches : matches.reverse();
 }
 
 /**
@@ -124,11 +124,11 @@ function getBreakpoints() {
  *
  * @inner
  * @param {string} name A breakpoint name
- * @param {boolean} [isMax=false] Use `max-width`
+ * @param {boolean} [useMax=false] Use `max-width`
  * @returns {String} A media query
  */
 
-function getMediaQuery(name, isMax = false) {
+function getMediaQuery(name, useMax = false) {
   if (Array.isArray(name)) {
     const [min, max] = name;
     return `${getMediaQuery(min)} and ${getMediaQuery(max, true)}`;
@@ -140,7 +140,7 @@ function getMediaQuery(name, isMax = false) {
     throw new Error(`"${name}" does not seem to be a breakpoint name`);
   }
 
-  if (isMax) {
+  if (useMax) {
     const number = parseFloat(min, 10);
     const unit = min.replace(number, '');
     const substract = unit === 'em' ? 0.0635 : 1;
@@ -155,12 +155,12 @@ function getMediaQuery(name, isMax = false) {
  *
  * @inner
  * @param {string} name Breakpoint name
- * @param {boolean} [isMax=false] Use `max-width`
+ * @param {boolean} [useMax=false] Use `max-width`
  * @returns {boolean} Whether the breakpoint is matching or not
  */
 
-function isMatching(name, isMax = false) {
-  return window.matchMedia(getMediaQuery(name, isMax)).matches;
+function isMatching(name, useMax = false) {
+  return window.matchMedia(getMediaQuery(name, useMax)).matches;
 }
 
 /**
@@ -169,7 +169,7 @@ function isMatching(name, isMax = false) {
  * @inner
  * @param {Object} options
  * @param {string} options.name Breakpoint name to listen to
- * @param {boolean} [options.isMax=false] Use `max-width`
+ * @param {boolean} [options.useMax=false] Use `max-width`
  * @param {string} [options.immediate=true] Call the callback function on invocation
  * @param {function} callback Function called when the breakpoint is triggered
  * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
@@ -183,14 +183,14 @@ function listen(options, callback) {
       mq = window.matchMedia(getMediaQuery(options));
       mq.addListener(callback);
     } else {
-      const { name, isMax, immediate } = options;
+      const { name, useMax, immediate } = options;
       const opts = {
         name,
-        isMax: isMax || false,
+        useMax: useMax || false,
         immediate: immediate || true,
       };
 
-      mq = window.matchMedia(getMediaQuery(opts.name, opts.isMax));
+      mq = window.matchMedia(getMediaQuery(opts.name, opts.useMax));
 
       if (opts.immediate) callback(mq);
 
@@ -217,8 +217,9 @@ function listen(options, callback) {
  * @param {function} callback Callback function that is called every time a breakpoint is triggered,
  * receives an array containing the breakpoint names in reverse order
  * @param {Object} [options] Listener options
- * @param {boolean} [options.isMax=false] Use `max-width`
+ * @param {boolean} [options.useMax=false] Use `max-width`
  * @param {string} [options.immediate=true] Call the callback function on invocation
+ * @param {Array} [options.listenTo] Array of breakpoint names to listen to. If not provided all will be used.
  * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
  */
 
@@ -229,9 +230,9 @@ function listenAll(callback, options = {}) {
 
   if (keys.length === 0) return;
 
-  const { isMax, immediate, listenTo } = options;
+  const { useMax, immediate, listenTo } = options;
   const opts = {
-    isMax: isMax || false,
+    useMax: useMax || false,
     immediate: immediate || true,
   };
 
@@ -244,7 +245,7 @@ function listenAll(callback, options = {}) {
   function on() {
     bps.forEach((bp, idx) => {
       const cb = () => {
-        callback(_matchAll(bps, opts.isMax));
+        callback(_matchAll(bps, opts.useMax));
       };
 
       const listener = listen({ name: bp, ...opts }, cb);
