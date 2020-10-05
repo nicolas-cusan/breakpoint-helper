@@ -1,6 +1,8 @@
 # breakpoint-helper
 
-Small helper library to share and use your css layout breakpoints with javascript.
+Small helper library to work with layout breakpoints\* in Javascript.
+
+<small>\*window widths at which styles/functionality changes to adapt for wider/narrower screens</small>
 
 ## Core functionality
 
