@@ -255,7 +255,7 @@ Get a `min-width` or `max-width` media query by breakpoint name.
 
 #### Returns
 
-- **`{string}`** - A media query string.
+- `{string}` - A media query string.
 
 #### Example
 
@@ -283,7 +283,7 @@ Check if a breakpoint is currently matching
 
 #### Returns
 
-- **`boolean`** - Whether the breakpoint is matching or not.
+- `boolean` - Whether the breakpoint is matching or not.
 
 #### Example
 
