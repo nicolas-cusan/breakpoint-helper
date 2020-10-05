@@ -167,7 +167,7 @@ function isMatching(name, useMax = false) {
  * Listen to a breakpoint change
  *
  * @inner
- * @param {Object} options
+ * @param {Object|String} options Options object or breakpoint name
  * @param {string} options.name Breakpoint name to listen to
  * @param {boolean} [options.useMax=false] Use `max-width`
  * @param {boolean} [options.immediate=true] Call the callback function on invocation
@@ -218,7 +218,7 @@ function listen(options, callback) {
  * receives an array containing the breakpoint names in reverse order
  * @param {Object} [options] Listener options
  * @param {boolean} [options.useMax=false] Use `max-width`
- * @param {string} [options.immediate=true] Call the callback function on invocation
+ * @param {boolean} [options.immediate=true] Call the callback function on invocation
  * @param {Array} [options.listenTo] Array of breakpoint names to listen to. If not provided all will be used.
  * @returns {Object} Returns an object containing a `on` and `off` method to enable and disable the listener
  */

@@ -301,7 +301,7 @@ Listen to a breakpoint change and execute a callback function. The callback func
 
 #### Arguments
 
-- **`options`** `{Object|String}` Options object or breakpoint name
+- **`options`** `{Object|String}` Object with configuration options or breakpoint name.
 - **`options.name`** `{string}`: Breakpoint name.
 - **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
 - **`[options.immediate=true]`** `{boolean}`: Call the callback function once on listener creation.
@@ -353,19 +353,21 @@ const callback = ({ matches }) => {
 };
 ```
 
-### listenAll(callback, [options]) ⇒ `Object`
+### `listenAll(callback, [options])`
 
-Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order. Than means the largest (or smallest when using `useMax`) comes first in the array. If no breakpoints are matching
+Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. Than means the largest breakpoint name (or smallest when using `useMax`) comes first in the array. The array will be empty if no breakpoints are matching.
 
-**Returns**: `Object` - Returns an object containing a `on` and `off` method to enable and disable the listener
+#### Arguments
 
-| Param               | Type       | Default                                  | Description                                                                                                                               |
-| ------------------- | ---------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| callback            | `function` |                                          | Callback function that is called every time a breakpoint is triggered, receives an array containing the breakpoint names in reverse order |
-| [options]           | `Object`   |                                          | Listener options                                                                                                                          |
-| [options.keys]      | `Array`    | All breakpoints defined for the instance | Array of breakpoint names to listen for. All breakpoint names should match a breakpoint defined in the instance                           |
-| [options.useMax]    | `boolean`  | `false`                                  | Use `max-width`                                                                                                                           |
-| [options.immediate] | `string`   | `true`                                   | Call the callback function on invocation                                                                                                  |
+- **`callback`** `{Function}` : Callback function, receives an array of breakpoint names as parameter.
+- **`[options]`** `{Object}`: Object with configuration options.
+- **`[options.listenTo]`** `{Array}`: Array of breakpoint names. All are used by default.
+- **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
+- **`[options.immediate=true]`** `{boolean}`: Call the callback function once on listener creation.
+
+#### Returns
+
+- `{Object}`: Object containing the `on` and `off` listener methods.
 
 #### Example
 
@@ -417,35 +419,14 @@ const listener = bph.listenAll(callback, {
 });
 
 const callback = (bps) => {
-  // Get the first breakpoint in the `bps` array.
-  const match = bps[0];
-
-  // As the listener is using `max-width` media queries the smallest matching
-  // breakpoint will be first in the array e.g. ['sm', 'lg', 'xl'].
-
-  switch (match) {
-    case 'xl':
-      // Do something if the breakpoint is 'xl'
-      break;
-    case 'lg':
-      // Do something if the breakpoint is 'xl'
-      break;
-    case 'sm':
-      // Do something if the breakpoint is 'sm'
-      break;
-
-    default:
-      // Do something no breakpoint is matching
-      break;
-  }
+  // ...
 };
-
-// Remove the event listener
-listener.off();
-
-// Activate it again
-listener.on();
 ```
+
+## Roadmap
+
+- Create A React hook.
+- Add testing.
 
 ## Notes
 
