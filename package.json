@@ -1,16 +1,31 @@
 {
   "name": "breakpoint-helper",
   "version": "1.0.0",
-  "description": "media query helper to share breakpoints between css and js",
-  "main": "src/index.js",
-  "repository": "git@github.com:nicolas-cusan/breakpoint-helper.git",
+  "description": "Small helper library to work with layout breakpoints in Javascript.",
   "author": "Nicolas Cusan <nc@arillo.ch>",
   "license": "MIT",
+  "repository": "git@github.com:nicolas-cusan/breakpoint-helper.git",
+  "source": "src/index.js",
+  "main": "dist/breakpoint-helper.js",
+  "module": "dist/breakpoint-helper.module.js",
+  "unpkg": "dist/breakpoint-helper.umd.js",
   "scripts": {
     "build": "rm -rf dist && microbundle --name breakpoint-helper",
     "start": "rm -rf example-dist && parcel example/index.html -d example-dist",
     "prepublishOnly": "npm run -s build"
   },
+  "keywords": [
+    "media-queries",
+    "media-query",
+    "breakpoint",
+    "breakpoint-helper",
+    "css",
+    "sass",
+    "scss",
+    "responsive",
+    "max-width",
+    "min-width"
+  ],
   "devDependencies": {
     "microbundle": "^0.12.4",
     "parcel": "^1.12.4",
