@@ -2,7 +2,7 @@
 
 Small helper library to work with layout breakpoints\* in Javascript.
 
-> \*layout breakpoints: browser window widths at which styles/functionality changes to adapt for wider/narrower screens
+> \*browser window widths at which styles/functionality changes to adapt for wider/narrower screens
 
 ## Core functionality
 
@@ -31,15 +31,14 @@ npm install --save breakpoint-helper
 yarn add breakpoint-helper
 ```
 
-## Usage
+## Quick Usage
 
-Instantiate breakpoint-helper and use the methods returned from the instance to work with your breakpoints. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-css-breakpoints)).
+Instantiate breakpoint-helper with your breakpoints and use the methods returned from the instance to work with your them. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-css-breakpoints)).
 
 ```js
-// src/utils/bph.js
-import bph from 'breakpoint-helper';
+import breakpointHelper from 'breakpoint-helper';
 
-export default bph({
+const bph = breakpointHelper({
   xs: '416px',
   sm: '600px',
   md: '768px',
@@ -47,18 +46,10 @@ export default bph({
   xl: '1280px',
   xxl: '1520px',
 });
-```
-
-Use the instance in your code:
-
-```js
-// src/modules/myModule.js;
-
-import bph from 'src/utils/bph.js';
 
 console.log(bph.isMatching('md'));
 
-bph.listen({ name: 'md' }, ({ mathes }) => {
+bph.listen('md', ({ mathes }) => {
   if (matches) {
     // Do something every time this breakpoint is matching
   }
@@ -188,15 +179,15 @@ Declare the custom properties on the `:root` selector using the prefix `--bph-`:
 }
 ```
 
-## Methods
+## Advanced usage
 
-A breakpoint-helper instance returns the methods to work with the breakpoints.
+In larger projects that use modules it is convenient to create a reusable breakpoint-helper instance and export the returned methods using destructuring.
 
 ```js
-// src/utils/bph.js
-import bph from 'breakpoint-helper';
+// src/utils/bph.js or any other path
+import breakpointHelper from 'breakpoint-helper';
 
-const instance = bph({
+const instance = breakpointHelper({
   xs: '416px',
   sm: '600px',
   md: '768px',
@@ -205,7 +196,6 @@ const instance = bph({
   xxl: '1520px',
 });
 
-// For convenience you can export the methods using destructuring:
 export const {
   getBreakpoints,
   getMediaQuery,
@@ -219,6 +209,8 @@ export default instance;
 
 > **NOTE:** The following code examples assume the use of the instance above.
 
+## Methods
+
 ### `getBreakpoints()`
 
 Get all breakpoints the instance is working with. Useful for debugging or passing breakpoint values to other libraries.
@@ -230,9 +222,9 @@ Get all breakpoints the instance is working with. Useful for debugging or passin
 #### Example
 
 ```js
-import bph from './src/utils/bph';
+import { getBreakpoints } from './src/utils/bph';
 
-const breakpoints = bph.getBreakpoints();
+const breakpoints = getBreakpoints();
 
 console.log(breakpoints);
 // {
@@ -261,13 +253,13 @@ Get a `min-width` or `max-width` media query by breakpoint name.
 #### Example
 
 ```js
-import bph from './src/utils/bph';
+import { getMediaquery } from './src/utils/bph';
 
-const mq = bph.getMediaquery('md');
+const mq = getMediaquery('md');
 console.log(mq);
 // "(min-width: 768px)"
 
-const mqMax = bph.getMediaquery('md', true);
+const mqMax = getMediaquery('md', true);
 console.log(mqMax);
 // "(max-width: 767px)"
 ```
@@ -288,9 +280,9 @@ Check if a breakpoint is currently matching
 #### Example
 
 ```js
-import bph from './src/utils/bph';
+import { isMatching } from './src/utils/bph';
 
-if (bph.isMatching('md')) {
+if (isMatching('md')) {
   // Do something
 } else {
   // Do something else
@@ -316,9 +308,9 @@ Listen to a breakpoint change and execute a callback function. The callback func
 #### Example
 
 ```js
-import bph from './src/utils/bph';
+import { listen } from './src/utils/bph';
 
-const listener = bph.listen('md', callback);
+const listener = listen('md', callback);
 
 // Destructure the `MediaQueryList.matches` property
 const callback = ({ matches }) => {
@@ -339,9 +331,9 @@ listener.on();
 Using an options object instead of a breakpoint name:
 
 ```js
-import bph from './src/utils/bph';
+import { listen } from './src/utils/bph';
 
-const listener = bph.listen(
+const listener = listen(
   {
     name: 'md',
     useMax: true,
@@ -374,9 +366,9 @@ Listen to all breakpoints matching or un-matching and execute a callback functio
 #### Example
 
 ```js
-import bph from './src/utils/bph';
+import { listenAll } from './src/utils/bph';
 
-const listener = bph.listenAll(callback);
+const listener = listenAll(callback);
 
 const callback = (bps) => {
   // Get the first breakpoint in the `bps` array.
@@ -410,10 +402,12 @@ listener.off();
 listener.on();
 ```
 
-```js
-import bph from './src/utils/bph';
+Limit the breakpoints by passing using the `listenTo` option:
 
-const listener = bph.listenAll(callback, {
+```js
+import { listenAll } from './src/utils/bph';
+
+const listener = listenAll(callback, {
   // Only listen to the breakpoints 'xl', 'lg' and 'sm'.
   listenTo: ['xl', 'lg', 'sm'],
   // Use `max-width` media queries instead of `min-width`
