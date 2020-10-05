@@ -25,7 +25,7 @@ Often times the the CSS breakpoints apply styling changes that need to be mirror
 
 ## Installation
 
-Install via [npm](http://npmjs.org) or yarn:
+Install via [npm][npm-url] or yarn:
 
 ```shell
 npm install --save breakpoint-helper
