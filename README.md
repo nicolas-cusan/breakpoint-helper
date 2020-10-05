@@ -2,7 +2,7 @@
 
 Small helper library to work with layout breakpoints\* in Javascript.
 
-<small>\*window widths at which styles/functionality changes to adapt for wider/narrower screens</small>
+<sub><sup>\*window widths at which styles/functionality changes to adapt for wider/narrower screens</sup></sub>
 
 ## Core functionality
 
