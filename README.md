@@ -2,7 +2,7 @@
 
 Small helper library to work with layout breakpoints\* in Javascript.
 
-<sub><sup>\*window widths at which styles/functionality changes to adapt for wider/narrower screens</sup></sub>
+> \*window widths at which styles/functionality changes to adapt for wider/narrower screens
 
 ## Core functionality
 
@@ -13,9 +13,11 @@ Small helper library to work with layout breakpoints\* in Javascript.
 
 ## Introduction
 
-In CSS it is common practice to give layout breakpoints used in width-based media queries names, such as `'mobile'`, `'tablet'`, `'desktop'` or `'sm'`, `'md'`, `'lg'`, to be able to reference them by name instead of having to remember a value. Often times the CSS styles applied at this breakpoints are accompanied by Javascript functionality such as displaying items in a slider only on small screens and a grid on larger screens.
+In CSS it is common practice to give layout breakpoints, used in width-based media queries, names, such as `'mobile'`, `'tablet'`, `'desktop'` or `'sm'`, `'md'`, `'lg'`, to be able to easily reference them instead of having to remember exact values.
 
-`window.matchMedia` allows the use of media query based logic in Javascript, but keeping breakpoints in sync between Javascript and CSS need to be done manually. breakpoint-helper is a thin wrapper around `window.matchMedia` that helps you share your CSS breakpoints with Javascript and facilitates working with them.
+**breakpoint-helper** is a thin wrapper around `window.matchMedia` that aims to make working with layout breakpoints in Javascript more convenient by: allowing to reference the breakpoints by name instead of by value (`'sm'` vs. `765`), providing a convenient API to set and remove event listeners on media queries and (optionally) share breakpoints defined in CSS with Javascript.
+
+Often times the CSS styles applied at these breakpoints are accompanied by Javascript functionality: e.g. display cards in a slider on small screens (with Javascript) and as a grid on larger screens (without Javascript).
 
 ## Installation
 
