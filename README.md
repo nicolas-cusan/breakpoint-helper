@@ -33,7 +33,7 @@ yarn add breakpoint-helper
 
 ## Quick Usage
 
-Instantiate breakpoint-helper with your breakpoints and use the methods returned from the instance. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-css-breakpoints)).
+Instantiate breakpoint-helper with your breakpoints and use the methods returned from the instance. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-breakpoints)).
 
 ```js
 import breakpointHelper from 'breakpoint-helper';
@@ -57,9 +57,9 @@ bph.listen('md', ({ mathes }) => {
 });
 ```
 
-## Options to provide CSS breakpoints
+## Options to provide breakpoints
 
-There are three options to provide the breakpoint names and values to breakpoint-helper. What implementation to choose depends on the particular project setup.
+There are three options to provide the breakpoint names and values to breakpoint-helper. What implementation to choose depends on the specific project setup.
 
 > **NOTE:** All implementations expect the breakpoints to be ordered from small to large.
 
@@ -67,7 +67,7 @@ There are three options to provide the breakpoint names and values to breakpoint
 
 Breakpoints can be passed in as a object where the object keys represent the breakpoint names and the values the breakpoints screen widths.
 
-The values should be of type `String` and include a CSS unit, both `px` and `em` are supported.
+The values should be of type `string` and include a CSS unit, both `px` and `em` are supported.
 
 ```js
 // src/utils/bph.js
@@ -124,7 +124,7 @@ import bph from 'breakpoint-helper';
 export default bph('meta');
 ```
 
-To make this method work there needs to be a `.breakpoint-helper` class in your stylesheet whose `font-family` value is a serialized string of breakpoints names and values:
+To make this method work there needs to be a `.breakpoint-helper` class in your stylesheet whose `font-family` value is a serialized string of breakpoint names and values:
 
 ```css
 .breakpoint-helper {
@@ -132,7 +132,7 @@ To make this method work there needs to be a `.breakpoint-helper` class in your 
 }
 ```
 
-Under the hood breakpoint-helper will create a `<meta>` element in the document's `<head>` tag with the class `breakpoint-helper`, read the `font-famliy` CSS value and deserialize the value to learn about the breakpoints.
+Under the hood breakpoint-helper will create a `<meta>` element in the document's `<head>` tag with the class `breakpoint-helper`, read the `font-famliy` CSS value and deserialize the value.
 
 As serializing the breakpoints manually is not very convenient, breakpoint-helper provides a Sass function for it:
 
@@ -182,7 +182,7 @@ Declare the custom properties on the `:root` selector using the prefix `--bph-`:
 
 ## Advanced usage
 
-In larger projects that use modules it is convenient to create a reusable breakpoint-helper instance and export the returned methods using destructuring.
+In larger projects it is convenient to create a reusable breakpoint-helper instance module and export the returned methods for easier usage.
 
 ```js
 // src/utils/bph.js or any other path
@@ -214,7 +214,7 @@ export default instance;
 
 ### `getBreakpoints()`
 
-Get all breakpoints the instance is working with. Useful for debugging or passing breakpoint values to other libraries.
+Get all breakpoints the instance used in the instance. Useful for debugging or passing breakpoint values to other libraries.
 
 #### Returns
 
@@ -244,12 +244,12 @@ Get a `min-width` or `max-width` media query by breakpoint name.
 
 #### Arguments
 
-- **`name`** `{string}`: The breakpoint name.
+- **`name`** `{string}`: Breakpoint name.
 - **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
 
 #### Returns
 
-- `{string}`: A media query string.
+- `{string}`: Media query string.
 
 #### Example
 
@@ -258,11 +258,11 @@ import { getMediaquery } from './src/utils/bph';
 
 const mq = getMediaquery('md');
 console.log(mq);
-// "(min-width: 768px)"
+// '(min-width: 768px)'
 
 const mqMax = getMediaquery('md', true);
 console.log(mqMax);
-// "(max-width: 767px)"
+// '(max-width: 767px)'
 ```
 
 ### `isMatching(name, [useMax=false])`
@@ -299,7 +299,7 @@ Listen to a breakpoint change and execute a callback function. The callback func
 - **`options`** `{Object|String}` Object with configuration options or breakpoint name.
 - **`options.name`** `{string}`: Breakpoint name.
 - **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
-- **`[options.immediate=true]`** `{boolean}`: Call the callback function once on listener creation.
+- **`[options.immediate=true]`** `{boolean}`: Execute callback function on listener creation.
 - **`callback`** `{Function}` : Callback function, receives a `MediaQueryList` as parameter.
 
 #### Returns
@@ -358,7 +358,7 @@ Listen to all breakpoints matching or un-matching and execute a callback functio
 - **`[options]`** `{Object}`: Object with configuration options.
 - **`[options.listenTo]`** `{Array}`: Array of breakpoint names. All are used by default.
 - **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
-- **`[options.immediate=true]`** `{boolean}`: Call the callback function once on listener creation.
+- **`[options.immediate=true]`** `{boolean}`: Execute callback function on listener creation.
 
 #### Returns
 
