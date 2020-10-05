@@ -2,16 +2,16 @@
 
 Small helper library to work with layout breakpoints\* in Javascript.
 
-> \*window widths at which styles/functionality changes to adapt for wider/narrower screens
+> \*layout breakpoints: browser window widths at which styles/functionality changes to adapt for wider/narrower screens
 
 ## Core functionality
 
-- Easily check if a breakpoint is active referencing it by name instead of value
-- Listen to breakpoint changes and add/remove functionality accordingly
-- Works with `px` and `em` breakpoints
-- Supports `min-width` and `max-width`
-- Define your own breakpoint names and values
-- Share CSS breakpoints with Javascript so they only need to be maintained in one place (optional)
+- Easily check if a breakpoint is active referencing it by name instead of value.
+- Listen to breakpoint changes and add/remove functionality accordingly.
+- Works with `px` and `em` breakpoints.
+- Supports `min-width` and `max-width`.
+- Define your own breakpoint names and values.
+- Share CSS breakpoints with Javascript so they only need to be maintained in one place (optional).
 
 ## Introduction
 
@@ -19,19 +19,21 @@ In CSS it is common practice to give layout breakpoints, used in width-based med
 
 Often times the the CSS breakpoints apply styling changes that need to be mirrored in Javascript, e.g. display cards in a slider on small screens (with Javascript) and as a grid on larger screens (without Javascript).
 
-**breakpoint-helper** is a thin wrapper around `window.matchMedia` that aims to make working with layout breakpoints in Javascript more convenient by: allowing to reference the breakpoints by name instead of by value (`'sm'` vs. `765`), providing a convenient API to set and remove event listeners on media queries and (optionally) share breakpoints defined in CSS with Javascript.
+**breakpoint-helper** is a thin wrapper around `window.matchMedia` that aims to make working with layout breakpoints in Javascript more convenient by allowing to reference the breakpoints by name instead of by value (`'sm'` vs. `765px`), providing a convenient API to set and remove event listeners on media queries and (optionally) share breakpoints defined in CSS with Javascript.
 
 ## Installation
 
-Install via [npm](http://npmjs.org):
+Install via [npm](http://npmjs.org) or yarn:
 
 ```shell
-npm install breakpoint-helper
+npm install --save breakpoint-helper
+# or
+yarn add breakpoint-helper
 ```
 
 ## Usage
 
-Instantiate breakpoint-helper and use the methods returned from the instance to work with your breakpoints. (There a different ways to let breakpoint-helper know what breakpoints to use, [see below](#user-content-share-your-breakpoints-between-css-and-javascript)).
+Instantiate breakpoint-helper and use the methods returned from the instance to work with your breakpoints. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-css-breakpoints)).
 
 ```js
 // src/utils/bph.js
@@ -67,7 +69,7 @@ bph.listen({ name: 'md' }, ({ mathes }) => {
 
 There are three options to provide the breakpoint names and values to breakpoint-helper. What implementation to choose depends on the particular project setup.
 
-**NOTE:** All implementations expect the breakpoints to be ordered from small to large.
+> **NOTE:** All implementations expect the breakpoints to be ordered from small to large.
 
 ### 1. Javascript object
 
@@ -215,7 +217,7 @@ export const {
 export default instance;
 ```
 
-**NOTE:** The following code examples assume the use of the instance above.
+> **NOTE:** The following code examples assume the use of the instance above.
 
 ### `getBreakpoints()`
 
