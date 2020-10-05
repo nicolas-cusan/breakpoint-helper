@@ -33,7 +33,7 @@ yarn add breakpoint-helper
 
 ## Quick Usage
 
-Instantiate breakpoint-helper with your breakpoints and use the methods returned from the instance to work with your them. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-css-breakpoints)).
+Instantiate breakpoint-helper with your breakpoints and use the methods returned from the instance. (There are different ways to let breakpoint-helper know what breakpoints to use, [see below](#options-to-provide-css-breakpoints)).
 
 ```js
 import breakpointHelper from 'breakpoint-helper';
@@ -48,6 +48,7 @@ const bph = breakpointHelper({
 });
 
 console.log(bph.isMatching('md'));
+// `true` or `false`
 
 bph.listen('md', ({ mathes }) => {
   if (matches) {
