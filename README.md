@@ -296,7 +296,7 @@ Listen to a breakpoint change and execute a callback function. The callback func
 
 #### Arguments
 
-- **`options`** `{Object|String}` Object with configuration options or breakpoint name.
+- **`options`** `{Object|String}` Configuration Object or breakpoint name.
 - **`options.name`** `{string}`: Breakpoint name.
 - **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
 - **`[options.immediate=true]`** `{boolean}`: Execute callback function on listener creation.
@@ -355,7 +355,7 @@ Listen to all breakpoints matching or un-matching and execute a callback functio
 #### Arguments
 
 - **`callback`** `{Function}` : Callback function, receives an array of breakpoint names as parameter.
-- **`[options]`** `{Object}`: Object with configuration options.
+- **`[options]`** `{Object}`: Configuration Object.
 - **`[options.listenTo]`** `{Array}`: Array of breakpoint names. All are used by default.
 - **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
 - **`[options.immediate=true]`** `{boolean}`: Execute callback function on listener creation.
@@ -422,7 +422,8 @@ const callback = (bps) => {
 
 ## Roadmap
 
-- Create A React hook.
+- Codepen or Codesandbox examples.
+- Create React hook.
 - Add testing.
 
 ## Notes
