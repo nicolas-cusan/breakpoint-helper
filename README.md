@@ -1,5 +1,7 @@
 # breakpoint-helper
 
+[![npm][npm-image]][npm-url] [![license][license-image]][license-url]
+
 Small helper library to work with layout breakpoints\* in Javascript.
 
 > \*browser window widths at which styles/functionality changes to adapt for wider/narrower screens
@@ -428,3 +430,8 @@ const callback = (bps) => {
 ## Notes
 
 <a name="note-1"></a><sup>1)</sup> When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
+
+[license-image]: https://img.shields.io/npm/l/breakpoint-helper.svg?style=flat-square
+[license-url]: LICENSE
+[npm-image]: https://img.shields.io/npm/v/breakpoint-helper.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/breakpoint-helper
