@@ -3,6 +3,8 @@ import bph from '../src/index.js';
 
 const instance = bph('meta');
 
+console.log(instance);
+
 const {
   getMediaQuery,
   isMatching,

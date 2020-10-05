@@ -9,15 +9,17 @@ Small helper library to work with layout breakpoints\* in Javascript.
 - Easily check if a breakpoint is active referencing it by name instead of value
 - Listen to breakpoint changes and add/remove functionality accordingly
 - Works with `px` and `em` breakpoints
-- Optionally share breakpoints between CSS an Javascript so they only need to be maintained in one place
+- Supports `min-width` and `max-width`
+- Define your own breakpoint names and values
+- Share CSS breakpoints with Javascript so they only need to be maintained in one place (optional)
 
 ## Introduction
 
 In CSS it is common practice to give layout breakpoints, used in width-based media queries, names, such as `'mobile'`, `'tablet'`, `'desktop'` or `'sm'`, `'md'`, `'lg'`, to be able to easily reference them instead of having to remember exact values.
 
-**breakpoint-helper** is a thin wrapper around `window.matchMedia` that aims to make working with layout breakpoints in Javascript more convenient by: allowing to reference the breakpoints by name instead of by value (`'sm'` vs. `765`), providing a convenient API to set and remove event listeners on media queries and (optionally) share breakpoints defined in CSS with Javascript.
+Often times the the CSS breakpoints apply styling changes that need to be mirrored in Javascript, e.g. display cards in a slider on small screens (with Javascript) and as a grid on larger screens (without Javascript).
 
-Often times the CSS styles applied at these breakpoints are accompanied by Javascript functionality: e.g. display cards in a slider on small screens (with Javascript) and as a grid on larger screens (without Javascript).
+**breakpoint-helper** is a thin wrapper around `window.matchMedia` that aims to make working with layout breakpoints in Javascript more convenient by: allowing to reference the breakpoints by name instead of by value (`'sm'` vs. `765`), providing a convenient API to set and remove event listeners on media queries and (optionally) share breakpoints defined in CSS with Javascript.
 
 ## Installation
 
@@ -29,7 +31,7 @@ npm install breakpoint-helper
 
 ## Usage
 
-Create a file to hold the breakpoint-helper instance:
+Instantiate breakpoint-helper and use the methods returned from the instance to work with your breakpoints. (There a different ways to let breakpoint-helper know what breakpoints to use, [see below](#user-content-share-your-breakpoints-between-css-and-javascript)).
 
 ```js
 // src/utils/bph.js
@@ -45,7 +47,7 @@ export default bph({
 });
 ```
 
-Use your instance:
+Use the instance in your code:
 
 ```js
 // src/modules/myModule.js;
@@ -61,13 +63,17 @@ bph.listen({ name: 'md' }, ({ mathes }) => {
 });
 ```
 
-## Share your breakpoints between CSS and Javascript
+## Options to provide CSS breakpoints
 
-There are three options to provide the breakpoint names and values to breakpoint-helper. The naming strategies and implementations to name your breakpoints might differ depending on your preferences and the technologies you use.
+There are three options to provide the breakpoint names and values to breakpoint-helper. What implementation to choose depends on the particular project setup.
+
+**NOTE:** All implementations expect the breakpoints to be ordered from small to large.
 
 ### 1. Javascript object
 
-Breakpoints can be passed in as a object where the object keys represent the breakpoint names and the values the breakpoints screen widths. The values should be of type `String` and include a CSS unit, both `px` and `em` are supported.
+Breakpoints can be passed in as a object where the object keys represent the breakpoint names and the values the breakpoints screen widths.
+
+The values should be of type `String` and include a CSS unit, both `px` and `em` are supported.
 
 ```js
 // src/utils/bph.js
@@ -113,17 +119,28 @@ import config from './tailwind.config.js';
 export default bph(config.theme.screens);
 ```
 
-### 2. Serialized `font-family`
+### 2. Serialized `font-family` (share CSS breakpoints with Javascript)
 
-With breakpoint-helper breakpoints can be defined in CSS only. breakpoint-helper will create a `<meta>` element in the document's `<head>` tag with the class `breakpoint-helper`, read its `font-famliy` CSS value and create corresponding breakpoint object to work with internally. To make this possible the `font-family` value should be a serialized string of breakpoints names and values:
+To use breakpoints defined in CSS, pass the string `'meta'` as argument to your breakpoint-helper instance:
+
+```js
+// src/utils/bph.js
+import bph from 'breakpoint-helper';
+
+export default bph('meta');
+```
+
+To make this method work there needs to be a `.breakpoint-helper` class in your stylesheet whose `font-family` value is a serialized string of breakpoints names and values:
 
 ```css
 .breakpoint-helper {
-  font-family: 'xs=374px&sm=586px&md=768px&lg=984px&xl=1190px&xxl=1390px';
+  font-family: 'xs=416px&sm=600px&md=768px&lg=1024px&xl=1280px&xxl=1520px';
 }
 ```
 
-For convenience breakpoint-helper provides a Sass function that will serialize a Sass map for you:
+Under the hood breakpoint-helper will create a `<meta>` element in the document's `<head>` tag with the class `breakpoint-helper`, read the `font-famliy` CSS value and deserialize the value to learn about the breakpoints.
+
+As serializing the breakpoints manually is not very convenient, breakpoint-helper provides a Sass function for it:
 
 ```scss
 // main.scss
@@ -145,18 +162,18 @@ $bps: (
 }
 ```
 
-Initialize your instance passing the string `"meta"` as an argument when instantiating breakpoint-helper.
+### 3. Custom properties
+
+To use breakpoints defined as CSS custom properties, pass the string `'custom'` as argument to your breakpoint-helper instance:
 
 ```js
 // src/utils/bph.js
 import bph from 'breakpoint-helper';
 
-export default bph('meta');
+export default bph('custom');
 ```
 
-### 3. Custom properties
-
-This method allows you to declare your breakpoints via CSS custom properties (a.k.a. CSS variables) using the prefix `--bph-` on the `:root` selector.
+Declare the custom properties on the `:root` selector using the prefix `--bph-`:
 
 ```css
 :root {
@@ -169,24 +186,15 @@ This method allows you to declare your breakpoints via CSS custom properties (a.
 }
 ```
 
-When initializing your instance pass `"custom"` as option:
+## Methods
+
+A breakpoint-helper instance returns the methods to work with the breakpoints.
 
 ```js
 // src/utils/bph.js
 import bph from 'breakpoint-helper';
 
-export default bph('custom');
-```
-
-## Instance methods
-
-A breakpoint-helper instance returns methods to work with your breakpoints. To use the methods you must define an instance and then use the methods returned by it.
-
-```js
-// src/utils/bph.js
-import bph from 'breakpoint-helper';
-
-export default bph({
+const instance = bph({
   xs: '416px',
   sm: '600px',
   md: '768px',
@@ -194,26 +202,60 @@ export default bph({
   xl: '1280px',
   xxl: '1520px',
 });
+
+// For convenience you can export the methods using destructuring:
+export const {
+  getBreakpoints,
+  getMediaQuery,
+  isMatching,
+  listen,
+  listenAll,
+} = instance;
+
+export default instance;
 ```
 
-Te examples below assume that you are using the instance as defined above.
+**NOTE:** The following code examples assume the use of the instance above.
 
-### getBreakpoints() ⇒ `Object
+### getBreakpoints()
 
-Get all breakpoints the instance is working with. Usually useful for debugging or passing breakpoint values to other libraries.
+Get all breakpoints the instance is working with. Useful for debugging or passing breakpoint values to other libraries.
 
-**Returns**: `Object` - Object containing all breakpoints.
+##### Returns
 
-### getMediaQuery(name, [useMax]) ⇒ `String`
+- `Object` - Object containing all instance breakpoints.
 
-Get a `min-` or `max-width` media query by name.
+#### Example
 
-**Returns**: `String` - A media query
+```js
+import bph from './src/utils/bph';
 
-| Param    | Type      | Default | Description       |
-| -------- | --------- | ------- | ----------------- |
-| name     | `string`  |         | A breakpoint name |
-| [useMax] | `boolean` | `false` | Use `max-width`   |
+const breakpoints = bph.getBreakpoints();
+
+console.log(breakpoints);
+// Will log:
+// {
+//   xs: '416px',
+//   sm: '600px',
+//   md: '768px',
+//   lg: '1024px',
+//   xl: '1280px',
+//   xxl: '1520px',
+// }
+```
+
+### getMediaQuery(name, [useMax=false])
+
+Get a `min-width` or `max-width` media query by breakpoint name.
+
+##### Arguments
+
+- **`name`** `{string}`: The breakpoint name.
+- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`.
+
+##### Returns
+
+- **`{string}`** - A media query string.
 
 #### Example
 
@@ -386,42 +428,4 @@ listener.off();
 
 // Activate it again
 listener.on();
-```
-
-## Recipes
-
-### Export methods for easier use
-
-If you are using modules, it is convenient to create named exports for all methods:
-
-```js
-import bph from 'breakpoint-helper';
-
-// Instanciation depends on your chosen css method
-const instance = bph({
-  xs: '416px',
-  sm: '600px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
-  xxl: '1520px',
-});
-
-export const {
-  getBreakpoints,
-  getMediaQuery,
-  isMatching,
-  listen,
-  listenAll,
-} = bph;
-
-export default bph;
-```
-
-In another file you then can directly import the method to use:
-
-```js
-import { isMatching } from './src/utils/bph';
-
-console.log(isMatching('sm'));
 ```
