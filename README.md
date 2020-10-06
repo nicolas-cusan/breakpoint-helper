@@ -52,7 +52,7 @@ const bph = breakpointHelper({
 console.log(bph.isMatching('md'));
 // `true` or `false`
 
-bph.listen('md', ({ mathes }) => {
+bph.listen('md', ({ matches }) => {
   if (matches) {
     // Do something every time this breakpoint is matching
   }
@@ -67,7 +67,7 @@ There are three options to provide the breakpoint names and values to breakpoint
 
 ### 1. Javascript object
 
-Breakpoints can be passed in as a object where the object keys represent the breakpoint names and the values the breakpoints screen widths.
+Breakpoints can be passed in as an object where the object keys represent the breakpoint names and the values the breakpoints screen widths.
 
 The values should be of type `string` and include a CSS unit, both `px` and `em` are supported.
 
