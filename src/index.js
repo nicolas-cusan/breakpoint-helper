@@ -207,7 +207,7 @@ function listen(options, callback) {
 }
 
 /**
- * Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. Than means the largest breakpoint name (or smallest when using `options.useMax`) comes first in the array. The array will be empty if no breakpoints are matching.
+ * Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. That means the largest breakpoint name (or smallest when using `options.useMax`) comes first in the array. The array will be empty if no breakpoints are matching.
  *
  * @param {function} callback - Callback function, receives an array of breakpoint names as parameter.
  * @param {Object} [options] - Configuration Object.
