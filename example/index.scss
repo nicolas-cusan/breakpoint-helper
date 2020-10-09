@@ -1,3 +1,5 @@
+// Breakpoint helper setup
+
 @import '../src/breakpoint-helper';
 
 $bps: (
@@ -22,8 +24,95 @@ $bps: (
   --bph-xxl: 1290px;
 }
 
+// Styles
+
+body {
+  font-family: sans-serif;
+  padding: 2rem;
+}
+
+h1,
+h2 {
+  margin: 2.5rem 0 1.4rem;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
 pre {
-  background-color: lightgray;
-  padding: 20px;
+  background-color: #f0f0f0;
+  padding: 1.6rem;
   overflow: auto;
+}
+
+code {
+  background-color: #f0f0f0;
+  padding: 0 0.2em;
+  border-radius: 0.2em;
+}
+
+.example {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+  position: relative;
+}
+
+.example_item {
+  flex: 1 1 400px;
+  display: flex;
+  min-width: 0;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.8rem;
+    font-family: sans-serif;
+    padding: 0.4rem;
+    opacity: 0.5;
+  }
+
+  &-code::after {
+    content: 'CODE';
+  }
+
+  &-result::after {
+    content: 'RESULT';
+    color: white;
+  }
+
+  button {
+    position: absolute;
+    padding: 0.4rem 0.8rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    font-size: 0.95rem;
+    background-color: rgba(black, 0.1);
+  }
+}
+
+.example_pre {
+  width: 100%;
+  padding-top: 2.6rem;
+
+  &-disabled {
+    opacity: 0.5;
+  }
+
+  &-button {
+    padding-bottom: 2.6rem;
+  }
+
+  &-result {
+    background-color: #333;
+    color: white;
+  }
 }

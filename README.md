@@ -4,8 +4,6 @@
 
 Small helper library to work with layout breakpoints\* in Javascript.
 
-> \*browser window widths at which styles/functionality changes to adapt for wider/narrower screens
-
 ## Core functionality
 
 - Easily check if a breakpoint is active referencing it by name instead of value.
@@ -242,12 +240,12 @@ console.log(breakpoints);
 
 ### `getMediaQuery(name, [useMax=false])`
 
-Get a `min-width` or `max-width` media query by breakpoint name.
+Get a `min-width`, `max-width` or `min-width and max-width` media query by breakpoint name.
 
 #### Arguments
 
-- **`name`** `{string}`: Breakpoint name.
-- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
+- **`name`** `{string|Array}`: Breakpoint name or array of two breakpoint names.<sup>[2](#note-2)</sup>
+- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[3](#note-3)</sup>.
 
 #### Returns
 
@@ -265,20 +263,24 @@ console.log(mq);
 const mqMax = getMediaquery('md', true);
 console.log(mqMax);
 // '(max-width: 767px)'
+
+const mqMinMax = getMediaquery(['md', 'lg']);
+console.log(mqMax);
+// '(min-width: 768px) and (max-width: 1023px)'
 ```
 
 ### `isMatching(name, [useMax=false])`
 
-Check if a breakpoint is currently matching
+Check if a breakpoint or breakpoint range is currently matching.
 
 #### Arguments
 
-- **`name`** `{string}`: Breakpoint name.
-- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
+- **`name`** `{string|Array}`: Breakpoint name or array of two breakpoint names.<sup>[2](#note-2)</sup>
+- **`[useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[3](#note-3)</sup>.
 
 #### Returns
 
-- `{boolean}`: Whether the breakpoint is matching or not.
+- `{boolean}`: Whether the breakpoint or breakpoint range is matching or not.
 
 #### Example
 
@@ -290,17 +292,21 @@ if (isMatching('md')) {
 } else {
   // Do something else
 }
+
+if (isMatching(['md', 'lg'])) {
+  // Screen width is between 'md' and 'lg'
+}
 ```
 
 ### `listen(options, callback)`
 
-Listen to a breakpoint change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.
+Listen to a breakpoint or breakpoint range change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.
 
 #### Arguments
 
-- **`options`** `{Object|String}` Configuration Object or breakpoint name.
-- **`options.name`** `{string}`: Breakpoint name.
-- **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
+- **`options`** `{Object|string|Array}` Configuration Object, breakpoint name or array of two breakpoint names.
+- **`options.name`** `{string}`: Breakpoint name or array of two breakpoint names.<sup>[2](#note-2)</sup>
+- **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[3](#note-3)</sup>.
 - **`[options.immediate=true]`** `{boolean}`: Execute callback function on listener creation.
 - **`callback`** `{Function}` : Callback function, receives a `MediaQueryList` as parameter.
 
@@ -359,7 +365,7 @@ Listen to all breakpoints matching or un-matching and execute a callback functio
 - **`callback`** `{Function}` : Callback function, receives an array of breakpoint names as parameter.
 - **`[options]`** `{Object}`: Configuration Object.
 - **`[options.listenTo]`** `{Array}`: Array of breakpoint names. All are used by default.
-- **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[1](#note-1)</sup>.
+- **`[options.useMax=false]`** `{boolean}`: Use `max-width` instead of `min-width`<sup>[3](#note-3)</sup>.
 - **`[options.immediate=true]`** `{boolean}`: Execute callback function on listener creation.
 
 #### Returns
@@ -429,7 +435,11 @@ const callback = (bps) => {
 
 ## Notes
 
-<a name="note-1"></a><sup>1)</sup> When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
+<a name="note-1"></a><sup>1)</sup> Browser window widths at which styles/functionality changes to adapt for wider/narrower screens.
+
+<a name="note-2"></a><sup>2)</sup> The `useMax` argument will be ignored when `name` is an array.
+
+<a name="note-3"></a><sup>3)</sup> When using `useMax` breakpoint-helper will subtract `1px` from the breakpoint value to prevent overlap. If the breakpoint value is defined in `em`s `0.0635em` is subtracted (the equivalent of `1px` in `em` using a `16px` base).
 
 [license-image]: https://img.shields.io/npm/l/breakpoint-helper.svg?style=flat-square
 [license-url]: LICENSE

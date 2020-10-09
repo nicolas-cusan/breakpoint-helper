@@ -116,9 +116,9 @@ function getBreakpoints() {
 }
 
 /**
- * Get a `min-width` or `max-width` media query by breakpoint name.
+ * Get a `min-width`, `max-width` or `min-width and max-width` media query by breakpoint name.
  *
- * @param {string} name - Breakpoint name.
+ * @param {string|Array} name - Breakpoint name or array of two breakpoint names.
  * @param {boolean} [useMax=false] - Use `max-width` instead of `min-width`.
  *
  * @returns {string} Media query string.
@@ -147,12 +147,12 @@ function getMediaQuery(name, useMax = false) {
 }
 
 /**
- * Check if a breakpoint is currently matching.
+ * Check if a breakpoint or breakpoint range is currently matching.
  *
- * @param {string} name - Breakpoint name.
+ * @param {string} name - Breakpoint name or array of two breakpoint names.
  * @param {boolean} [useMax=false] - Use `max-width` instead of `min-width`.
  *
- * @returns {boolean} Whether the breakpoint is matching or not.
+ * @returns {boolean} Whether the breakpoint or breakpoint range is matching or not.
  */
 
 function isMatching(name, useMax = false) {
@@ -160,10 +160,10 @@ function isMatching(name, useMax = false) {
 }
 
 /**
- * Listen to a breakpoint change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.
+ * Listen to a breakpoint or breakpoint range change and execute a callback function. The callback function will receive a `MediaQueryList` object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.
  *
- * @param {Object|String} options - Configuration Object or breakpoint name.
- * @param {string} options.name - Breakpoint name.
+ * @param {Object|String} options - Configuration Object, breakpoint name or array of two breakpoint names.
+ * @param {string} options.name - Breakpoint name or array of two breakpoint names.
  * @param {boolean} [options.useMax=false] - Use `max-width` instead of `min-width`.
  * @param {boolean} [options.immediate=true] - Execute callback function on listener creation.
  * @param {function} callback - Callback function, receives a `MediaQueryList` as parameter.
@@ -174,24 +174,22 @@ function isMatching(name, useMax = false) {
 function listen(options, callback) {
   let mq = null;
 
+  const { name, useMax, immediate } = options;
+  const opts = {
+    name,
+    useMax: useMax || false,
+    immediate: typeof immediate === 'undefined' ? true : immediate,
+  };
+
   function on() {
-    if (typeof options === 'string') {
+    if (typeof options === 'string' || Array.isArray(options)) {
       mq = window.matchMedia(getMediaQuery(options));
-      mq.addListener(callback);
     } else {
-      const { name, useMax, immediate } = options;
-      const opts = {
-        name,
-        useMax: useMax || false,
-        immediate: immediate || true,
-      };
-
       mq = window.matchMedia(getMediaQuery(opts.name, opts.useMax));
-
-      if (opts.immediate) callback(mq);
-
-      mq.addListener(callback);
     }
+
+    if (opts.immediate) callback(mq);
+    mq.addListener(callback);
   }
 
   on();
@@ -228,7 +226,7 @@ function listenAll(callback, options = {}) {
   const { useMax, immediate, listenTo } = options;
   const opts = {
     useMax: useMax || false,
-    immediate: immediate || true,
+    immediate: typeof immediate === 'undefined' ? true : immediate,
   };
 
   if (listenTo) {
