@@ -245,7 +245,7 @@ console.log(match);`,
   }
 );`;
   const { result, button } = renderExample({
-    title: 'listenAll()',
+    title: '',
     useBtn: true,
     code: snippet,
   });
@@ -273,7 +273,7 @@ console.log(match);`,
   }
 );`;
   const { result, button } = renderExample({
-    title: 'listenAll()',
+    title: '',
     useBtn: true,
     code: snippet,
   });
@@ -301,7 +301,7 @@ console.log(match);`,
   }
 );`;
   const { result, button } = renderExample({
-    title: 'listenAll()',
+    title: '',
     useBtn: true,
     code: snippet,
     result: `// Resize the window to see a result.`,

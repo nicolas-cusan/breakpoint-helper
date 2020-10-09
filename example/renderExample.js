@@ -34,8 +34,8 @@ export function renderExample(options = {}) {
   resultPre.classList.add('example_pre', 'example_pre-result');
 
   h2.innerHTML = `<code>${title}</code> ${subtitle}`;
-  codePre.innerHTML = `${code}`;
-  resultPre.innerHTML = `${result}`;
+  codePre.innerHTML = `<code>${code}</code>`;
+  resultPre.innerHTML = `<code>${result}</code>`;
 
   if (title) {
     root.appendChild(h2);
@@ -60,10 +60,10 @@ export function renderExample(options = {}) {
 
   return {
     code: (txt) => {
-      codePre.innerHTML = `${txt}`;
+      codePre.innerHTML = `<code>${txt}</code>`;
     },
     result: (txt) => {
-      resultPre.innerHTML = `${txt}`;
+      resultPre.innerHTML = `<code>${txt}</code>`;
     },
     button: (listener = null) => {
       if (!listener) return;
@@ -71,7 +71,7 @@ export function renderExample(options = {}) {
       button.addEventListener('click', () => {
         if (isActive) {
           listener.off();
-          resultPre.innerHTML = `// listener.off() was called!\n// The listener is currently disabled`;
+          resultPre.innerHTML = `<code>// listener.off() was called!\n// The listener is currently disabled</code>`;
           button.innerHTML = 'Enable';
           resultPre.classList.toggle('example_pre-disabled');
         } else {
