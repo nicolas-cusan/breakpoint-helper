@@ -46,19 +46,19 @@ h2 {
 }
 
 code {
-  background-color: #f8f8f8;
+  background-color: #f0f0f0;
   padding: 0 0.2em;
   border-radius: 0.2em;
 }
 
 pre {
-  background-color: #f8f8f8;
+  background-color: #f0f0f0;
   padding: 1.6rem;
   overflow: auto;
 
   code {
     background-color: transparent;
-    padding: 0 !important;
+    padding: 0;
     border-radius: 0;
   }
 }
