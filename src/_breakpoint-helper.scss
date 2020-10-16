@@ -25,3 +25,9 @@
 
   @return str-slice($string, 1, -2);
 }
+
+@mixin breakpoint-helper($bp-map) {
+  .breakpoint-helper {
+    font-family: '#{breakpoint-string($bp-map)}';
+  }
+}

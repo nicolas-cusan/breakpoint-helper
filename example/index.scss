@@ -11,9 +11,7 @@ $bps: (
   'xxl': 1520px,
 );
 
-.breakpoint-helper {
-  font-family: '#{breakpoint-string($bps)}';
-}
+@include breakpoint-helper($bps);
 
 :root {
   --bph-xs: 274px;

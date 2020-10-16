@@ -106,7 +106,7 @@ function _matchAll(keys, useMax = false) {
 }
 
 /**
- * Get all breakpoints the instance used in the instance. Useful for debugging or passing breakpoint values to other libraries.
+ * Get all breakpoints as an object. Useful for debugging or passing breakpoint values to other libraries.
  *
  * @returns {Object} Object containing all instance breakpoints.
  */
