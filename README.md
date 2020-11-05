@@ -89,7 +89,7 @@ Breakpoint-helper provides a sass mixin that allows the use of a Sass map to def
 
 ```scss
 // Import the mixin, path may vary depending on implementation
-@import './node_modules/breakpoint-helper/dist/bph';
+@import './node_modules/breakpoint-helper/src/breakpoint-helper';
 
 // Define a map of breakpoints
 $bps: (
