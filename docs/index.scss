@@ -9,15 +9,92 @@ body {
     sans-serif;
 }
 
+// Code
+// ============================================
+
+pre,
+code {
+  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 85%;
+  line-height: 1.45;
+  border-radius: 4px;
+}
+code {
+  background-color: #f1f1f1;
+  padding: 0.2em 0.4em;
+}
+
 // Title
 // ============================================
 
 .main-title {
-  font-size: calc(8vw - 0.25rem);
+  font-size: calc(10vw - 0.5rem);
   font-weight: 900;
   letter-spacing: -0.06rem;
   text-align: center;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
+
+  @media (min-width: 768px) {
+    font-size: calc(8vw - 0.25rem);
+  }
+}
+
+// Content
+// ============================================
+
+.content {
+  max-width: 800px;
+  padding: 0 2rem;
+  margin: 0 auto;
+}
+
+.content {
+  p,
+  ul,
+  pre {
+    margin-bottom: 1.6rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 1rem;
+    margin-top: 2.3rem;
+    letter-spacing: -0.02rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h1,
+  h2 {
+    font-size: 1.8rem;
+    line-height: 1.3333;
+    font-weight: bold;
+    border-bottom: #ddd 1px solid;
+    padding-bottom: 0.3rem;
+  }
+
+  ul {
+    padding-left: 2rem;
+    list-style-type: disc;
+
+    li {
+      margin-top: 0.25rem;
+    }
+  }
 }
 
 // Resizer
@@ -25,7 +102,7 @@ body {
 
 .resizer {
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2rem 4rem;
   max-width: 1700px;
   position: relative;
 }
@@ -70,15 +147,15 @@ body {
       -45deg,
       white,
       white 2px,
-      blue 2px,
-      blue 5px,
+      transparent 2px,
+      transparent 5px,
       white 5px,
       white 7px,
-      blue 7px,
-      blue 10px,
+      transparent 7px,
+      transparent 10px,
       white 10px,
       white 12px,
-      blue 12px
+      transparent 12px
     );
     content: '';
   }
@@ -86,7 +163,11 @@ body {
 
 iframe {
   width: 100%;
-  height: 400px;
+  height: 250px;
   display: block;
   pointer-events: none;
+
+  @media (min-width: 768px) {
+    height: 400px;
+  }
 }

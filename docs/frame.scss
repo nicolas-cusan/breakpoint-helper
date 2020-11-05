@@ -1,5 +1,25 @@
 html,
 body {
-  background-color: blue;
+  margin: 0;
+  background-color: paleturquoise;
+  transition: background-color 300ms;
   height: 100vh;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.bp-name {
+  font-size: 20vw;
+  line-height: 85vh;
+  font-weight: 900;
+}
+
+.bp-mq {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.5rem;
 }
