@@ -1,0 +1,92 @@
+// ============================================
+// Defaults
+// ============================================
+
+body {
+  line-height: 1.5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+// Title
+// ============================================
+
+.main-title {
+  font-size: calc(8vw - 0.25rem);
+  font-weight: 900;
+  letter-spacing: -0.06rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+// Resizer
+// ============================================
+
+.resizer {
+  margin: 0 auto;
+  padding: 0 2rem;
+  max-width: 1700px;
+  position: relative;
+}
+
+.resizer-chrome {
+  display: block;
+  content: '';
+  background-color: #ddd;
+  border-radius: 5px 5px 0 0;
+  height: 22px;
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #aaa;
+    position: absolute;
+    left: 8px;
+    top: 5px;
+    box-shadow: 18px 0 0 0 #aaa, 36px 0 0 0 #aaa;
+  }
+}
+
+.resizer-inner {
+  position: relative;
+  resize: horizontal;
+  overflow: hidden;
+  margin: 0 auto;
+  min-width: 200px;
+  max-width: 100%;
+
+  &::after {
+    pointer-events: none;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    background-image: linear-gradient(
+      -45deg,
+      white,
+      white 2px,
+      blue 2px,
+      blue 5px,
+      white 5px,
+      white 7px,
+      blue 7px,
+      blue 10px,
+      white 10px,
+      white 12px,
+      blue 12px
+    );
+    content: '';
+  }
+}
+
+iframe {
+  width: 100%;
+  height: 400px;
+  display: block;
+  pointer-events: none;
+}

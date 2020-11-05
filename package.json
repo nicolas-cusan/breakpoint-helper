@@ -12,6 +12,8 @@
   "scripts": {
     "build": "rm -rf dist && microbundle --name breakpoint-helper",
     "start": "rm -rf example-dist && parcel example/index.html -d example-dist",
+    "docs": "rm -rf docs-dist && parcel docs/index.html -d docs-dist",
+    "docs:build": "rm -rf docs-dist && parcel build docs/index.html -d docs-dist",
     "prepublishOnly": "npm run -s build"
   },
   "keywords": [
@@ -29,6 +31,7 @@
     "min-width"
   ],
   "devDependencies": {
+    "marked": "^1.2.3",
     "microbundle": "^0.12.4",
     "parcel": "^1.12.4",
     "prettier": "^2.1.2",

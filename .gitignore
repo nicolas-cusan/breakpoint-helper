@@ -4,5 +4,6 @@ node_modules
 dist
 .cache
 example-dist
+docs-dist
 out
 .vscode

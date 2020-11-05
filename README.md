@@ -405,6 +405,14 @@ const callback = (bps) => {
 - Create React hook.
 - Add testing.
 
+## Motivation
+
+I kept needing something like this and was copying the same script from project to project, so I decided to open-source it. On one hand it might help somebody that has the same need as I do and on the other it allows me to install just as another dependency.
+
+## Credits
+
+The initialization via metatag and the serialized `font-family` value is taken from [Zurb's Foundation](https://github.com/zurb/foundation-sites/blob/12317b1854283b3a2708d586f1141d523684f8cd/scss/util/_breakpoint.scss#L159).
+
 ## Notes
 
 <a name="note-1"></a><sup>1)</sup> Browser window widths at which styles/functionality changes to adapt for wider/narrower screens.
