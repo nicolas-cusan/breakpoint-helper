@@ -44,8 +44,20 @@ async function build() {
   fs.writeFileSync(`${src}/index.html`, $.html());
 
   (async function () {
-    const bundler = new Bundler([`${src}/index.html`]);
-    bundler.serve();
+    if (process.env.NODE_ENV === 'production') {
+      const bundler = new Bundler([`${src}/index.html`], {
+        publicUrl: '/breakpoint-helper/',
+        sourceMaps: false,
+        outDir: './docs-dist',
+      });
+
+      bundler.bundle();
+    } else {
+      const bundler = new Bundler([`${src}/index.html`], {
+        outDir: './docs-dist',
+      });
+      bundler.serve();
+    }
   })();
 }
 

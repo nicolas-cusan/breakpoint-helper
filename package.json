@@ -11,9 +11,8 @@
   "unpkg": "dist/breakpoint-helper.umd.js",
   "scripts": {
     "build": "rm -rf dist && microbundle --name breakpoint-helper",
-    "start": "rm -rf example-dist && parcel example/index.html -d example-dist",
-    "docs": "rm -rf docs-dist && parcel docs/index.html -d docs-dist",
-    "docs:build": "rm -rf docs-dist && parcel build docs/index.html -d docs-dist",
+    "start": "rm -rf docs-dist && node build-docs.js",
+    "docs": "export NODE_ENV=production && rm -rf docs-dist && node build-docs.js && gh-pages -d docs-dist",
     "prepublishOnly": "npm run -s build"
   },
   "keywords": [
@@ -31,6 +30,7 @@
     "min-width"
   ],
   "devDependencies": {
+    "gh-pages": "^3.1.0",
     "marked": "^1.2.3",
     "microbundle": "^0.12.4",
     "parcel": "^1.12.4",
