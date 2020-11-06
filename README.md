@@ -2,7 +2,7 @@
 
 [![npm][npm-image]][npm-url] [![license][license-image]][license-url]
 
-Small helper library to work with layout breakpoints\* in Javascript.
+Small helper library to work with layout breakpoints<sup>[1](#note-1)</sup> in Javascript.
 
 ## Core functionality
 
@@ -68,9 +68,10 @@ export default {
       lg: '1024px',
       xl: '1280px',
       xxl: '1520px',
-    }
+    },
     // Other config ...
-  }
+  },
+};
 ```
 
 Import the Tailwind CSS config and use the `screen` key that defines the breakpoints when instantiating breakpoint-helper:

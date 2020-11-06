@@ -2,11 +2,11 @@ import bph from '../src/index';
 
 const colors = {
   xs: 'salmon',
-  sm: 'mediumseagreen',
+  sm: 'darkviolet',
   md: 'gold',
-  lg: 'royalblue',
-  xl: 'darkviolet',
-  xxl: 'deeppink',
+  lg: 'deeppink',
+  xl: 'mediumseagreen',
+  xxl: 'royalblue',
 };
 
 const instance = bph({
@@ -21,22 +21,38 @@ const instance = bph({
 const { listenAll, getMediaQuery } = instance;
 
 const root = document.getElementById('root');
-const [body] = document.getElementsByTagName('body');
 
+const mobileMessage = `
+  <div class="bp-note">
+    It looks like you are uing a mobile device, turn your phone to see a different breakpoint.
+  </div>
+`;
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
   navigator.userAgent
 );
 
+function updateColor(color) {
+  document.body.style.backgroundColor = color;
+  parent.postMessage(color, window.location.origin);
+}
+
 listenAll((bps) => {
+  const color = bps.length ? colors[bps[0]] : 'turquoise';
+  updateColor(color);
+
   if (bps.length) {
     const bp = bps[0];
-    body.style.backgroundColor = colors[bp];
     root.innerHTML = `
       <div class="bp-name">${bp}</div>
       <div class="bp-mq">${getMediaQuery(bp)}</div>
     `;
   } else {
-    body.style.backgroundColor = null;
-    root.innerHTML = '';
+    if (!isMobile) {
+      ``;
+    }
+    root.innerHTML = `
+    ${isMobile ? mobileMessage : ''}
+    <div class="bp-mq">No breakpoint active</div>
+    `;
   }
 });

@@ -36,5 +36,9 @@
     "parcel": "^1.12.4",
     "prettier": "^2.1.2",
     "sass": "^1.29.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "highlight.js": "^10.3.2"
   }
 }
