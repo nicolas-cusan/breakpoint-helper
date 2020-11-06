@@ -1,5 +1,4 @@
-// ============================================
-// Defaults
+// Sass stuff
 // ============================================
 
 $bps: (
@@ -17,6 +16,9 @@ $bps: (
   }
 }
 
+// Defaults
+// ============================================
+
 :root {
   --link-color: turquoise;
 }
@@ -31,7 +33,12 @@ body {
 
 a {
   color: var(--link-color);
-  transition: color 300ms;
+  transition: color 300ms, opacity 300ms;
+
+  &:focus,
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 // Code
@@ -105,12 +112,49 @@ pre {
   }
 }
 
+// Buttons
+// ============================================
+
+.links {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.6rem 1.8rem;
+  border-radius: 4px;
+  background-color: var(--link-color);
+  transition: background-color 300ms, opacity 300ms;
+  font-weight: bold;
+  color: white;
+  margin: 0.3rem;
+  font-size: 1.2rem;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    opacity: 0.5;
+  }
+
+  @include mq('md') {
+    min-width: 8.5rem;
+  }
+}
+
 // Resizer
 // ============================================
 
 .resizer {
-  margin: 0 auto;
-  padding: 0 2rem 2rem;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
   max-width: 1700px;
   position: relative;
 }
@@ -143,7 +187,7 @@ pre {
   resize: horizontal;
   overflow: hidden;
   margin: 0 auto;
-  min-width: 290px;
+  min-width: 260px;
   max-width: 100%;
 
   &::after {
@@ -177,49 +221,49 @@ iframe {
   display: block;
   pointer-events: none;
 
-  @media (min-width: 768px) {
+  @include mq('md') {
     height: 400px;
-  }
-}
-
-// Buttons
-// ============================================
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 4rem;
-}
-
-.btn {
-  padding: 0.6rem 1.8rem;
-  border-radius: 4px;
-  background-color: var(--link-color);
-  transition: background-color 300ms, opacity 300ms;
-  font-weight: 900;
-  color: white;
-  margin: 0.4rem;
-  font-size: 1.4rem;
-  text-align: center;
-
-  &:hover,
-  &:focus {
-    opacity: 0.5;
-  }
-
-  @media (min-width: 768px) {
-    min-width: 8.5rem;
   }
 }
 
 // Content
 // ============================================
 
-.content {
+.container {
   max-width: 800px;
   padding: 0 2rem 3rem;
   margin: 0 auto;
+}
+
+.toc {
+  float: right;
+  width: 160px;
+  margin-right: -220px;
+  top: 40px;
+  padding-top: 0.2rem;
+  position: sticky;
+  display: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #999;
+
+  @include mq('xl') {
+    display: block;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    color: inherit;
+
+    &:focus,
+    &:hover {
+      color: var(--link-color);
+      opacity: 1;
+    }
+  }
 }
 
 .content {
@@ -246,6 +290,8 @@ iframe {
   h6 {
     margin-bottom: 1rem;
     margin-top: 2.3rem;
+    scroll-margin-top: 2.3rem;
+    scroll-snap-margin-top: 2.3rem;
     letter-spacing: -0.02rem;
     font-weight: bold;
     line-height: 1.3333;

@@ -2,9 +2,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>breakpoint-helper</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;display=swap">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;display=swap">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@2.0.2/destyle.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/destyle.css@2.0.2/destyle.css">
   <link rel="stylesheet" href="./index.scss">
 </head>
 <body>
@@ -13,22 +13,79 @@
     <p class="tagline">Small helper library to work with layout breakpoints<sup><a href="#note-1">1</a></sup> in Javascript.</p>
   </header>
 
-  <div class="buttons">
-    <a class="btn" href="https://github.com/nicolas-cusan/breakpoint-helper">Github</a>
-    <a class="btn" href="https://www.npmjs.com/package/breakpoint-helper">NPM</a>
+  <div class="links">
+    <div class="buttons">
+      <a class="btn" href="https://github.com/nicolas-cusan/breakpoint-helper">Github</a>
+      <a class="btn" href="https://www.npmjs.com/package/breakpoint-helper">NPM</a>
+      <a class="btn" href="./test.html">Test Page</a>
+    </div>
   </div>
 
   <figure class="resizer">
     <div class="resizer-inner">
       <div class="resizer-chrome">Demo - Resize me!</div>
       <iframe src="./frame.html" frameborder="0"></iframe>
-      <!-- <p class="resizer-badge">Resize Me!</p> -->
     </div>
   </figure>
 
+  <div class="container">
+    <ul id="toc" class="toc">
+      <li>
+        <a href="#core-functionality">
+         Core functionality
+        </a>
+      </li>
 
-  <div class="content">
-  <div id="content">
+      <li>
+        <a href="#introduction">
+         Introduction
+        </a>
+      </li>
+
+      <li>
+        <a href="#installation">
+         Installation
+        </a>
+      </li>
+
+      <li>
+        <a href="#usage">
+         Usage
+        </a>
+      </li>
+
+      <li>
+        <a href="#methods">
+         Methods
+        </a>
+      </li>
+
+      <li>
+        <a href="#roadmap">
+         Roadmap
+        </a>
+      </li>
+
+      <li>
+        <a href="#motivation">
+         Motivation
+        </a>
+      </li>
+
+      <li>
+        <a href="#credits">
+         Credits
+        </a>
+      </li>
+
+      <li>
+        <a href="#notes">
+         Notes
+        </a>
+      </li>
+    </ul>
+
+    <div class="content" id="content">
 
 
 <h2 id="core-functionality">Core functionality</h2>
@@ -78,9 +135,10 @@ yarn add breakpoint-helper</code></pre>
       <span class="hljs-attr">lg</span>: <span class="hljs-string">&apos;1024px&apos;</span>,
       <span class="hljs-attr">xl</span>: <span class="hljs-string">&apos;1280px&apos;</span>,
       <span class="hljs-attr">xxl</span>: <span class="hljs-string">&apos;1520px&apos;</span>,
-    }
+    },
     <span class="hljs-comment">// Other config ...</span>
-  }</code></pre>
+  },
+};</code></pre>
 <p>Import the Tailwind CSS config and use the <code>screen</code> key that defines the breakpoints when instantiating breakpoint-helper:</p>
 <pre><code class="language-js"><span class="hljs-comment">// src/utils/bph.js</span>
 <span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;breakpoint-helper&apos;</span>;
@@ -357,7 +415,7 @@ listener.on();</code></pre>
 
 <footer class="footer">
   <div class="footer-inner">
-    Made by <a href="https://twitter.com/n_cusan">Nicolas Cusan</a> source on <a href="https://github.com/nicolas-cusan/breakpoint-helper">GitHub</a> under <a href="https://github.com/nicolas-cusan/breakpoint-helper/blob/master/LICENSE">MIT license</a>.
+    Made by <a href="https://twitter.com/n_cusan">Nicolas Cusan</a> source code available on <a href="https://github.com/nicolas-cusan/breakpoint-helper">GitHub</a> under <a href="https://github.com/nicolas-cusan/breakpoint-helper/blob/master/LICENSE">MIT license</a>.
   </div>
   </footer>
 

@@ -29,8 +29,17 @@ async function build() {
   });
 
   const $ = cheerio.load(index);
-  $('#content').html('').append(parsed);
-  $('#content').find('h2').first().prevAll().remove();
+  const $content = $('#content');
+  $content.html('').append(parsed);
+  $content.find('h2').first().prevAll().remove();
+
+  let menu = '';
+  $content.find('h2').each((idx, el) => {
+    const $el = $(el);
+    menu += `<li><a href="#${$el.attr('id')}">${$el.text()}</a></li>`;
+  });
+
+  $('#toc').html('').html(menu);
 
   fs.writeFileSync(`${src}/index.html`, $.html());
 

@@ -22,7 +22,7 @@ const {
 } = instance;
 
 renderExample({
-  subtitle: 'instance',
+  subtitle: 'instance - Object',
   result: instance.toString(),
   code: `import bph from 'breakpoint-helper';
 
@@ -35,6 +35,8 @@ const instance = bph({
   xxl: '1520px',
 });
 
+console.log('instance');
+
 const {
   getBreakpoints,
   getMediaQuery,
@@ -42,6 +44,28 @@ const {
   listen,
   listenAll,
 } = instance;`,
+});
+
+const sassInstance = bph('meta');
+
+renderExample({
+  subtitle: 'instance - Sass map / meta element',
+  result: sassInstance.toString(),
+  code: `import bph from 'breakpoint-helper';
+
+const instance = bph('meta');
+console.log('instance');`,
+});
+
+const cssInstance = bph('custom');
+
+renderExample({
+  subtitle: 'instance - CSS custom properties',
+  result: cssInstance.toString(),
+  code: `import bph from 'breakpoint-helper';
+
+const instance = bph('custom');
+console.log('instance');`,
 });
 
 renderExample({
@@ -231,6 +255,33 @@ console.log(match);`,
   const listener = listenAll((matches) => {
     result(JSON.stringify(matches));
   });
+
+  button(listener);
+})();
+
+(function () {
+  const snippet = `const listener = listenAll(
+  (matches) => {
+    console.log(matches);
+  },
+  {
+    useMax: true,
+  }
+);`;
+  const { result, button } = renderExample({
+    title: '',
+    useBtn: true,
+    code: snippet,
+  });
+
+  const listener = listenAll(
+    (matches) => {
+      result(JSON.stringify(matches));
+    },
+    {
+      useMax: true,
+    }
+  );
 
   button(listener);
 })();
