@@ -9,6 +9,12 @@
   "main": "dist/breakpoint-helper.js",
   "module": "dist/breakpoint-helper.module.js",
   "unpkg": "dist/breakpoint-helper.umd.js",
+  "files": [
+    "dist/*",
+    "src/*",
+    "README.md"
+    "LICENSE"
+  ],
   "scripts": {
     "build": "rm -rf dist && microbundle --name breakpoint-helper",
     "start": "rm -rf docs-dist && node build-docs.js",
