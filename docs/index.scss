@@ -157,6 +157,8 @@ pre {
   padding: 0 2rem;
   max-width: 1700px;
   position: relative;
+  user-select: none;
+  touch-action: none;
 }
 
 .resizer-chrome {
@@ -184,35 +186,34 @@ pre {
 
 .resizer-inner {
   position: relative;
-  resize: horizontal;
   overflow: hidden;
   margin: 0 auto;
   min-width: 260px;
   max-width: 100%;
+}
 
-  &::after {
-    pointer-events: none;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 3px;
-    bottom: 3px;
-    background-image: linear-gradient(
-      -45deg,
-      white,
-      white 2px,
-      transparent 2px,
-      transparent 5px,
-      white 5px,
-      white 7px,
-      transparent 7px,
-      transparent 10px,
-      white 10px,
-      white 12px,
-      transparent 12px
-    );
-    content: '';
-  }
+.resizer-dragger {
+  width: 50px;
+  height: 100%;
+  position: absolute;
+  right: 3px;
+  cursor: ew-resize;
+  bottom: 3px;
+  background-position: bottom right;
+  background-image: linear-gradient(
+    -45deg,
+    white,
+    white 2px,
+    transparent 2px,
+    transparent 5px,
+    white 5px,
+    white 7px,
+    transparent 7px,
+    transparent 10px,
+    white 10px,
+    white 12px,
+    transparent 12px
+  );
 }
 
 iframe {
@@ -264,6 +265,10 @@ iframe {
       opacity: 1;
     }
   }
+}
+
+.content + .content {
+  margin-top: 2.3rem;
 }
 
 .content {

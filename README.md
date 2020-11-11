@@ -2,7 +2,11 @@
 
 [![npm][npm-image]][npm-url] [![license][license-image]][license-url]
 
-Small helper library to work with layout breakpoints<sup>[1](#note-1)</sup> in Javascript.
+Small helper library (~1.1 kB) to work with layout breakpoints<sup>[1](#note-1)</sup> in Javascript.
+
+## Demo
+
+View a demo [here](https://nicolas-cusan.github.io/breakpoint-helper/). Resize the window above by dragging the bottom right corner.
 
 ## Core functionality
 
@@ -33,7 +37,7 @@ yarn add breakpoint-helper
 
 ## Usage
 
-The breakpoint-helper exports a factory function to create a breakpoint-helper instance. The factory function expects to receive the breakpoints it should work. There are different ways to provide the breakpoints, the best choice depends on the specific project setup.
+The breakpoint-helper exports a factory function to create a breakpoint-helper instance. The factory function expects to receive the breakpoints it should work with. There are different ways to provide the breakpoints, the best choice depends on the specific project setup.
 
 > **NOTE:** All initialization options expect the breakpoints to be ordered from small to large.
 
@@ -399,6 +403,12 @@ const callback = (bps) => {
   // ...
 };
 ```
+
+## Size & compatibility
+
+Depending on the bundle the library is about 1.1 kB when gziped.
+
+The library is compatible with modern browsers and should also work with IE11 (not tested).
 
 ## Roadmap
 

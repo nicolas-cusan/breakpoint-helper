@@ -1,11 +1,32 @@
 <!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>breakpoint-helper</title>
+  <title>breakpoint-helper Javascript library</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;display=swap">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/destyle.css@2.0.2/destyle.css">
   <link rel="stylesheet" href="./index.scss">
+
+  <meta name="description" content="Small helper library to work with layout breakpoints in Javascript">
+  <meta name="apple-mobile-web-app-title" content="breakpoint-helper Javascript library">
+  <meta name="application-name" content="breakpoint-helper Javascript library">
+  <meta property="og:description" content="Small helper library to work with layout breakpoints in Javascript">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="@n_cusan">
+  <meta name="twitter:description" content="Small helper library to work with layout breakpoints in Javascript">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./img/safari-pinned-tab.svg" color="#47b275">
+  <link rel="shortcut icon" href="./img/favicon.ico">
+  <meta name="msapplication-TileColor" content="#47b275">
+  <meta name="msapplication-config" content="./img/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+
 </head>
 <body>
   <header>
@@ -23,6 +44,7 @@
 
   <figure class="resizer">
     <div class="resizer-inner">
+      <div class="resizer-dragger"></div>
       <div class="resizer-chrome">Demo - Resize me!</div>
       <iframe src="./frame.html" frameborder="0"></iframe>
     </div>
@@ -31,12 +53,20 @@
   <div class="container">
     <nav class="toc">
 
-      <ul id="toc"><li><a href="#core-functionality">Core functionality</a></li><li><a href="#introduction">Introduction</a></li><li><a href="#installation">Installation</a></li><li><a href="#usage">Usage</a></li><li><a href="#methods">Methods</a></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#motivation">Motivation</a></li><li><a href="#credits">Credits</a></li><li><a href="#notes">Notes</a></li></ul>
+      <ul id="toc"><li><a href="#demo">Demo</a></li><li><a href="#core-functionality">Core functionality</a></li><li><a href="#introduction">Introduction</a></li><li><a href="#installation">Installation</a></li><li><a href="#usage">Usage</a></li><li><a href="#methods">Methods</a></li><li><a href="#size--compatibility">Size &amp; compatibility</a></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#motivation">Motivation</a></li><li><a href="#credits">Credits</a></li><li><a href="#notes">Notes</a></li></ul>
     </nav>
+
+    <div class="content">
+      <h2 id="Demo">Demo</h2>
+
+      <p>Resize the window above by dragging the bottom right corner. The current breakpoint name is displayed in the middle of the window.</p>
+    </div>
 
     <div class="content" id="content">
 
 
+<h2 id="demo">Demo</h2>
+<p>View a demo <a href="https://nicolas-cusan.github.io/breakpoint-helper/">here</a>. Resize the window above by dragging the bottom right corner.</p>
 <h2 id="core-functionality">Core functionality</h2>
 <ul>
 <li>Easily check if a breakpoint is active referencing it by name instead of value.</li>
@@ -56,7 +86,7 @@
 <span class="hljs-meta">#</span><span class="bash"> or</span>
 yarn add breakpoint-helper</code></pre>
 <h2 id="usage">Usage</h2>
-<p>The breakpoint-helper exports a factory function to create a breakpoint-helper instance. The factory function expects to receive the breakpoints it should work. There are different ways to provide the breakpoints, the best choice depends on the specific project setup.</p>
+<p>The breakpoint-helper exports a factory function to create a breakpoint-helper instance. The factory function expects to receive the breakpoints it should work with. There are different ways to provide the breakpoints, the best choice depends on the specific project setup.</p>
 <blockquote>
 <p><strong>NOTE:</strong> All initialization options expect the breakpoints to be ordered from small to large.</p>
 </blockquote>
@@ -344,6 +374,9 @@ listener.on();</code></pre>
 <span class="hljs-keyword">const</span> callback = <span class="hljs-function">(<span class="hljs-params">bps</span>) =&gt;</span> {
   <span class="hljs-comment">// ...</span>
 };</code></pre>
+<h2 id="size--compatibility">Size &amp; compatibility</h2>
+<p>Depending on the bundle the library is about 1.1 kB when gziped.</p>
+<p>The library is compatible with modern browsers and should also work with IE11 (not tested).</p>
 <h2 id="roadmap">Roadmap</h2>
 <ul>
 <li>Codepen or Codesandbox examples.</li>

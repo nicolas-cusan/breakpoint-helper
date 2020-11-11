@@ -1,4 +1,17 @@
 export const root = document.getElementById('root');
+
+function mergeObjects() {
+  const resObj = {};
+  for (let i = 0; i < arguments.length; i += 1) {
+    const obj = arguments[i],
+      keys = Object.keys(obj);
+    for (let j = 0; j < keys.length; j += 1) {
+      resObj[keys[j]] = obj[keys[j]];
+    }
+  }
+  return resObj;
+}
+
 export function renderExample(options = {}) {
   const defaults = {
     title: '',
@@ -8,7 +21,7 @@ export function renderExample(options = {}) {
     result: '',
   };
 
-  const settings = Object.assign({}, defaults, options);
+  const settings = mergeObjects({}, defaults, options);
   const { title, subtitle, useBtn, code, result } = settings;
 
   const h2 = document.createElement('h2');

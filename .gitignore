@@ -7,3 +7,4 @@ example-dist
 docs-dist
 out
 .vscode
+.DS_Store
