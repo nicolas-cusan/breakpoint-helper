@@ -46,7 +46,7 @@ async function build() {
   (async function () {
     if (process.env.NODE_ENV === 'production') {
       const bundler = new Bundler([`${src}/index.html`], {
-        publicUrl: '/breakpoint-helper/',
+        publicUrl: 'https://nicolas-cusan.github.io/breakpoint-helper/',
         sourceMaps: false,
         outDir: './docs-dist',
       });
