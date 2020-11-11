@@ -31,7 +31,7 @@ async function build() {
   const $ = cheerio.load(index);
   const $content = $('#content');
   $content.html('').append(parsed);
-  $content.find('h2').first().prevAll().remove();
+  $content.find('h2').eq(1).prevAll().remove();
 
   let menu = '';
   $content.find('h2').each((idx, el) => {
