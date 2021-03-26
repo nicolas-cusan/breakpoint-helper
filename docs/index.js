@@ -3,6 +3,7 @@ const doc = document.documentElement;
 // Update color
 window.addEventListener('message', (event) => {
   if (event.origin !== window.location.origin) return;
+  if (typeof event.data !== 'string') return;
 
   doc.style.setProperty('--link-color', event.data);
 });
