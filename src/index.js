@@ -189,7 +189,7 @@ function listen(options, callback) {
     }
 
     if (opts.immediate) callback(mq);
-    mq.addListener(callback);
+    mq.addEventListener('change', callback);
   }
 
   on();
@@ -235,15 +235,17 @@ function listenAll(callback, options = {}) {
     });
   }
 
+  const cb = () => {
+    callback(_matchAll(bps, opts.useMax));
+  };
+
   function on() {
     bps.forEach((bp) => {
-      const cb = () => {
-        callback(_matchAll(bps, opts.useMax));
-      };
-
-      const listener = listen({ name: bp, ...opts }, cb);
+      const listener = listen({ name: bp, useMax: opts.useMax, immediate: false }, cb);
       listeners.push(listener);
     });
+
+    if (opts.immediate) cb();
   }
 
   on();
