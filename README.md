@@ -6,7 +6,7 @@ Small helper library (~1.1 kB) to work with layout breakpoints<sup>[1](#note-1)<
 
 ## Demo
 
-View a demo [here](https://nicolas-cusan.github.io/breakpoint-helper/). Resize the window above by dragging the bottom right corner.
+View a demo [here](https://nicolas-cusan.github.io/breakpoint-helper/).
 
 ## Core functionality
 
