@@ -189,7 +189,7 @@ function listen(options, callback) {
     }
 
     if (opts.immediate) callback(mq);
-    mq.addEventListener('change', callback);
+    if (mq) mq.addEventListener('change', callback);
   }
 
   on();
