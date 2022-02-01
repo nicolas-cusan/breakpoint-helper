@@ -1,6 +1,6 @@
 {
   "name": "breakpoint-helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Small helper library to work with layout breakpoints in Javascript.",
   "author": "Nicolas Cusan <nc@arillo.ch>",
   "license": "MIT",
