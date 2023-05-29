@@ -16,7 +16,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "rm -rf dist && microbundle --name breakpoint-helper",
+    "build": "rm -rf dist && tsc && node build.js",
     "start": "rm -rf docs-dist && node build-docs.js",
     "docs": "export NODE_ENV=production && rm -rf docs-dist && node build-docs.js && gh-pages -d docs-dist",
     "prepublishOnly": "npm run -s build"
@@ -36,13 +36,18 @@
     "min-width"
   ],
   "devDependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "esbuild": "^0.17.19",
     "gh-pages": "^3.1.0",
+    "highlight.js": "^10.3.2",
     "marked": "^1.2.3",
     "microbundle": "^0.12.4",
     "parcel": "^1.12.4",
     "prettier": "^2.1.2",
     "sass": "^1.29.0",
-    "cheerio": "^1.0.0-rc.3",
-    "highlight.js": "^10.3.2"
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "esbuild-plugin-copy": "^2.1.1"
   }
 }
