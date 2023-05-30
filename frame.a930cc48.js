@@ -276,7 +276,7 @@ var _toConsumableArray = require("@swc/helpers/_/_to_consumable_array");
             useMax: false,
             immediate: true
         };
-        if (typeof options === "string") opts.name = options;
+        if (typeof options === "string" || Array.isArray(options)) opts.name = options;
         else {
             opts.name = options.name;
             opts.useMax = options.useMax || false;
