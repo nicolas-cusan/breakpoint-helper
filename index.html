@@ -1,71 +1,206 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>breakpoint-helper Javascript library</title><link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;display=swap"><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/destyle.css@2.0.2/destyle.css"><link rel="stylesheet" href="https://nicolas-cusan.github.io/breakpoint-helper/docs.606667dc.css"><meta name="description" content="Small helper library to work with layout breakpoints in Javascript"><meta name="apple-mobile-web-app-title" content="breakpoint-helper"><meta name="application-name" content="breakpoint-helper"><meta property="og:description" content="Small helper library to work with layout breakpoints in Javascript"><meta property="og:image" content="https://nicolas-cusan.github.io/breakpoint-helper/meta-image.c31b9f9c.png"><meta property="og:type" content="website"><meta property="og:title" content="breakpoint-helper Javascript library"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nicolas-cusan.github.io/breakpoint-helper/meta-image.c31b9f9c.png"><meta name="twitter:creator" content="@n_cusan"><meta name="twitter:site" content="@n_cusan"><link rel="apple-touch-icon" sizes="180x180" href="https://nicolas-cusan.github.io/breakpoint-helper/apple-touch-icon.0964c198.png"><link rel="icon" type="image/png" sizes="32x32" href="https://nicolas-cusan.github.io/breakpoint-helper/favicon-32x32.b59d0b49.png"><link rel="icon" type="image/png" sizes="16x16" href="https://nicolas-cusan.github.io/breakpoint-helper/favicon-16x16.bf079ca4.png"><link rel="manifest" href="https://nicolas-cusan.github.io/breakpoint-helper/site.webmanifest"><link rel="mask-icon" href="https://nicolas-cusan.github.io/breakpoint-helper/safari-pinned-tab.d59152c8.svg" color="#47b275"><link rel="icon shortcut" href="https://nicolas-cusan.github.io/breakpoint-helper/favicon.27170fb3.ico"><meta name="msapplication-TileColor" content="#47b275"><meta name="msapplication-config" content="https://nicolas-cusan.github.io/breakpoint-helper/browserconfig.2b5c9852.xml"><meta name="theme-color" content="#ffffff"><script async src="https://www.googletagmanager.com/gtag/js?id=G-S2QEM82YKV"></script><script>function a(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],a("js",new Date),a("config","G-S2QEM82YKV");</script></head><body> <header> <h1 class="main-title">breakpoint-helper</h1> <p class="tagline">Small helper library to work with layout breakpoints<sup><a href="#note-1">1</a></sup> in Javascript.</p> </header> <div class="links"> <div class="buttons"> <a class="btn" href="https://github.com/nicolas-cusan/breakpoint-helper">Github</a> <a class="btn" href="https://www.npmjs.com/package/breakpoint-helper">NPM</a> <a class="btn" href="https://nicolas-cusan.github.io/breakpoint-helper/test.html">Test Page</a> </div> </div> <figure class="resizer"> <div class="resizer-inner"> <div class="resizer-dragger"></div> <div class="resizer-chrome">Demo - Resize me!</div> <iframe src="https://nicolas-cusan.github.io/breakpoint-helper/frame.html" frameborder="0"></iframe> </div> </figure> <div class="container"> <nav class="toc"> <ul id="toc"><li><a href="#core-functionality">Core functionality</a></li><li><a href="#introduction">Introduction</a></li><li><a href="#installation">Installation</a></li><li><a href="#usage">Usage</a></li><li><a href="#methods">Methods</a></li><li><a href="#size--compatibility">Size &amp; compatibility</a></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#motivation">Motivation</a></li><li><a href="#credits">Credits</a></li><li><a href="#notes">Notes</a></li></ul> </nav> <div class="content"> <h2 id="Demo">Demo</h2> <p>Resize the window above by dragging the bottom right corner. The current breakpoint name is displayed in the middle of the window.</p> </div> <div class="content" id="content"> <h2 id="core-functionality">Core functionality</h2> <ul> <li>Easily check if a breakpoint is active referencing it by name instead of value.</li> <li>Listen to breakpoint changes and add/remove functionality accordingly.</li> <li>Works with <code>px</code> and <code>em</code> breakpoints.</li> <li>Supports <code>min-width</code> and <code>max-width</code>.</li> <li>Define your own breakpoint names and values.</li> <li>Share CSS breakpoints with Javascript so they only need to be maintained in one place (optional).</li> </ul> <h2 id="introduction">Introduction</h2> <p>In CSS it is common practice to give layout breakpoints, used in width-based media queries, names, such as <code>&apos;mobile&apos;</code>, <code>&apos;tablet&apos;</code>, <code>&apos;desktop&apos;</code> or <code>&apos;sm&apos;</code>, <code>&apos;md&apos;</code>, <code>&apos;lg&apos;</code>, to be able to easily reference them instead of having to remember exact values.</p> <p>Often times the the CSS breakpoints apply styling changes that need to be mirrored in Javascript, e.g. display cards in a slider on small screens (with Javascript) and as a grid on larger screens (without Javascript).</p> <p><strong>breakpoint-helper</strong> is a thin wrapper around <code>window.matchMedia</code> that aims to make working with layout breakpoints in Javascript more convenient by allowing to reference the breakpoints by name instead of by value (<code>&apos;sm&apos;</code> vs. <code>765px</code>) and providing a convenient API to set and remove event listeners on media queries.</p> <h2 id="installation">Installation</h2> <p>Install via <a href="https://www.npmjs.com/package/breakpoint-helper">npm</a> or yarn:</p> <pre><code class="language-shell">npm install --save breakpoint-helper
-<span class="hljs-meta">#</span><span class="bash"> or</span>
-yarn add breakpoint-helper</code></pre> <h2 id="usage">Usage</h2> <p>The breakpoint-helper exports a factory function to create a breakpoint-helper instance. The factory function expects to receive the breakpoints it should work with. There are different ways to provide the breakpoints, the best choice depends on the specific project setup.</p> <blockquote> <p><strong>NOTE:</strong> All initialization options expect the breakpoints to be ordered from small to large.</p> </blockquote> <h3 id="initialize-with-javascript-object">Initialize with Javascript object</h3> <p>The breakpoints can defined in an object where the object keys represent the breakpoint names and the values the screen widths. The values should be of type <code>string</code> and include a CSS unit, both <code>px</code> and <code>em</code> are supported.</p> <pre><code class="language-js"><span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;breakpoint-helper&apos;</span>;
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>breakpoint-helper Javascript library</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/github.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/destyle.css@2.0.2/destyle.css">
+  <link rel="stylesheet" href="https://nicolas-cusan.github.io/breakpoint-helper/index.06012524.css">
 
-<span class="hljs-keyword">const</span> bph = breakpointHelper({
-  <span class="hljs-attr">xs</span>: <span class="hljs-string">&apos;416px&apos;</span>,
-  <span class="hljs-attr">sm</span>: <span class="hljs-string">&apos;600px&apos;</span>,
-  <span class="hljs-attr">md</span>: <span class="hljs-string">&apos;768px&apos;</span>,
-  <span class="hljs-attr">lg</span>: <span class="hljs-string">&apos;1024px&apos;</span>,
-  <span class="hljs-attr">xl</span>: <span class="hljs-string">&apos;1280px&apos;</span>,
-  <span class="hljs-attr">xxl</span>: <span class="hljs-string">&apos;1520px&apos;</span>,
-});</code></pre> <p>This method is convenient when using a styling system that defines breakpoints in Javascript, e.g. <a href="https://tailwindcss.com/">Tailwind CSS</a>. Given the following Tailwind config:</p> <pre><code class="language-js"><span class="hljs-comment">// tailwind.config.js</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-  <span class="hljs-attr">theme</span>: {
-    <span class="hljs-comment">// Breakpoints</span>
-    <span class="hljs-attr">screens</span>: {
-      <span class="hljs-attr">xs</span>: <span class="hljs-string">&apos;416px&apos;</span>,
-      <span class="hljs-attr">sm</span>: <span class="hljs-string">&apos;600px&apos;</span>,
-      <span class="hljs-attr">md</span>: <span class="hljs-string">&apos;768px&apos;</span>,
-      <span class="hljs-attr">lg</span>: <span class="hljs-string">&apos;1024px&apos;</span>,
-      <span class="hljs-attr">xl</span>: <span class="hljs-string">&apos;1280px&apos;</span>,
-      <span class="hljs-attr">xxl</span>: <span class="hljs-string">&apos;1520px&apos;</span>,
-    },
-    <span class="hljs-comment">// Other config ...</span>
-  },
-};</code></pre> <p>Import the Tailwind CSS config and use the <code>screen</code> key that defines the breakpoints when instantiating breakpoint-helper:</p> <pre><code class="language-js"><span class="hljs-comment">// src/utils/bph.js</span>
-<span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;breakpoint-helper&apos;</span>;
-<span class="hljs-keyword">import</span> config <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./path/to/tailwind.config.js&apos;</span>;
+  <meta name="description" content="Small helper library to work with layout breakpoints in Javascript">
+  <meta name="apple-mobile-web-app-title" content="breakpoint-helper">
+  <meta name="application-name" content="breakpoint-helper">
+  <meta property="og:description" content="Small helper library to work with layout breakpoints in Javascript">
+  <meta property="og:image" content="https://nicolas-cusan.github.io/breakpoint-helper/img/meta-image.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="breakpoint-helper Javascript library">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nicolas-cusan.github.io/breakpoint-helper/img/meta-image.png">
+  <meta name="twitter:creator" content="@n_cusan">
+  <meta name="twitter:site" content="@n_cusan">
 
-<span class="hljs-keyword">const</span> bph = breakpointHelper(config.theme.screens);</code></pre> <h3 id="initialize-with-sass-map-share-css-breakpoints-with-javascript">Initialize with Sass map (share CSS breakpoints with Javascript)</h3> <p>Breakpoint-helper provides a sass mixin that allows the use of a Sass map to define the breakpoints. To use this method use the mixin in your Sass code by passing it the breakpoints as argument:</p> <pre><code class="language-scss"><span class="hljs-comment">// Import the mixin, path may vary depending on implementation</span>
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&apos;./node_modules/breakpoint-helper/src/breakpoint-helper&apos;</span>;
+  <link rel="apple-touch-icon" sizes="180x180" href="https://nicolas-cusan.github.io/breakpoint-helper/apple-touch-icon.63fc1bc9.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://nicolas-cusan.github.io/breakpoint-helper/favicon-32x32.47a38220.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://nicolas-cusan.github.io/breakpoint-helper/favicon-16x16.72cc3cf1.png">
+  <link rel="manifest" href="https://nicolas-cusan.github.io/breakpoint-helper/site.webmanifest">
+  <link rel="mask-icon" href="https://nicolas-cusan.github.io/breakpoint-helper/safari-pinned-tab.70e9da14.svg" color="#47b275">
+  <link rel="shortcut icon" href="https://nicolas-cusan.github.io/breakpoint-helper/favicon.a068bc91.ico">
+  <meta name="msapplication-TileColor" content="#47b275">
+  <meta name="msapplication-config" content="https://nicolas-cusan.github.io/breakpoint-helper/browserconfig.4b88bef4.xml">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-S2QEM82YKV"></script>
+  <script>window.dataLayer = window.dataLayer || [];
+function gtag() {
+    dataLayer.push(arguments);
+}
+gtag("js", new Date());
+gtag("config", "G-S2QEM82YKV");
+
+</script>
+</head>
+<body>
+  <header>
+    <h1 class="main-title">breakpoint-helper</h1>
+    <p class="tagline">Small helper library to work with layout breakpoints<sup><a href="#note-1">1</a></sup> in Javascript.</p>
+  </header>
+
+  <div class="links">
+    <div class="buttons">
+      <a class="btn" href="https://github.com/nicolas-cusan/breakpoint-helper">Github</a>
+      <a class="btn" href="https://www.npmjs.com/package/breakpoint-helper">NPM</a>
+      <a class="btn" href="https://nicolas-cusan.github.io/breakpoint-helper/test.html">Test Page</a>
+    </div>
+  </div>
+
+  <figure class="resizer">
+    <div class="resizer-inner">
+      <div class="resizer-dragger"></div>
+      <div class="resizer-chrome">Demo - Resize me!</div>
+      <iframe src="https://nicolas-cusan.github.io/breakpoint-helper/frame.html" frameborder="0"></iframe>
+    </div>
+  </figure>
+
+  <div class="container">
+    <nav class="toc">
+
+      <div id="toc"><ul class="list"><li><a href="#core-functionality">Core functionality</a><ul></ul></li><li><a href="#introduction">Introduction</a><ul></ul></li><li><a href="#installation">Installation</a><ul></ul></li><li><a href="#usage">Usage</a><ul><li><a href="#initialize-with-javascript-object" class="sub-item">Initialize with Javascript object</a></li><li><a href="#initialize-using-css-custom-properties" class="sub-item">Initialize using CSS custom properties</a></li><li><a href="#initialize-with-sass-map-share-css-breakpoints-with-javascript" class="sub-item">Initialize with Sass map</a></li><li><a href="#typescript" class="sub-item">Typescript</a></li><li><a href="#usage-with-react" class="sub-item">Usage with React</a></li></ul></li><li><a href="#methods">Methods</a><ul><li><a href="#getbreakpoints" class="sub-item"><code>getBreakpoints</code></a></li><li><a href="#getmediaqueryname-usemaxfalse" class="sub-item"><code>getMediaQuery</code></a></li><li><a href="#ismatchingname-usemaxfalse" class="sub-item"><code>isMatching</code></a></li><li><a href="#listenoptions-callback" class="sub-item"><code>listen</code></a></li><li><a href="#listenallcallback-options" class="sub-item"><code>listenAll</code></a></li></ul></li><li><a href="#size--compatibility">Size &amp; compatibility</a><ul></ul></li><li><a href="#roadmap">Roadmap</a><ul></ul></li><li><a href="#motivation">Motivation</a><ul></ul></li><li><a href="#credits">Credits</a><ul></ul></li><li><a href="#notes">Notes</a><ul></ul></li></ul></div>
+    </nav>
+
+    <div class="content">
+      <h2 id="Demo">Demo</h2>
+
+      <p>Resize the window above by dragging the bottom right corner. The current breakpoint name is displayed in the middle of the window.</p>
+    </div>
+
+    <div class="content" id="content">
+
+
+
+
+<h2 id="core-functionality">Core functionality</h2>
+<ul>
+<li>Easily check if a breakpoint is active referencing it by name instead of value.</li>
+<li>Listen to breakpoint changes and add/remove functionality accordingly.</li>
+<li>Works with <code>px</code> and <code>em</code> breakpoints.</li>
+<li>Supports <code>min-width</code> and <code>max-width</code>.</li>
+<li>Define your own breakpoint names and values.</li>
+<li>Share CSS breakpoints with Javascript so they only need to be maintained in one place (optional).</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In CSS it is common practice to give layout breakpoints, used in width-based media queries, names, such as <code>'mobile'</code>, <code>'tablet'</code>, <code>'desktop'</code> or <code>'sm'</code>, <code>'md'</code>, <code>'lg'</code>, to be able to easily reference them instead of having to remember exact values.</p>
+<p>Often times the the CSS breakpoints apply styling changes that need to be mirrored in Javascript, e.g. display cards in a slider on small screens (with Javascript) and as a grid on larger screens (without Javascript).</p>
+<p><strong>breakpoint-helper</strong> is a thin wrapper around <code>window.matchMedia</code> that aims to make working with layout breakpoints in Javascript more convenient by allowing to reference the breakpoints by name instead of by value (<code>'sm'</code> vs. <code>765px</code>) and providing a convenient API to set and remove event listeners on media queries.</p>
+<h2 id="installation">Installation</h2>
+<p>Install via <a href="https://www.npmjs.com/package/breakpoint-helper">npm</a> or yarn:</p>
+<pre><code class="hljs language-shell">npm install --save breakpoint-helper
+<span class="hljs-meta prompt_"># </span><span class="language-bash">or</span>
+yarn add breakpoint-helper
+</code></pre><h2 id="usage">Usage</h2>
+<p>The breakpoint-helper exports a factory function to create a breakpoint-helper instance. The factory function expects to receive the breakpoints it should work with. There are different ways to provide the breakpoints, the best choice depends on the specific project setup.</p>
+<blockquote>
+<p><strong>NOTE:</strong> All initialization options expect the breakpoints to be ordered from small to large.</p>
+</blockquote>
+<h3 id="initialize-with-javascript-object">Initialize with Javascript object</h3>
+<p>The breakpoints can defined in an object where the object keys represent the breakpoint names and the values the screen widths. The values should be of type <code>string</code> and include a CSS unit, both <code>px</code> and <code>em</code> are supported.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">'breakpoint-helper'</span>;
+
+<span class="hljs-keyword">const</span> bph = <span class="hljs-title function_">breakpointHelper</span>({
+  <span class="hljs-attr">xs</span>: <span class="hljs-string">'416px'</span>,
+  <span class="hljs-attr">sm</span>: <span class="hljs-string">'600px'</span>,
+  <span class="hljs-attr">md</span>: <span class="hljs-string">'768px'</span>,
+  <span class="hljs-attr">lg</span>: <span class="hljs-string">'1024px'</span>,
+  <span class="hljs-attr">xl</span>: <span class="hljs-string">'1280px'</span>,
+  <span class="hljs-attr">xxl</span>: <span class="hljs-string">'1520px'</span>,
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> bph;
+</code></pre><h3 id="initialize-using-css-custom-properties">Initialize using CSS custom properties</h3>
+<p>Declare custom properties on the <code>:root</code> selector using the prefix <code>--bph-</code>:</p>
+<pre><code class="hljs language-css"><span class="hljs-selector-pseudo">:root</span> {
+  <span class="hljs-attr">--bph-xs</span>: <span class="hljs-number">416px</span>;
+  <span class="hljs-attr">--bph-sm</span>: <span class="hljs-number">600px</span>;
+  <span class="hljs-attr">--bph-md</span>: <span class="hljs-number">768px</span>;
+  <span class="hljs-attr">--bph-lg</span>: <span class="hljs-number">1024px</span>;
+  <span class="hljs-attr">--bph-xl</span>: <span class="hljs-number">1280px</span>;
+  <span class="hljs-attr">--bph-xxl</span>: <span class="hljs-number">1520px</span>;
+}
+</code></pre><p>Then initialize breakpoint-helper passing the string <code>'custom'</code> as an argument:</p>
+<pre><code class="hljs language-js"><span class="hljs-comment">// src/utils/bph.js</span>
+<span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">'breakpoint-helper'</span>;
+
+<span class="hljs-keyword">const</span> bph = <span class="hljs-title function_">breakpointHelper</span>(<span class="hljs-string">'custom'</span>);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> bph;
+</code></pre><h3 id="initialize-with-sass-map-share-css-breakpoints-with-javascript">Initialize with Sass map (share CSS breakpoints with Javascript)</h3>
+<p>Breakpoint-helper provides a sass mixin that allows the use of a Sass map to define the breakpoints. To use this method use the mixin in your Sass code by passing it the breakpoints as argument:</p>
+<pre><code class="hljs language-scss"><span class="hljs-comment">// Import the mixin, path may vary depending on implementation</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">'./node_modules/breakpoint-helper/src/breakpoint-helper'</span>;
 
 <span class="hljs-comment">// Define a map of breakpoints</span>
 <span class="hljs-variable">$bps</span>: (
-  <span class="hljs-string">&apos;xs&apos;</span>: <span class="hljs-number">416px</span>,
-  <span class="hljs-string">&apos;sm&apos;</span>: <span class="hljs-number">600px</span>,
-  <span class="hljs-string">&apos;md&apos;</span>: <span class="hljs-number">768px</span>,
-  <span class="hljs-string">&apos;lg&apos;</span>: <span class="hljs-number">1024px</span>,
-  <span class="hljs-string">&apos;xl&apos;</span>: <span class="hljs-number">1280px</span>,
-  <span class="hljs-string">&apos;xxl&apos;</span>: <span class="hljs-number">1520px</span>,
+  <span class="hljs-string">'xs'</span>: <span class="hljs-number">416px</span>,
+  <span class="hljs-string">'sm'</span>: <span class="hljs-number">600px</span>,
+  <span class="hljs-string">'md'</span>: <span class="hljs-number">768px</span>,
+  <span class="hljs-string">'lg'</span>: <span class="hljs-number">1024px</span>,
+  <span class="hljs-string">'xl'</span>: <span class="hljs-number">1280px</span>,
+  <span class="hljs-string">'xxl'</span>: <span class="hljs-number">1520px</span>,
 );
 
 <span class="hljs-comment">// Use the mixin</span>
-<span class="hljs-keyword">@include</span> breakpoint-helper(<span class="hljs-variable">$bps</span>);</code></pre> <p>Then initialize breakpoint-helper with the string <code>&apos;meta&apos;</code> as argument:</p> <pre><code class="language-js"><span class="hljs-comment">// src/utils/bph.js</span>
-<span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;breakpoint-helper&apos;</span>;
+<span class="hljs-keyword">@include</span> breakpoint-helper(<span class="hljs-variable">$bps</span>);
+</code></pre><p>Then initialize breakpoint-helper with the string <code>'meta'</code> as argument:</p>
+<pre><code class="hljs language-js"><span class="hljs-comment">// src/utils/bph.js</span>
+<span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">'breakpoint-helper'</span>;
 
-<span class="hljs-keyword">const</span> bph = breakpointHelper(<span class="hljs-string">&apos;meta&apos;</span>);</code></pre> <h4 id="what-is-happening-here">What is happening here?</h4> <p>The Sass mixin will create a ruleset for the class <code>.breakpoint-helper</code> with a single <code>font-family</code> declaration, the <code>font-family</code> value will be a serialized string of the breakpoint map:</p> <pre><code class="language-css"><span class="hljs-selector-class">.breakpoint-helper</span> {
-  <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&apos;xs=416px&amp;sm=600px&amp;md=768px&amp;lg=1024px&amp;xl=1280px&amp;xxl=1520px&apos;</span>;
-}</code></pre> <p>When breakpoint-helper gets initialized it will create a <code>&lt;meta&gt;</code> element in the document&apos;s <code>&lt;head&gt;</code> tag with the class <code>breakpoint-helper</code>, read the <code>font-famliy</code> CSS value and deserialize it.</p> <blockquote> <p><strong>NOTE:</strong> This method does not require the use of Sass or the mixin per se. All that is required is the class <code>.breakpoint-helper</code> with the serialized breakpoints as <code>font-family</code> value.</p> </blockquote> <h3 id="initialize-using-css-custom-properties">Initialize using CSS custom properties</h3> <p>Declare the custom properties on the <code>:root</code> selector using the prefix <code>--bph-</code>:</p> <pre><code class="language-css"><span class="hljs-selector-pseudo">:root</span> {
-  <span class="hljs-attribute">--bph-xs</span>: <span class="hljs-number">416px</span>;
-  <span class="hljs-attribute">--bph-sm</span>: <span class="hljs-number">600px</span>;
-  <span class="hljs-attribute">--bph-md</span>: <span class="hljs-number">768px</span>;
-  <span class="hljs-attribute">--bph-lg</span>: <span class="hljs-number">1024px</span>;
-  <span class="hljs-attribute">--bph-xl</span>: <span class="hljs-number">1280px</span>;
-  <span class="hljs-attribute">--bph-xxl</span>: <span class="hljs-number">1520px</span>;
-}</code></pre> <p>Then initialize breakpoint-helper passing the string <code>&apos;custom&apos;</code> as an argument:</p> <pre><code class="language-js"><span class="hljs-comment">// src/utils/bph.js</span>
-<span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;breakpoint-helper&apos;</span>;
+<span class="hljs-keyword">const</span> bph = <span class="hljs-title function_">breakpointHelper</span>(<span class="hljs-string">'meta'</span>);
 
-<span class="hljs-keyword">const</span> bph = breakpointHelper(<span class="hljs-string">&apos;custom&apos;</span>);</code></pre> <h2 id="methods">Methods</h2> <p>Each breakpoint-helper instance returns methods to work with the breakpoints.</p> <p>In larger projects it is convenient to create a reusable breakpoint-helper instance module and export the returned methods for easier usage.</p> <pre><code class="language-js"><span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;breakpoint-helper&apos;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> bph;
+</code></pre><h4 id="what-is-happening-here">What is happening here?</h4>
+<p>The Sass mixin will create a ruleset for the class <code>.breakpoint-helper</code> with a single <code>font-family</code> declaration, the <code>font-family</code> value will be a serialized string of the breakpoint map:</p>
+<pre><code class="hljs language-css"><span class="hljs-selector-class">.breakpoint-helper</span> {
+  <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'xs=416px&amp;sm=600px&amp;md=768px&amp;lg=1024px&amp;xl=1280px&amp;xxl=1520px'</span>;
+}
+</code></pre><p>When breakpoint-helper gets initialized it will create a <code>&lt;meta&gt;</code> element in the document's <code>&lt;head&gt;</code> tag with the class <code>breakpoint-helper</code>, read the <code>font-famliy</code> CSS value and deserialize it.</p>
+<blockquote>
+<p><strong>NOTE:</strong> This method does not require the use of Sass or the mixin per se. All that is required is the class <code>.breakpoint-helper</code> with the serialized breakpoints as <code>font-family</code> value.</p>
+</blockquote>
+<h3 id="typescript">Typescript</h3>
+<p>As of <code>v2.0.0</code> The library is written in Typescript and types definitions are available.</p>
+<h3 id="usage-with-react">Usage with React</h3>
+<p>To use breakpoint-helper in React, setup an instance using any of the methods above and use it within a <code>useEffect</code> hook. You can then use a <code>useState</code> hook to use it inside your component's render function.</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> { useEffect, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> { listen } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">MyComponent</span> = (<span class="hljs-params">props</span>) =&gt; {
+  <span class="hljs-keyword">const</span> [isMatching, setIsMatching] = <span class="hljs-title function_">useState</span>(<span class="hljs-literal">true</span>); <span class="hljs-comment">// Set a default value in case you are using SSR</span>
+
+  <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">const</span> listener = <span class="hljs-title function_">listen</span>(<span class="hljs-string">'sm'</span>, <span class="hljs-function">(<span class="hljs-params">{ matches }</span>) =&gt;</span> {
+      <span class="hljs-title function_">setIsMatching</span>(matches);
+    });
+    <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> listener.<span class="hljs-title function_">off</span>(); <span class="hljs-comment">// Remove the event listener on component unmount</span>
+  }, []);
+
+  <span class="hljs-keyword">return</span> isMatching ? (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"is-matching"</span>&gt;</span>Matching the "sm" breakpoint.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  ) : (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"not-matching"</span>&gt;</span>Not matching the "sm" breakpoint.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+</code></pre><h2 id="methods">Methods</h2>
+<p>Each breakpoint-helper instance returns methods to work with the breakpoints.</p>
+<p>In larger projects it is convenient to create a reusable breakpoint-helper instance module and export the returned methods for easier usage.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> breakpointHelper <span class="hljs-keyword">from</span> <span class="hljs-string">'breakpoint-helper'</span>;
 
 <span class="hljs-comment">// Could be any other of the initialization methods</span>
-<span class="hljs-keyword">const</span> instance = breakpointHelper({
-  <span class="hljs-attr">xs</span>: <span class="hljs-string">&apos;416px&apos;</span>,
-  <span class="hljs-attr">sm</span>: <span class="hljs-string">&apos;600px&apos;</span>,
-  <span class="hljs-attr">md</span>: <span class="hljs-string">&apos;768px&apos;</span>,
-  <span class="hljs-attr">lg</span>: <span class="hljs-string">&apos;1024px&apos;</span>,
-  <span class="hljs-attr">xl</span>: <span class="hljs-string">&apos;1280px&apos;</span>,
-  <span class="hljs-attr">xxl</span>: <span class="hljs-string">&apos;1520px&apos;</span>,
+<span class="hljs-keyword">const</span> instance = <span class="hljs-title function_">breakpointHelper</span>({
+  <span class="hljs-attr">xs</span>: <span class="hljs-string">'416px'</span>,
+  <span class="hljs-attr">sm</span>: <span class="hljs-string">'600px'</span>,
+  <span class="hljs-attr">md</span>: <span class="hljs-string">'768px'</span>,
+  <span class="hljs-attr">lg</span>: <span class="hljs-string">'1024px'</span>,
+  <span class="hljs-attr">xl</span>: <span class="hljs-string">'1280px'</span>,
+  <span class="hljs-attr">xxl</span>: <span class="hljs-string">'1520px'</span>,
 });
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> {
@@ -74,48 +209,99 @@ yarn add breakpoint-helper</code></pre> <h2 id="usage">Usage</h2> <p>The breakpo
   isMatching,
   listen,
   listenAll,
-} = instance;
+} = instance; <span class="hljs-comment">// Destructure methods and export for conveninece</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> instance;</code></pre> <blockquote> <p><strong>NOTE:</strong> The following code examples assume the use of the instance above.</p> </blockquote> <h3 id="getbreakpoints"><code>getBreakpoints()</code></h3> <p>Get all breakpoints as an object. Useful for debugging or passing breakpoint values to other libraries.</p> <h4 id="returns">Returns</h4> <ul> <li><code>Object</code>: Object containing all instance breakpoints.</li> </ul> <h4 id="example">Example</h4> <pre><code class="language-js"><span class="hljs-keyword">import</span> { getBreakpoints } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> instance;
+</code></pre><blockquote>
+<p><strong>NOTE:</strong> The following code examples assume the use of the instance above.</p>
+</blockquote>
+<h3 id="getbreakpoints"><code>getBreakpoints()</code></h3>
+<p>Get all breakpoints as an object. Useful for debugging or passing breakpoint values to other libraries.</p>
+<h4 id="returns">Returns</h4>
+<ul>
+<li><code>Object</code>: Object containing all instance breakpoints.</li>
+</ul>
+<h4 id="example">Example</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { getBreakpoints } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
-<span class="hljs-keyword">const</span> breakpoints = getBreakpoints();
+<span class="hljs-keyword">const</span> breakpoints = <span class="hljs-title function_">getBreakpoints</span>();
 
-<span class="hljs-built_in">console</span>.log(breakpoints);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(breakpoints);
 <span class="hljs-comment">// {</span>
-<span class="hljs-comment">//   xs: &apos;416px&apos;,</span>
-<span class="hljs-comment">//   sm: &apos;600px&apos;,</span>
-<span class="hljs-comment">//   md: &apos;768px&apos;,</span>
-<span class="hljs-comment">//   lg: &apos;1024px&apos;,</span>
-<span class="hljs-comment">//   xl: &apos;1280px&apos;,</span>
-<span class="hljs-comment">//   xxl: &apos;1520px&apos;,</span>
-<span class="hljs-comment">// }</span></code></pre> <h3 id="getmediaqueryname-usemaxfalse"><code>getMediaQuery(name, [useMax=false])</code></h3> <p>Get a <code>min-width</code>, <code>max-width</code> or <code>min-width and max-width</code> media query by breakpoint name.</p> <h4 id="arguments">Arguments</h4> <ul> <li><strong><code>name</code></strong> <code>{string|Array}</code>: Breakpoint name or array of two breakpoint names.<sup><a href="#note-2">2</a></sup></li> <li><strong><code>[useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li> </ul> <h4 id="returns-1">Returns</h4> <ul> <li><code>{string}</code>: Media query string.</li> </ul> <h4 id="example-1">Example</h4> <pre><code class="language-js"><span class="hljs-keyword">import</span> { getMediaquery } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
+<span class="hljs-comment">//   xs: '416px',</span>
+<span class="hljs-comment">//   sm: '600px',</span>
+<span class="hljs-comment">//   md: '768px',</span>
+<span class="hljs-comment">//   lg: '1024px',</span>
+<span class="hljs-comment">//   xl: '1280px',</span>
+<span class="hljs-comment">//   xxl: '1520px',</span>
+<span class="hljs-comment">// }</span>
+</code></pre><h3 id="getmediaqueryname-usemaxfalse"><code>getMediaQuery(name, [useMax=false])</code></h3>
+<p>Get a <code>min-width</code>, <code>max-width</code> or <code>min-width and max-width</code> media query by breakpoint name.</p>
+<h4 id="arguments">Arguments</h4>
+<ul>
+<li><strong><code>name</code></strong> <code>{string|Array}</code>: Breakpoint name or array of two breakpoint names.<sup><a href="#note-2">2</a></sup></li>
+<li><strong><code>[useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li>
+</ul>
+<h4 id="returns-1">Returns</h4>
+<ul>
+<li><code>{string}</code>: Media query string.</li>
+</ul>
+<h4 id="example-1">Example</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { getMediaquery } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
-<span class="hljs-keyword">const</span> mq = getMediaquery(<span class="hljs-string">&apos;md&apos;</span>);
-<span class="hljs-built_in">console</span>.log(mq);
-<span class="hljs-comment">// &apos;(min-width: 768px)&apos;</span>
+<span class="hljs-keyword">const</span> mq = <span class="hljs-title function_">getMediaquery</span>(<span class="hljs-string">'md'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mq);
+<span class="hljs-comment">// '(min-width: 768px)'</span>
 
-<span class="hljs-keyword">const</span> mqMax = getMediaquery(<span class="hljs-string">&apos;md&apos;</span>, <span class="hljs-literal">true</span>);
-<span class="hljs-built_in">console</span>.log(mqMax);
-<span class="hljs-comment">// &apos;(max-width: 767px)&apos;</span>
+<span class="hljs-keyword">const</span> mqMax = <span class="hljs-title function_">getMediaquery</span>(<span class="hljs-string">'md'</span>, <span class="hljs-literal">true</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mqMax);
+<span class="hljs-comment">// '(max-width: 767px)'</span>
 
-<span class="hljs-keyword">const</span> mqMinMax = getMediaquery([<span class="hljs-string">&apos;md&apos;</span>, <span class="hljs-string">&apos;lg&apos;</span>]);
-<span class="hljs-built_in">console</span>.log(mqMax);
-<span class="hljs-comment">// &apos;(min-width: 768px) and (max-width: 1023px)&apos;</span></code></pre> <h3 id="ismatchingname-usemaxfalse"><code>isMatching(name, [useMax=false])</code></h3> <p>Check if a breakpoint or breakpoint range is currently matching.</p> <h4 id="arguments-1">Arguments</h4> <ul> <li><strong><code>name</code></strong> <code>{string|Array}</code>: Breakpoint name or array of two breakpoint names.<sup><a href="#note-2">2</a></sup></li> <li><strong><code>[useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li> </ul> <h4 id="returns-2">Returns</h4> <ul> <li><code>{boolean}</code>: Whether the breakpoint or breakpoint range is matching or not.</li> </ul> <h4 id="example-2">Example</h4> <pre><code class="language-js"><span class="hljs-keyword">import</span> { isMatching } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
+<span class="hljs-keyword">const</span> mqMinMax = <span class="hljs-title function_">getMediaquery</span>([<span class="hljs-string">'md'</span>, <span class="hljs-string">'lg'</span>]);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mqMax);
+<span class="hljs-comment">// '(min-width: 768px) and (max-width: 1023px)'</span>
+</code></pre><h3 id="ismatchingname-usemaxfalse"><code>isMatching(name, [useMax=false])</code></h3>
+<p>Check if a breakpoint or breakpoint range is currently matching.</p>
+<h4 id="arguments-1">Arguments</h4>
+<ul>
+<li><strong><code>name</code></strong> <code>{string|Array}</code>: Breakpoint name or array of two breakpoint names.<sup><a href="#note-2">2</a></sup></li>
+<li><strong><code>[useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li>
+</ul>
+<h4 id="returns-2">Returns</h4>
+<ul>
+<li><code>{boolean}</code>: Whether the breakpoint or breakpoint range is matching or not.</li>
+</ul>
+<h4 id="example-2">Example</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { isMatching } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
-<span class="hljs-keyword">if</span> (isMatching(<span class="hljs-string">&apos;md&apos;</span>)) {
+<span class="hljs-keyword">if</span> (<span class="hljs-title function_">isMatching</span>(<span class="hljs-string">'md'</span>)) {
   <span class="hljs-comment">// Do something</span>
 } <span class="hljs-keyword">else</span> {
   <span class="hljs-comment">// Do something else</span>
 }
 
-<span class="hljs-keyword">if</span> (isMatching([<span class="hljs-string">&apos;md&apos;</span>, <span class="hljs-string">&apos;lg&apos;</span>])) {
-  <span class="hljs-comment">// Screen width is between &apos;md&apos; and &apos;lg&apos;</span>
-}</code></pre> <h3 id="listenoptions-callback"><code>listen(options, callback)</code></h3> <p>Listen to a breakpoint or breakpoint range change and execute a callback function. The callback function will receive a <code>MediaQueryList</code> object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.</p> <h4 id="arguments-2">Arguments</h4> <ul> <li><strong><code>options</code></strong> <code>{Object|string|Array}</code> Configuration Object, breakpoint name or array of two breakpoint names.</li> <li><strong><code>options.name</code></strong> <code>{string}</code>: Breakpoint name or array of two breakpoint names.<sup><a href="#note-2">2</a></sup></li> <li><strong><code>[options.useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li> <li><strong><code>[options.immediate=true]</code></strong> <code>{boolean}</code>: Execute callback function on listener creation.</li> <li><strong><code>callback</code></strong> <code>{Function}</code> : Callback function, receives a <code>MediaQueryList</code> as parameter.</li> </ul> <h4 id="returns-3">Returns</h4> <ul> <li><code>{Object}</code>: Object containing the <code>on</code> and <code>off</code> listener methods.</li> </ul> <h4 id="example-3">Example</h4> <pre><code class="language-js"><span class="hljs-keyword">import</span> { listen } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
-
-<span class="hljs-keyword">const</span> listener = listen(<span class="hljs-string">&apos;md&apos;</span>, callback);
+<span class="hljs-keyword">if</span> (<span class="hljs-title function_">isMatching</span>([<span class="hljs-string">'md'</span>, <span class="hljs-string">'lg'</span>])) {
+  <span class="hljs-comment">// Screen width is between 'md' and 'lg'</span>
+}
+</code></pre><h3 id="listenoptions-callback"><code>listen(options, callback)</code></h3>
+<p>Listen to a breakpoint or breakpoint range change and execute a callback function. The callback function will receive a <code>MediaQueryList</code> object as parameter that can be used to check wether the breakpoint media query is matching or not. The callback function is called once on listener creation, it is possible to opt out of this behavior via options.</p>
+<h4 id="arguments-2">Arguments</h4>
+<ul>
+<li><strong><code>options</code></strong> <code>{Object|string|Array}</code> Configuration Object, breakpoint name or array of two breakpoint names.</li>
+<li><strong><code>options.name</code></strong> <code>{string}</code>: Breakpoint name or array of two breakpoint names.<sup><a href="#note-2">2</a></sup></li>
+<li><strong><code>[options.useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li>
+<li><strong><code>[options.immediate=true]</code></strong> <code>{boolean}</code>: Execute callback function on listener creation.</li>
+<li><strong><code>callback</code></strong> <code>{Function}</code> : Callback function, receives a <code>MediaQueryList</code> as parameter.</li>
+</ul>
+<h4 id="returns-3">Returns</h4>
+<ul>
+<li><code>{Object}</code>: Object containing the <code>on</code> and <code>off</code> listener methods.</li>
+</ul>
+<h4 id="example-3">Example</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { listen } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
 <span class="hljs-comment">// Destructure the `MediaQueryList.matches` property</span>
-<span class="hljs-keyword">const</span> callback = <span class="hljs-function">(<span class="hljs-params">{ matches }</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">callback</span> = (<span class="hljs-params">{ matches }</span>) =&gt; {
   <span class="hljs-keyword">if</span> (matches) {
     <span class="hljs-comment">// Do somthing</span>
   } <span class="hljs-keyword">else</span> {
@@ -123,64 +309,115 @@ yarn add breakpoint-helper</code></pre> <h2 id="usage">Usage</h2> <p>The breakpo
   }
 };
 
+<span class="hljs-keyword">const</span> listener = <span class="hljs-title function_">listen</span>(<span class="hljs-string">'md'</span>, callback);
+
 <span class="hljs-comment">// Remove the event listener</span>
-listener.off();
+listener.<span class="hljs-title function_">off</span>();
 
 <span class="hljs-comment">// Activate it again</span>
-listener.on();</code></pre> <p>Using an options object instead of a breakpoint name:</p> <pre><code class="language-js"><span class="hljs-keyword">import</span> { listen } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
+listener.<span class="hljs-title function_">on</span>();
+</code></pre><p>Using an options object instead of a breakpoint name:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { listen } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
-<span class="hljs-keyword">const</span> listener = listen(
+<span class="hljs-keyword">const</span> listener = <span class="hljs-title function_">listen</span>(
   {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&apos;md&apos;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'md'</span>,
     <span class="hljs-attr">useMax</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">immediate</span>: <span class="hljs-literal">false</span>,
   },
   callback
 );
 
-<span class="hljs-keyword">const</span> callback = <span class="hljs-function">(<span class="hljs-params">{ matches }</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">callback</span> = (<span class="hljs-params">{ matches }</span>) =&gt; {
   <span class="hljs-comment">// ...</span>
-};</code></pre> <h3 id="listenallcallback-options"><code>listenAll(callback, [options])</code></h3> <p>Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. That means the largest breakpoint name (or smallest when using <code>options.useMax</code>) comes first in the array. The array will be empty if no breakpoints are matching.</p> <h4 id="arguments-3">Arguments</h4> <ul> <li><strong><code>callback</code></strong> <code>{Function}</code> : Callback function, receives an array of breakpoint names as parameter.</li> <li><strong><code>[options]</code></strong> <code>{Object}</code>: Configuration Object.</li> <li><strong><code>[options.listenTo]</code></strong> <code>{Array}</code>: Array of breakpoint names. All are used by default.</li> <li><strong><code>[options.useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li> <li><strong><code>[options.immediate=true]</code></strong> <code>{boolean}</code>: Execute callback function on listener creation.</li> </ul> <h4 id="returns-4">Returns</h4> <ul> <li><code>{Object}</code>: Object containing the <code>on</code> and <code>off</code> listener methods.</li> </ul> <h4 id="example-4">Example</h4> <pre><code class="language-js"><span class="hljs-keyword">import</span> { listenAll } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
+};
+</code></pre><h3 id="listenallcallback-options"><code>listenAll(callback, [options])</code></h3>
+<p>Listen to all breakpoints matching or un-matching and execute a callback function. The callback function will receive an array of the matching breakpoint names in reverse order as a parameter. That means the largest breakpoint name (or smallest when using <code>options.useMax</code>) comes first in the array. The array will be empty if no breakpoints are matching.</p>
+<h4 id="arguments-3">Arguments</h4>
+<ul>
+<li><strong><code>callback</code></strong> <code>{Function}</code> : Callback function, receives an array of breakpoint names as parameter.</li>
+<li><strong><code>[options]</code></strong> <code>{Object}</code>: Configuration Object.</li>
+<li><strong><code>[options.listenTo]</code></strong> <code>{Array}</code>: Array of breakpoint names. All are used by default.</li>
+<li><strong><code>[options.useMax=false]</code></strong> <code>{boolean}</code>: Use <code>max-width</code> instead of <code>min-width</code><sup><a href="#note-3">3</a></sup>.</li>
+<li><strong><code>[options.immediate=true]</code></strong> <code>{boolean}</code>: Execute callback function on listener creation.</li>
+</ul>
+<h4 id="returns-4">Returns</h4>
+<ul>
+<li><code>{Object}</code>: Object containing the <code>on</code> and <code>off</code> listener methods.</li>
+</ul>
+<h4 id="example-4">Example</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { listenAll } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
-<span class="hljs-keyword">const</span> listener = listenAll(callback);
+<span class="hljs-keyword">const</span> listener = <span class="hljs-title function_">listenAll</span>(callback);
 
-<span class="hljs-keyword">const</span> callback = <span class="hljs-function">(<span class="hljs-params">bps</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">callback</span> = (<span class="hljs-params">bps</span>) =&gt; {
   <span class="hljs-comment">// Get the first breakpoint in the `bps` array.</span>
   <span class="hljs-keyword">const</span> match = bps[<span class="hljs-number">0</span>];
 
-  <span class="hljs-comment">// If the largest matching breakpoint is &apos;lg&apos;, it will</span>
-  <span class="hljs-comment">// be the first in the array `[&apos;lg&apos;, &apos;md&apos;, &apos;sm&apos;, &apos;xs&apos;,]`.</span>
+  <span class="hljs-comment">// If the largest matching breakpoint is 'lg', it will</span>
+  <span class="hljs-comment">// be the first in the array `['lg', 'md', 'sm', 'xs',]`.</span>
 
   <span class="hljs-keyword">switch</span> (match) {
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;lg&apos;</span>:
-      <span class="hljs-comment">// Do something if the breakpoint is &apos;lg&apos;</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'lg'</span>:
+      <span class="hljs-comment">// Do something if the breakpoint is 'lg'</span>
       <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;md&apos;</span>:
-      <span class="hljs-comment">// Do something if the breakpoint is &apos;md&apos;</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'md'</span>:
+      <span class="hljs-comment">// Do something if the breakpoint is 'md'</span>
       <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;sm&apos;</span>:
-      <span class="hljs-comment">// Do something if the breakpoint is &apos;sm&apos;</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'sm'</span>:
+      <span class="hljs-comment">// Do something if the breakpoint is 'sm'</span>
       <span class="hljs-keyword">break</span>;
 
-    <span class="hljs-keyword">default</span>:
+    <span class="hljs-attr">default</span>:
       <span class="hljs-comment">// Do something if another breakpoint is matching or none is</span>
       <span class="hljs-keyword">break</span>;
   }
 };
 
 <span class="hljs-comment">// Remove the event listener</span>
-listener.off();
+listener.<span class="hljs-title function_">off</span>();
 
 <span class="hljs-comment">// Activate it again</span>
-listener.on();</code></pre> <p>Limit the breakpoints by passing using <code>options.listenTo</code>:</p> <pre><code class="language-js"><span class="hljs-keyword">import</span> { listenAll } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./src/utils/bph&apos;</span>;
+listener.<span class="hljs-title function_">on</span>();
+</code></pre><p>Limit the breakpoints by passing using <code>options.listenTo</code>:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { listenAll } <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/utils/bph'</span>;
 
-<span class="hljs-keyword">const</span> listener = listenAll(callback, {
-  <span class="hljs-comment">// Only listen to the breakpoints &apos;xl&apos;, &apos;lg&apos; and &apos;sm&apos;.</span>
-  <span class="hljs-attr">listenTo</span>: [<span class="hljs-string">&apos;xl&apos;</span>, <span class="hljs-string">&apos;lg&apos;</span>, <span class="hljs-string">&apos;sm&apos;</span>],
+<span class="hljs-keyword">const</span> listener = <span class="hljs-title function_">listenAll</span>(callback, {
+  <span class="hljs-comment">// Only listen to the breakpoints 'xl', 'lg' and 'sm'.</span>
+  <span class="hljs-attr">listenTo</span>: [<span class="hljs-string">'xl'</span>, <span class="hljs-string">'lg'</span>, <span class="hljs-string">'sm'</span>],
   <span class="hljs-comment">// Use `max-width` media queries instead of `min-width`</span>
   <span class="hljs-attr">useMax</span>: <span class="hljs-literal">true</span>,
 });
 
-<span class="hljs-keyword">const</span> callback = <span class="hljs-function">(<span class="hljs-params">bps</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">callback</span> = (<span class="hljs-params">bps</span>) =&gt; {
   <span class="hljs-comment">// ...</span>
-};</code></pre> <h2 id="size--compatibility">Size &amp; compatibility</h2> <p>Depending on the bundle the library is about 1.1 kB when gziped.</p> <p>The library is compatible with modern browsers and should also work with IE11 (not tested).</p> <h2 id="roadmap">Roadmap</h2> <ul> <li>Codepen or Codesandbox examples.</li> <li>Create React hook.</li> <li>Add testing.</li> </ul> <h2 id="motivation">Motivation</h2> <p>I kept needing something like this and was copying the same script from project to project, so I decided to open-source it. On one hand it might help somebody that has the same need as I do and on the other it allows me to install just as another dependency.</p> <h2 id="credits">Credits</h2> <p>The initialization via metatag and the serialized <code>font-family</code> value is taken from <a href="https://github.com/zurb/foundation-sites/blob/12317b1854283b3a2708d586f1141d523684f8cd/scss/util/_breakpoint.scss#L159">Zurb&apos;s Foundation</a>.</p> <h2 id="notes">Notes</h2> <p><a name="note-1"></a><sup>1)</sup> Browser window widths at which styles/functionality changes to adapt for wider/narrower screens.</p> <p><a name="note-2"></a><sup>2)</sup> The <code>useMax</code> argument will be ignored when <code>name</code> is an array.</p> <p><a name="note-3"></a><sup>3)</sup> When using <code>useMax</code> breakpoint-helper will subtract <code>1px</code> from the breakpoint value to prevent overlap. If the breakpoint value is defined in <code>em</code>s <code>0.0635em</code> is subtracted (the equivalent of <code>1px</code> in <code>em</code> using a <code>16px</code> base).</p> </div> </div> <footer class="footer"> <div class="footer-inner"> Made by <a href="https://twitter.com/n_cusan">Nicolas Cusan</a> source code available on <a href="https://github.com/nicolas-cusan/breakpoint-helper">GitHub</a> under <a href="https://github.com/nicolas-cusan/breakpoint-helper/blob/master/LICENSE">MIT license</a>. </div> </footer> <script src="https://nicolas-cusan.github.io/breakpoint-helper/docs.dc595344.js"></script> </body></html>
+};
+</code></pre><h2 id="size--compatibility">Size &amp; compatibility</h2>
+<p>Depending on the bundle the library is about 1.1 kB when gziped.</p>
+<p>The library is compatible with modern browsers and should also work with IE11 (not tested).</p>
+<h2 id="roadmap">Roadmap</h2>
+<ul>
+<li>Codepen or Codesandbox examples.</li>
+<li>Create React hook.</li>
+<li>Add testing.</li>
+</ul>
+<h2 id="motivation">Motivation</h2>
+<p>I kept needing something like this and was copying the same script from project to project, so I decided to open-source it. On one hand it might help somebody that has the same need as I do and on the other it allows me to install just as another dependency.</p>
+<h2 id="credits">Credits</h2>
+<p>The initialization via metatag and the serialized <code>font-family</code> value is taken from <a href="https://github.com/zurb/foundation-sites/blob/12317b1854283b3a2708d586f1141d523684f8cd/scss/util/_breakpoint.scss#L159">Zurb's Foundation</a>.</p>
+<h2 id="notes">Notes</h2>
+<p><a name="note-1"></a><sup>1)</sup> Browser window widths at which styles/functionality changes to adapt for wider/narrower screens.</p>
+<p><a name="note-2"></a><sup>2)</sup> The <code>useMax</code> argument will be ignored when <code>name</code> is an array.</p>
+<p><a name="note-3"></a><sup>3)</sup> When using <code>useMax</code> breakpoint-helper will subtract <code>1px</code> from the breakpoint value to prevent overlap. If the breakpoint value is defined in <code>em</code>s <code>0.0635em</code> is subtracted (the equivalent of <code>1px</code> in <code>em</code> using a <code>16px</code> base).</p>
+</div>
+</div>
+
+
+<footer class="footer">
+  <div class="footer-inner">
+    Made by <a href="https://twitter.com/n_cusan">Nicolas Cusan</a> source code available on <a href="https://github.com/nicolas-cusan/breakpoint-helper">GitHub</a> under <a href="https://github.com/nicolas-cusan/breakpoint-helper/blob/master/LICENSE">MIT license</a>.
+  </div>
+  </footer>
+
+<script src="https://nicolas-cusan.github.io/breakpoint-helper/index.bf23fbbf.js" defer=""></script>
+</body></html>

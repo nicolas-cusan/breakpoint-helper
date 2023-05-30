@@ -1,0 +1,32 @@
+html, body {
+  height: 100vh;
+  color: rgba(255, 255, 255, .5);
+  text-align: center;
+  background-color: #40e0d0;
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  transition: background-color .3s;
+}
+
+.bp-name {
+  font-size: 20vw;
+  font-weight: 900;
+  line-height: 85vh;
+}
+
+.bp-mq {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+}
+
+.bp-note {
+  color: rgba(0, 0, 0, .6);
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+}
+
+/*# sourceMappingURL=frame.7b197ac2.css.map */
