@@ -2,3 +2,4 @@
 LICENSE
 dist
 .cache
+docs/*.html

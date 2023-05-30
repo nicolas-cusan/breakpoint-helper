@@ -2,7 +2,9 @@
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "declaration": true,
-    "outFile": "dist/breakpoint-helper.d.ts"
+    "outFile": "dist/breakpoint-helper.d.ts",
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
   },
   "exclude": ["dist"]
 }

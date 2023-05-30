@@ -1,14 +1,12 @@
 {
   "name": "breakpoint-helper",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Small helper library to work with layout breakpoints in Javascript.",
   "author": "Nicolas Cusan <nc@arillo.ch>",
   "license": "MIT",
   "repository": "git@github.com:nicolas-cusan/breakpoint-helper.git",
-  "source": "src/index.js",
+  "source": "src/index.ts",
   "main": "dist/breakpoint-helper.js",
-  "module": "dist/breakpoint-helper.module.js",
-  "unpkg": "dist/breakpoint-helper.umd.js",
   "files": [
     "dist/*",
     "src/*",
@@ -16,11 +14,18 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc && node build.js",
-    "start": "rm -rf docs-dist && node build-docs.js",
+    "build:src": "rm -rf dist && tsc && node build.js",
+    "build:docs": "rm -rf docs-dist && node build-docs.js",
+    "build": "export NODE_ENV=production && npm run build:src && npm run build:docs",
+    "dev:src": "rm -rf dist && tsc --watch",
+    "dev": "export NODE_ENV=development && npm run build:docs",
     "docs": "export NODE_ENV=production && rm -rf docs-dist && node build-docs.js && gh-pages -d docs-dist",
     "prepublishOnly": "npm run -s build"
   },
+  "targets": {
+    "main": false
+  },
+  "type": "module",
   "keywords": [
     "media-queries",
     "media-query",
@@ -33,21 +38,28 @@
     "tailwindcss",
     "responsive",
     "max-width",
-    "min-width"
+    "min-width",
+    "typescript"
   ],
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.3",
+    "@parcel/core": "^2.9.1",
+    "@parcel/packager-raw-url": "^2.9.1",
+    "@parcel/packager-xml": "^2.9.1",
+    "@parcel/transformer-sass": "^2.9.1",
+    "@parcel/transformer-webmanifest": "^2.9.1",
+    "@parcel/transformer-xml": "^2.9.1",
+    "cheerio": "^1.0.0-rc.12",
     "esbuild": "^0.17.19",
-    "gh-pages": "^3.1.0",
-    "highlight.js": "^10.3.2",
-    "marked": "^1.2.3",
-    "microbundle": "^0.12.4",
-    "parcel": "^1.12.4",
-    "prettier": "^2.1.2",
-    "sass": "^1.29.0",
+    "esbuild-plugin-copy": "^2.1.1",
+    "gh-pages": "^5.0.0",
+    "highlight.js": "^11.8.0",
+    "marked": "^5.0.3",
+    "marked-gfm-heading-id": "^3.0.3",
+    "marked-highlight": "^2.0.1",
+    "marked-mangle": "^1.0.1",
+    "parcel": "^2.9.1",
+    "prettier": "^2.8.8",
+    "sass": "^1.62.1",
     "typescript": "^5.0.4"
-  },
-  "dependencies": {
-    "esbuild-plugin-copy": "^2.1.1"
   }
 }

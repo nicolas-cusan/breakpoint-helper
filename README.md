@@ -56,36 +56,34 @@ const bph = breakpointHelper({
   xl: '1280px',
   xxl: '1520px',
 });
+
+export default bph;
 ```
 
-This method is convenient when using a styling system that defines breakpoints in Javascript, e.g. [Tailwind CSS](https://tailwindcss.com/). Given the following Tailwind config:
+### Initialize using CSS custom properties
 
-```js
-// tailwind.config.js
-export default {
-  theme: {
-    // Breakpoints
-    screens: {
-      xs: '416px',
-      sm: '600px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      xxl: '1520px',
-    },
-    // Other config ...
-  },
-};
+Declare custom properties on the `:root` selector using the prefix `--bph-`:
+
+```css
+:root {
+  --bph-xs: 416px;
+  --bph-sm: 600px;
+  --bph-md: 768px;
+  --bph-lg: 1024px;
+  --bph-xl: 1280px;
+  --bph-xxl: 1520px;
+}
 ```
 
-Import the Tailwind CSS config and use the `screen` key that defines the breakpoints when instantiating breakpoint-helper:
+Then initialize breakpoint-helper passing the string `'custom'` as an argument:
 
 ```js
 // src/utils/bph.js
 import breakpointHelper from 'breakpoint-helper';
-import config from './path/to/tailwind.config.js';
 
-const bph = breakpointHelper(config.theme.screens);
+const bph = breakpointHelper('custom');
+
+export default bph;
 ```
 
 ### Initialize with Sass map (share CSS breakpoints with Javascript)
@@ -117,6 +115,8 @@ Then initialize breakpoint-helper with the string `'meta'` as argument:
 import breakpointHelper from 'breakpoint-helper';
 
 const bph = breakpointHelper('meta');
+
+export default bph;
 ```
 
 #### What is happening here?
@@ -133,28 +133,34 @@ When breakpoint-helper gets initialized it will create a `<meta>` element in the
 
 > **NOTE:** This method does not require the use of Sass or the mixin per se. All that is required is the class `.breakpoint-helper` with the serialized breakpoints as `font-family` value.
 
-### Initialize using CSS custom properties
+### Typescript
 
-Declare the custom properties on the `:root` selector using the prefix `--bph-`:
+As of `v2.0.0` The library is written in Typescript and types definitions are available.
 
-```css
-:root {
-  --bph-xs: 416px;
-  --bph-sm: 600px;
-  --bph-md: 768px;
-  --bph-lg: 1024px;
-  --bph-xl: 1280px;
-  --bph-xxl: 1520px;
-}
-```
+### Usage with React
 
-Then initialize breakpoint-helper passing the string `'custom'` as an argument:
+To use breakpoint-helper in React, setup an instance using any of the methods above and use it within a `useEffect` hook. You can then use a `useState` hook to use it inside your component's render function.
 
-```js
-// src/utils/bph.js
-import breakpointHelper from 'breakpoint-helper';
+```jsx
+import { useEffect, useState } from 'react';
+import { listen } from './src/utils/bph';
 
-const bph = breakpointHelper('custom');
+const MyComponent = (props) => {
+  const [isMatching, setIsMatching] = useState(true); // Set a default value in case you are using SSR
+
+  useEffect(() => {
+    const listener = listen('sm', ({ matches }) => {
+      setIsMatching(matches);
+    });
+    return () => listener.off(); // Remove the event listener on component unmount
+  }, []);
+
+  return isMatching ? (
+    <div className="is-matching">Matching the "sm" breakpoint.</div>
+  ) : (
+    <div className="not-matching">Not matching the "sm" breakpoint.</div>
+  );
+};
 ```
 
 ## Methods
@@ -182,7 +188,7 @@ export const {
   isMatching,
   listen,
   listenAll,
-} = instance;
+} = instance; // Destructure methods and export for conveninece
 
 export default instance;
 ```
@@ -296,8 +302,6 @@ Listen to a breakpoint or breakpoint range change and execute a callback functio
 ```js
 import { listen } from './src/utils/bph';
 
-const listener = listen('md', callback);
-
 // Destructure the `MediaQueryList.matches` property
 const callback = ({ matches }) => {
   if (matches) {
@@ -306,6 +310,8 @@ const callback = ({ matches }) => {
     // Do somthing else
   }
 };
+
+const listener = listen('md', callback);
 
 // Remove the event listener
 listener.off();

@@ -23,6 +23,10 @@ $bps: (
   --link-color: turquoise;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   line-height: 1.5;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
@@ -238,32 +242,55 @@ iframe {
 
 .toc {
   float: right;
-  width: 160px;
-  margin-right: -220px;
-  top: 40px;
-  padding-top: 0.2rem;
+  width: calc(50vw - 400px);
+  margin-right: calc((50vw - 400px) * -1);
+  padding-left: 3rem;
+  top: 0;
+  padding-top: 2.5rem;
+  margin-top: -2.5rem;
   position: sticky;
   display: none;
   font-size: 0.85rem;
-  font-weight: bold;
+  font-weight: 500;
   color: #999;
+  height: 100vh;
+  overflow: auto;
 
   @include mq('xl') {
     display: block;
   }
 
-  li {
-    margin-bottom: 0.5rem;
+  .list > li {
+    margin-bottom: 0.6rem;
+  }
+
+  .list ul {
+    margin-top: 0.35rem;
+  }
+
+  .list ul li {
+    padding-left: 1.6rem;
+    margin-bottom: 0.35rem;
+    font-weight: normal;
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      top: 0;
+      left: 0.6rem;
+    }
   }
 
   a {
     color: inherit;
+  }
 
-    &:focus,
-    &:hover {
-      color: var(--link-color);
-      opacity: 1;
-    }
+  li.active > a,
+  a:focus,
+  a:hover {
+    color: var(--link-color);
+    opacity: 1;
   }
 }
 
@@ -294,9 +321,6 @@ iframe {
   h5,
   h6 {
     margin-bottom: 1rem;
-    margin-top: 2.3rem;
-    scroll-margin-top: 2.3rem;
-    scroll-snap-margin-top: 2.3rem;
     letter-spacing: -0.02rem;
     font-weight: bold;
     line-height: 1.3333;
@@ -312,14 +336,35 @@ iframe {
 
   h1,
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: bold;
     border-bottom: #e9e9e9 1px solid;
     padding-bottom: 0.3rem;
+    margin-top: 3.7rem;
+    scroll-margin-top: 3.7rem;
   }
 
   h3 {
-    font-size: 1.35rem;
+    margin-bottom: 1.15rem;
+    margin-top: 3rem;
+    scroll-margin-top: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+
+    code {
+      font-size: 100%;
+    }
+  }
+
+  h4,
+  h5,
+  h5,
+  h6 {
+    margin-top: 1.3rem;
+    margin-bottom: 0.65rem;
+    scroll-margin-top: 1.3rem;
   }
 
   h4 {
