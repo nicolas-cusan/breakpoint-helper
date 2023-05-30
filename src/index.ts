@@ -197,7 +197,7 @@ function bph(config: Config = {}): Methods {
     let mq: MediaQueryList | null = null;
     const opts: ListenConfig = { name: '', useMax: false, immediate: true };
 
-    if (typeof options === 'string') {
+    if (typeof options === 'string' || Array.isArray(options)) {
       opts.name = options;
     } else {
       opts.name = options.name;
