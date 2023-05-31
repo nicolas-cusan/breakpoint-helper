@@ -10,7 +10,7 @@ type Config = 'meta' | 'custom' | Breakpoints;
 type BpNameOrNames = string | string[];
 type MatchingBps = string[];
 
-function bph(config: Config = {}): Methods {
+function bph(config: Config): Methods {
   let breakpoints = {};
 
   if (typeof config === 'string' && config === 'meta') {
