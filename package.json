@@ -5,8 +5,9 @@
   "author": "Nicolas Cusan <nc@arillo.ch>",
   "license": "MIT",
   "repository": "git@github.com:nicolas-cusan/breakpoint-helper.git",
-  "source": "src/index.ts",
-  "main": "dist/breakpoint-helper.js",
+  "source": "./src/breakpoint-helper.ts",
+  "main": "./dist/breakpoint-helper.js",
+  "types": "./dist/breakpoint-helper.d.ts",
   "files": [
     "dist/*",
     "src/*",

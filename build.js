@@ -2,7 +2,7 @@ import { build } from 'esbuild';
 import { copy } from 'esbuild-plugin-copy';
 
 build({
-  entryPoints: ['./src/index.ts'],
+  entryPoints: ['./src/breakpoint-helper.ts'],
   outfile: './dist/breakpoint-helper.js',
   bundle: true,
   sourcemap: true,

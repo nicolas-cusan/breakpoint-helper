@@ -10,12 +10,6 @@ type Config = 'meta' | 'custom' | Breakpoints;
 type BpNameOrNames = string | string[];
 type MatchingBps = string[];
 
-/**
- * @param {Config} config - Object containing the breakpoints, `'meta'` or `'custom'`.
- *
- * @returns {Methods} Object containing the instance's methods.
- */
-
 function bph(config: Config = {}): Methods {
   let breakpoints = {};
 

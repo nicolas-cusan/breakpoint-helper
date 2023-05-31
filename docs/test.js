@@ -1,4 +1,4 @@
-import bph from '../src/index';
+import bph from '../dist/breakpoint-helper';
 import { renderExample } from './renderExample';
 
 // Create the instance

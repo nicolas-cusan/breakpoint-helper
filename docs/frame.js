@@ -1,4 +1,4 @@
-import bph from '../src/index';
+import bph from '../dist/breakpoint-helper';
 
 const colors = {
   xs: 'salmon',
