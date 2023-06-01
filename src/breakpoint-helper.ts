@@ -2,15 +2,11 @@ interface Breakpoints {
   [key: string]: string;
 }
 
-interface Methods {
-  [key: string]: Function;
-}
-
 type Config = 'meta' | 'custom' | Breakpoints;
 type BpNameOrNames = string | string[];
 type MatchingBps = string[];
 
-function bph(config: Config): Methods {
+function bph(config: Config) {
   let breakpoints = {};
 
   if (typeof config === 'string' && config === 'meta') {
