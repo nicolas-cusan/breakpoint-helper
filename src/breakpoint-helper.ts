@@ -197,12 +197,7 @@ function bph(config: Config) {
     }
 
     function on() {
-      if (typeof opts.name === 'string' || Array.isArray(opts.name)) {
-        mq = window.matchMedia(getMediaQuery(opts.name));
-      } else {
-        mq = window.matchMedia(getMediaQuery(opts.name, opts.useMax));
-      }
-
+      mq = window.matchMedia(getMediaQuery(opts.name, opts.useMax));
       if (opts.immediate) callback(mq);
       mq.addEventListener('change', callback);
     }
